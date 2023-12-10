@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1047006484166893783}
   - component: {fileID: 595460126893893007}
   - component: {fileID: 3344267443099844167}
+  - component: {fileID: 2602618406398181762}
   - component: {fileID: 6005596544377655745}
-  - component: {fileID: -4111952491216706625}
   - component: {fileID: -6510739298217058210}
   m_Layer: 0
   m_Name: Skeleton
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2988118421525110373}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.9693, y: 11.5514, z: 4}
+  m_LocalPosition: {x: -8.154005, y: 4.3228016, z: 0}
   m_LocalScale: {x: 3.4302034, y: 4.024337, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -109,35 +109,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!50 &6005596544377655745
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2988118421525110373}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!60 &-4111952491216706625
-PolygonCollider2D:
+--- !u!61 &2602618406398181762
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -178,15 +151,36 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.08, y: 0.099999994}
-      - {x: -0.08, y: 0.089999996}
-      - {x: -0.089999996, y: 0.07}
-      - {x: -0.089999996, y: -0.099999994}
-      - {x: 0.089999996, y: -0.099999994}
-      - {x: 0.089999996, y: 0.099999994}
-  m_UseDelaunayMesh: 0
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.1}
+  m_EdgeRadius: 0
+--- !u!50 &6005596544377655745
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2988118421525110373}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &-6510739298217058210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,4 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   moveSpeed: 2
-  animSpeed: 1
+  animSpeed: 0.5
+  attackRange: 1.2
+  attackSpeed: 0.3
