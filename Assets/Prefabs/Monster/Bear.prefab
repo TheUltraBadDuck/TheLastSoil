@@ -149,10 +149,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  moveSpeed: 1
-  animSpeed: 0.2
+  moveSpeed: 0.7
+  animSpeed: 0.4
   attackRange: 0.3
-  attackSpeed: 0.1
+  attackSpeed: 0.3
 --- !u!61 &725331267582333674
 BoxCollider2D:
   m_ObjectHideFlags: 0

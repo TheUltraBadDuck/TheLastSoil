@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  moveSpeed: 2
+  moveSpeed: 1
   animSpeed: 0.5
   attackRange: 0.2
   attackSpeed: 0.3
