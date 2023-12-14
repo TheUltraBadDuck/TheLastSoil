@@ -4,33 +4,12 @@ using UnityEngine;
 
 public class Claw : AttackTreeInterface
 {
-    private PlayerTemp firstEnemy;  // 3 enemies
-    private PlayerTemp secondEnemy;
-    private PlayerTemp thirdEnemy;
-
-
-    public override void Start()
-    {
-        base.Start();
-
-        treeId = 0;
-        treeName = "Claw tree";
-
-        hp = 5;
-        maxhp = hp;
-
-        damage = 1;
-
-        attackCD = 0.75f;
-        maxAttackCD = 0.75f;
-    }
-
-
     public override void LaunchAttack()
     {
         // Summon the bullet
         if (bulletPrefab != null)
         {
+            // Get 3 nearest enemies
             nearbyEnemies.Sort(delegate (PlayerTemp x, PlayerTemp y)
             {
                 return (x.GetDistance() < y.GetDistance()) ? -1 : 1;

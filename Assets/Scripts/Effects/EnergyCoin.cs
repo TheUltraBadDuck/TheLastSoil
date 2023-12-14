@@ -20,7 +20,7 @@ public class EnergyCoin : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main;
-        energyBar = GameObject.Find("CoinContainer/EnergyBar").GetComponent<EnergyBar>();
+        energyBar = GameObject.Find("UIGameplay").GetComponent<EnergyBar>();
         animator = GetComponent<Animator>();
     }
 

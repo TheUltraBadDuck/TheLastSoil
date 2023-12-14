@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4839099137847564391}
   - component: {fileID: 4791564882745009479}
   - component: {fileID: 4531533642265597133}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ClawBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

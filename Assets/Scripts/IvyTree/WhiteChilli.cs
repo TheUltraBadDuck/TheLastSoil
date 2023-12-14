@@ -21,9 +21,9 @@ public class WhiteChilli : DefenseTreeInterface
         damage = 1;
     }
 
-    public override void OnTriggerEnter2D(Collider2D coll)
+    public override void HandleEnter2D(Collider2D coll)
     {
-        base.OnTriggerEnter2D(coll);
+        base.HandleEnter2D(coll);
         attacking = true;
         playerObjs = GameObject.FindGameObjectsWithTag("Player");
         animator.Play("TreeAttack");
@@ -31,9 +31,9 @@ public class WhiteChilli : DefenseTreeInterface
             Debug.Log(playerObjs[i].GetComponent<PlayerTemp>().velocity);
     }
 
-    public override void OnTriggerExit2D(Collider2D coll)
+    public override void HandleExit2D(Collider2D coll)
     {
-        base.OnTriggerExit2D(coll);
+        base.HandleExit2D(coll);
         attacking = false;
         playerObjs = null;
         animator.Play("TreeIdle");

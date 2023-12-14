@@ -31,6 +31,7 @@ public class AttackTreeInterface : IvyInterface
     public override void Start()
     {
         base.Start();
+        maxAttackCD = attackCD;
         bulletContainer = GameObject.Find("BulletContainer");
     }
 
@@ -38,10 +39,7 @@ public class AttackTreeInterface : IvyInterface
     public override void Update()
     {
         if (!attacking)
-        {
-            attackCD = maxAttackCD;
             return;
-        }
 
         attackCD += Time.deltaTime;
         if (attackCD > maxAttackCD)
@@ -53,27 +51,32 @@ public class AttackTreeInterface : IvyInterface
 
     // -------------------------------------------------------------------------
 
-    public override void OnTriggerEnter2D(Collider2D coll)
+    public override void HandleEnter2D(Collider2D collision)
     {
-        // Add the enemy to the attacking list
-        PlayerTemp enemy = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerTemp>();
-        attacking = true;
-        nearbyEnemies.Add(enemy);
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            // Add the enemy to the attacking list
+            attacking = true;
+            nearbyEnemies.Add(collision.gameObject.GetComponent<PlayerTemp>());
+        }
     }
 
 
-    public override void OnTriggerExit2D(Collider2D coll)
+    public override void HandleExit2D(Collider2D collision)
     {
-        // Remove enemy that can be attacked by looking for the id
-        int index = nearbyEnemies.FindIndex(e => e.name == coll.name);
-        if (index == -1)
-            return;
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            // Remove enemy that can be attacked by looking for the id
+            int index = nearbyEnemies.FindIndex(e => e.name == collision.name);
+            if (index == -1)
+                return;
 
-        nearbyEnemies.RemoveAt(index);
+            nearbyEnemies.RemoveAt(index);
 
-        // Disable attacking if there is no enemy
-        if (nearbyEnemies.Count == 0)
-            attacking = false;
+            // Disable attacking if there is no enemy
+            if (nearbyEnemies.Count == 0)
+                attacking = false;
+        }
     }
 
 

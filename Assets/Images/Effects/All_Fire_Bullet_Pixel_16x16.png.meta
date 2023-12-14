@@ -194,7 +194,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -207,11 +207,32 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DollEyesBullet
+      name: UnknownBullet
       rect:
         serializedVersion: 2
         x: 224
         y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d459dabc50213a4c906c179c0086f78
+      internalID: 1125116876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: All_Fire_Bullet_Pixel_16x16_0
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -221,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d459dabc50213a4c906c179c0086f78
-      internalID: 1125116876
+      spriteID: 50fc652acc32e2046be870453b21d014
+      internalID: 1899062048
       vertices: []
       indices: 
       edges: []
@@ -238,9 +259,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      All_Fire_Bullet_Pixel_16x16_0: 1899062048
       ClawBullet: -1549660511
-      DollEyesBullet: 1125116876
       NormalExplosion: 1125614140
+      UnknownBullet: 1125116876
       WillowBullet: -71682974
       WitheredPalmBullet: -1169852482
   mipmapLimitGroupName: 
