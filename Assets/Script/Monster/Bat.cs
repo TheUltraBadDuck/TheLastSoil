@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class Behavior : MonoBehaviour
+public class Bat : MonoBehaviour
 {
     public Transform target;
     public float moveSpeed = 3f;
     public float animSpeed = 1f;
+
     public float attackRange = 1f;
     public float attackSpeed = 2f;
+
+    public float tooCloseRange = 2;
     //public float rotateSpeed = 0.0025f;
+
     private Rigidbody2D rb;
     private Animator animator;
 
@@ -46,7 +50,7 @@ public class Behavior : MonoBehaviour
         {
             Debug.LogError("Animator component not found on the GameObject!");
         }
-        
+
     }
 
     private void Update()
@@ -76,13 +80,18 @@ public class Behavior : MonoBehaviour
 
     private string AttackTarget()
     {
-        if (Vector2.Distance(transform.position, target.position) <= attackRange)
+        float distanceToTarget = Vector2.Distance(transform.position, target.position);
+
+        if (distanceToTarget <= attackRange && distanceToTarget > tooCloseRange)
         {
             // Trigger attack animation
             animator.speed = attackSpeed;
             return "Attack";
         }
-        else return null;
+        else
+        {
+            return null;
+        }
     }
 
     private void MoveTowardsTarget(float speed)
@@ -105,7 +114,7 @@ public class Behavior : MonoBehaviour
         // Adjust the angle to be between 0 and 360 degrees
         angle = (angle + 360) % 360;
         // Check for attack range
-        if (angle >= 0 && angle < 180)
+         if (angle >= 0 && angle < 180)
         {
             animator.speed = animSpeed;
             return "RunUp";

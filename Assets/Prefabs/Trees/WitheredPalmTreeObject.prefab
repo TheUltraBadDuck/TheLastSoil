@@ -70,7 +70,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.96
+  m_Radius: 0.1
 --- !u!114 &5742707059228496941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,8 +86,11 @@ MonoBehaviour:
   treeId: -1
   treeName: '[None]'
   hp: 0
-  damage: 0
+  maxhp: 0
   position: {x: 0, y: 0}
+  damage: 0
+  attackCD: 0
+  bulletPrefab: {fileID: 0}
 --- !u!95 &-4231901914971250523
 Animator:
   serializedVersion: 5
@@ -181,7 +184,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 60b065874fc813c43a57d675280ee434, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -265,7 +268,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 5b6d3d468e6406047a45af2828ce77d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

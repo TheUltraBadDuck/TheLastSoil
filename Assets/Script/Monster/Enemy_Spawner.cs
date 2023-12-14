@@ -6,78 +6,122 @@ using UnityEngine;
 [System.Serializable]
 public class Enemy
 {
-    public string name;
+    public float point;
     public GameObject Prefab;
-    [Range(0f, 100f)] public float Chance = 100f;
 
+    [Range(0f, 100f)] public float Chance = 100f;
     [HideInInspector] public double _weight;
 
 }
-public class Enemy_Spawner : MonoBehaviour
+
+[System.Serializable]
+public class Level
 {
     public Enemy[] enemies;
-    public Vector2 spawnArea;
+    public double accumulatedWeights;
+
+    public float difficulty;
     public int enemiesNumber;
-    public float spawnTimer;
-
-    private double accumulatedWeights;
+    public int enemiesEachWave;
+    public float spawnTime;
+    public bool bigWave = false;
+}
+public class Enemy_Spawner : MonoBehaviour
+{
     private System.Random rand = new System.Random();
-    private int enemySpawned = 0;
     private float timer;
+    private int enemySpawned = 0;
+    private int levelTraversal = 0;
 
+    public Level[] levels;
+    public float X1, X2, Y1, Y2;
 
-    private void Awake()
-    {
-        CalculateWeights();
-    }
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(SpawnLevels());
+    }
+    private void Update()
+    {
         
     }
-
-    // Update is called once per frame
-    void Update()
+    private IEnumerator SpawnLevels()
     {
-        timer -= Time.deltaTime;
-        if (timer <= 0f && enemySpawned < enemiesNumber)
+        while (levelTraversal < levels.Length)
         {
-            Vector3 position = new Vector3(
-                UnityEngine.Random.Range(-spawnArea.x, spawnArea.x),
-                UnityEngine.Random.Range(-spawnArea.y, spawnArea.y), // Corrected the Y-axis range
-                0f);
+            CalculateWeights(levels[levelTraversal]);
+            Debug.Log("Level " + (levelTraversal + 1));
 
-            RandomSpawn(position);
-            timer = spawnTimer;
-            enemySpawned++;
+            // Start the LevelSpawner coroutine and wait for it to finish
+            yield return StartCoroutine(LevelSpawner(levels[levelTraversal]));
+
+            levelTraversal++;
+            Debug.Log("Level finished!");
+
+            // You can introduce a delay between levels if needed
+            yield return new WaitForSeconds(1f); // Adjust the delay time as necessary
         }
 
+        // All levels completed
     }
 
-    private void RandomSpawn (Vector3 position)
+    private IEnumerator LevelSpawner(Level level)
     {
-        Enemy randomEnemy = enemies[GetRandomEnemyIndex()];
+        while (enemySpawned < level.enemiesNumber)
+        {
+            timer -= Time.deltaTime;
+
+            if (timer <= 0f)
+            {
+                int enemiesToSpawn = Mathf.Min(level.enemiesEachWave, level.enemiesNumber - enemySpawned);
+
+                for (int i = 0; i < enemiesToSpawn; i++)
+                {
+                    Vector3 position = new Vector3(
+                        UnityEngine.Random.Range(X1, X2),
+                        UnityEngine.Random.Range(Y1, Y2),
+                        0f);
+
+                    RandomSpawn(position, level);
+                    enemySpawned++;
+                }
+
+                timer = level.spawnTime;
+
+                if (enemySpawned >= level.enemiesNumber)
+                    break;
+            }
+
+            yield return null;
+        }
+
+        enemySpawned = 0; // Reset for the next level
+    }
+
+    private void RandomSpawn(Vector3 position, Level level)
+    {
+        Enemy randomEnemy = level.enemies[GetRandomEnemyIndex(level)];
         Instantiate(randomEnemy.Prefab, position, Quaternion.identity, transform);
     }
 
-    private int GetRandomEnemyIndex()
+    private int GetRandomEnemyIndex(Level level)
     {
-        double r = rand.NextDouble() * accumulatedWeights;
-        for (int i = 0; i < enemies.Length; i++)
+        double r = rand.NextDouble() * level.accumulatedWeights;
+        for (int i = 0; i < level.enemies.Length; i++)
         {
-            if (enemies[i]._weight >= r)
+            if (level.enemies[i]._weight >= r)
                 return i;
         }
         return 0;
     }
 
-    private void CalculateWeights()
+    private void CalculateWeights(Level level)
     {
-        accumulatedWeights = 0f;
-        foreach (Enemy enemy in enemies)
+        level.accumulatedWeights = 0f;
+        foreach (Enemy enemy in level.enemies)
         {
-            accumulatedWeights += enemy.Chance;
-            enemy._weight = accumulatedWeights;
+            level.accumulatedWeights += enemy.Chance;
+            enemy._weight = level.accumulatedWeights;
         }
     }
 }
