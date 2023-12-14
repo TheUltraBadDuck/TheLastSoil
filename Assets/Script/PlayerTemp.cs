@@ -31,6 +31,5 @@ public class PlayerTemp : MonoBehaviour
     public void BeAttacked(int damage)
     {
         hp -= damage;
-        Debug.Log("Damage " + damage + " times. Remains HP: " + hp);
     }
 }

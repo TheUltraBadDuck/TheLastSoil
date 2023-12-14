@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2132991602602337728}
   - component: {fileID: 628940277361700484}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -477755151
-  m_SortingLayer: 1
-  m_SortingOrder: 2
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 11e89ba932cf5b14e993d9c8ee197d76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 234874669758429711}
   - component: {fileID: 6842001071416246826}
   - component: {fileID: 1760510222286738905}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LightBulbTree
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -133,9 +133,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treeId: -1
-  treeName: '[None]'
-  hp: 0
-  maxhp: 0
+  treeName: Light Bulb Tree
+  hp: 10
+  maxhp: 10
   position: {x: 0, y: 0}
   coinPrefab: {fileID: 2678906145539331238, guid: 787ec6a4d494856479be87f2f7902094, type: 3}
 --- !u!95 &1760510222286738905
@@ -169,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7413636145120961345}
   - component: {fileID: 490930398676732967}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,9 +229,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -1764248357
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 60b065874fc813c43a57d675280ee434, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -253,7 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3638102165057222303}
   - component: {fileID: 6363760526262665888}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WhiteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,9 +313,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -477755151
-  m_SortingLayer: 1
-  m_SortingOrder: 2
+  m_SortingLayerID: 1025610263
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6136450dc9f4c48478194a038a4eb00f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0

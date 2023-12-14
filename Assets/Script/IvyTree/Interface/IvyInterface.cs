@@ -33,13 +33,13 @@ public class IvyInterface : MonoBehaviour
 
 
 
-    public virtual void OnTriggerEnter2D(Collider2D coll)
+    public virtual void HandleEnter2D(Collider2D coll)
     {
         Debug.Log(treeName + " is ready to attack.");
     }
 
 
-    public virtual void OnTriggerExit2D(Collider2D coll)
+    public virtual void HandleExit2D(Collider2D coll)
     {
         Debug.Log(treeName + " stops attacking.");
     }

@@ -9,8 +9,10 @@ Shader "Unlit/Multiply"
     }
     SubShader
     {
-        //Tags { "RenderType"="Opaque" }
+        Tags { "BlendMode"="Fade" }
         //LOD 100
+        //Ztest always
+        //ZWrite Off
         Cull Off
         Blend One OneMinusSrcAlpha
 

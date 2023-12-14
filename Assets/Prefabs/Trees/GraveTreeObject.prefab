@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4174094301544012722}
   - component: {fileID: 4890332045126888983}
-  - component: {fileID: 5742707059228496941}
   - component: {fileID: -4231901914971250523}
-  m_Layer: 0
+  - component: {fileID: 2763129683345536012}
+  m_Layer: 7
   m_Name: GraveTreeObject
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -71,26 +71,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.96
---- !u!114 &5742707059228496941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1909511680090647356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d715597ada37aa488045cb62ae905b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  treeId: -1
-  treeName: '[None]'
-  hp: 0
-  maxhp: 0
-  position: {x: 0, y: 0}
-  damage: 0
-  attackCD: 0
-  bulletPrefab: {fileID: 0}
 --- !u!95 &-4231901914971250523
 Animator:
   serializedVersion: 5
@@ -112,6 +92,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2763129683345536012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909511680090647356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1b7cb803617d84ab60164375966040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treeId: -1
+  treeName: Grave Tree
+  hp: 120
+  maxhp: 120
+  position: {x: 0, y: 0}
 --- !u!1 &5341379083139524462
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,7 +119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1954521281602611461}
   - component: {fileID: 297621823950358063}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,9 +179,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -477755151
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3d480855a43495e4cab75c01dbf0564a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -206,7 +203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8349805647701597043}
   - component: {fileID: 4629323812131543063}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,9 +263,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -1764248357
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 60b065874fc813c43a57d675280ee434, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -46,9 +46,10 @@ public class BulletEffect : MonoBehaviour
             if (Vector3.Distance(transform.localPosition, targetEnemy.transform.position) < 0.2)
             {
                 GameObject effect = Instantiate(effectPrefab);
+                effect.GetComponent<BuffectExplosion>().targetEnemy = targetEnemy;
+                effect.GetComponent<BuffectExplosion>().damage = damage;
                 effect.transform.SetParent(bulletContainer.GetComponent<Transform>().transform);
                 effect.transform.localPosition = new Vector3(transform.position.x, transform.position.y, 0.0f);
-                targetEnemy.BeAttacked(1);
                 Destroy(gameObject);
             }
         }
