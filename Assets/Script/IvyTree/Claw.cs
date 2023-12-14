@@ -10,9 +10,9 @@ public class Claw : AttackTreeInterface
         if (bulletPrefab != null)
         {
             // Get 3 nearest enemies
-            nearbyEnemies.Sort(delegate (PlayerTemp x, PlayerTemp y)
+            nearbyEnemies.Sort(delegate (Behavior x, Behavior y)
             {
-                return (x.GetDistance() < y.GetDistance()) ? -1 : 1;
+                return (x.GetDistanceToHoffen() < y.GetDistanceToHoffen()) ? -1 : 1;
             });
 
             for (int i = 0; i < Mathf.Min(3, nearbyEnemies.Count); i++)

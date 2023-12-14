@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8424717223057068748}
   - component: {fileID: -9206236474888415704}
   - component: {fileID: 5222136006754613852}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Zombie
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.1775, y: 11.5143, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.4738345, z: 0.63789076}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1680491523
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_Sprite: {fileID: 574542882, guid: 77966c6bfda3ae44a9412eface40b6f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -135,7 +135,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 3
 --- !u!114 &-9206236474888415704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,14 +145,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1729666471119878371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3f25f7c072c1147aff2e678124e741, type: 3}
+  m_Script: {fileID: 11500000, guid: 081edf5d47eaff642856724903414e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  moveSpeed: 1
-  animSpeed: 0.5
-  attackRange: 0.2
-  attackSpeed: 0.3
+  moveSpeed: 3
+  animSpeed: 1
+  attackRange: 1
+  attackSpeed: 2
+  hp: 10
 --- !u!61 &5222136006754613852
 BoxCollider2D:
   m_ObjectHideFlags: 0

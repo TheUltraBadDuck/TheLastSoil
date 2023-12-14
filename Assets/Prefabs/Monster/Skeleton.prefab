@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2602618406398181762}
   - component: {fileID: 6005596544377655745}
   - component: {fileID: -6510739298217058210}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Skeleton
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -190,11 +190,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2988118421525110373}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3f25f7c072c1147aff2e678124e741, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ea255c2b5b82774892d5c7b14d0ba35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  moveSpeed: 1
-  animSpeed: 0.5
-  attackRange: 0.2
-  attackSpeed: 0.3
+  moveSpeed: 3
+  animSpeed: 1
+  attackRange: 1
+  attackSpeed: 2
+  tooCloseRange: 2

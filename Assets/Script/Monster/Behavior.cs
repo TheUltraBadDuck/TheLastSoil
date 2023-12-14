@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
+
+
 public class Behavior : MonoBehaviour
 {
     public Transform target;
@@ -10,35 +12,20 @@ public class Behavior : MonoBehaviour
     public float animSpeed = 1f;
     public float attackRange = 1f;
     public float attackSpeed = 2f;
+    public float hp = 10f;
+
+    private float distanceToHoffen = 0f;
+
     //public float rotateSpeed = 0.0025f;
     private Rigidbody2D rb;
     private Animator animator;
+    private MapManager mapManager;
 
-    private void GetTarget()
-    {
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Ivy");
 
-        if (playerObject != null)
-        {
-            target = playerObject.transform;
-        }
-        else
-        {
-            Debug.Log("Target not found!");
-        }
-    }
-
-    //private void RotateTowardsTarget()
-    //{
-    //    Vector2 targetDirection = target.position - transform.position;
-    //    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
-    //    Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
-    //    transform.localRotation = Quaternion.Slerp(transform.localRotation, q, rotateSpeed);
-
-    //}
 
     private void Start()
     {
+        mapManager = GameObject.Find("MapManager").GetComponent<MapManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
@@ -51,6 +38,8 @@ public class Behavior : MonoBehaviour
 
     private void Update()
     {
+        distanceToHoffen = mapManager.GetDistanceToHoffen(this);
+
         if (!target)
         {
             GetTarget();
@@ -73,6 +62,30 @@ public class Behavior : MonoBehaviour
         }
 
     }
+
+
+    private void GetTarget()
+    {
+        //GameObject playerObject = GameObject.FindGameObjectWithTag("Ivy");
+
+        //if (playerObject != null)
+        //{
+        //    target = playerObject.transform;
+        //}
+        //else
+        //{
+        //    Debug.Log("Target not found!");
+        //}
+    }
+
+    //private void RotateTowardsTarget()
+    //{
+    //    Vector2 targetDirection = target.position - transform.position;
+    //    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
+    //    Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
+    //    transform.localRotation = Quaternion.Slerp(transform.localRotation, q, rotateSpeed);
+
+    //}
 
     private string AttackTarget()
     {
@@ -119,5 +132,15 @@ public class Behavior : MonoBehaviour
         {
             return "";
         }
+    }
+
+    public float GetDistanceToHoffen()
+    {
+        return distanceToHoffen;
+    }
+
+    public void BeAttacked(int damage)
+    {
+        hp -= damage;
     }
 }

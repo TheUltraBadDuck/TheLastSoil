@@ -9,7 +9,7 @@ public class Cactus : DefenseTreeInterface
     protected float maxAttackCD = 0.0f;
 
     bool attacking = false;
-    protected List<PlayerTemp> nearbyEnemies = new();
+    protected List<Behavior> nearbyEnemies = new();
 
 
     public override void Start()
@@ -34,7 +34,7 @@ public class Cactus : DefenseTreeInterface
         {
             // Add the enemy to the attacking list
             attacking = true;
-            nearbyEnemies.Add(collision.gameObject.GetComponent<PlayerTemp>());
+            nearbyEnemies.Add(collision.gameObject.GetComponent<Behavior>());
         }
     }
 
