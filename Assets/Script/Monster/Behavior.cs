@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class Behavior : MonoBehaviour
@@ -10,32 +9,45 @@ public class Behavior : MonoBehaviour
     public float animSpeed = 1f;
     public float attackRange = 1f;
     public float attackSpeed = 2f;
-    //public float rotateSpeed = 0.0025f;
+    public float attackCooldown = 2f; // Add a cooldown between attacks
+    public float hp = 10f;
+    public GameObject[] bloodPrefab;
     private Rigidbody2D rb;
     private Animator animator;
+    private bool canAttack = true; // Flag to check if the enemy can attack
 
     private void GetTarget()
     {
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Ivy");
+        GameObject[] ivies = GameObject.FindGameObjectsWithTag("Ivy");
 
-        if (playerObject != null)
+        if (ivies.Length > 0)
         {
-            target = playerObject.transform;
+            GameObject nearestIvy = FindNearestIvy(ivies);
+            target = nearestIvy.transform;
         }
         else
         {
-            Debug.Log("Target not found!");
+            Debug.Log("No Ivy found!");
         }
     }
 
-    //private void RotateTowardsTarget()
-    //{
-    //    Vector2 targetDirection = target.position - transform.position;
-    //    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
-    //    Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
-    //    transform.localRotation = Quaternion.Slerp(transform.localRotation, q, rotateSpeed);
+    private GameObject FindNearestIvy(GameObject[] ivies)
+    {
+        GameObject nearestIvy = null;
+        float nearestDistance = Mathf.Infinity;
 
-    //}
+        foreach (GameObject ivy in ivies)
+        {
+            float distance = Vector2.Distance(transform.position, ivy.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestIvy = ivy;
+            }
+        }
+
+        return nearestIvy;
+    }
 
     private void Start()
     {
@@ -46,7 +58,6 @@ public class Behavior : MonoBehaviour
         {
             Debug.LogError("Animator component not found on the GameObject!");
         }
-        
     }
 
     private void Update()
@@ -57,10 +68,9 @@ public class Behavior : MonoBehaviour
         }
         else
         {
-            if (AttackTarget() != null)
+            if (canAttack && AttackTarget() != null)
             {
-                MoveTowardsTarget(0);
-                animator.SetTrigger(AttackTarget());
+                StartCoroutine(AttackCooldown());
             }
             else
             {
@@ -68,10 +78,7 @@ public class Behavior : MonoBehaviour
                 animator.SetTrigger(animationDirection);
                 MoveTowardsTarget(moveSpeed);
             }
-
-
         }
-
     }
 
     private string AttackTarget()
@@ -88,7 +95,6 @@ public class Behavior : MonoBehaviour
     private void MoveTowardsTarget(float speed)
     {
         Vector2 direction = (target.position - transform.position).normalized;
-
         rb.velocity = direction * speed;
     }
 
@@ -119,5 +125,51 @@ public class Behavior : MonoBehaviour
         {
             return "";
         }
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            // Get a random index within the array bounds
+            int randomIndex = Random.Range(0, bloodPrefab.Length);
+
+            // Spawn blood splatter at the hit position using the randomly selected blood prefab
+            GameObject bloodInstance = Instantiate(bloodPrefab[randomIndex], collision.contacts[0].point, Quaternion.identity);
+
+            // Trigger the "Splatter" animation if the blood prefab has an Animator component
+            Animator bloodAnimator = bloodInstance.GetComponent<Animator>();
+            if (bloodAnimator != null)
+            {
+                bloodAnimator.SetTrigger("Splatter");
+            }
+
+            // Handle damage or other actions as needed
+            HandleDamage(10);
+
+            // Destroy the bullet
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void HandleDamage(float damage)
+    {
+        // Implement actions to handle damage
+        hp -= damage;
+        if (hp <= 0)
+        {
+            animator.SetTrigger("Dead");
+
+            // Destroy the enemy gameObject after the "Dead" animation is played
+            Destroy(gameObject, 2f); // Assuming "Dead" animation duration is 2 seconds
+        }
+        // For example, play hurt animations, reduce health, etc.
     }
 }
