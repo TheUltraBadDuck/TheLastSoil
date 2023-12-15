@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5027259956808239121}
   - component: {fileID: 7975231226207646223}
   - component: {fileID: -7505861839575675237}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bat
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -190,11 +190,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7258890402012017323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3f25f7c072c1147aff2e678124e741, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ea255c2b5b82774892d5c7b14d0ba35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  moveSpeed: 2
+  moveSpeed: 3
   animSpeed: 1
-  attackRange: 0.2
-  attackSpeed: 0.3
+  attackRange: 1
+  attackSpeed: 2
+  tooCloseRange: 2

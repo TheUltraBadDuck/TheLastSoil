@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1127804095497506011}
   - component: {fileID: 2875360864222055567}
   - component: {fileID: 725331267582333674}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bear
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -9.870095, y: 4.237706, z: 0}
-  m_LocalScale: {x: 1.75, y: 1.7186767, z: 3.7289581}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1680491523
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_Sprite: {fileID: 1393538299, guid: a1dfbe380662f814d821170dd9162b1c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -135,7 +135,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 3
 --- !u!114 &2875360864222055567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,14 +145,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 952491519418411738}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3f25f7c072c1147aff2e678124e741, type: 3}
+  m_Script: {fileID: 11500000, guid: 081edf5d47eaff642856724903414e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  moveSpeed: 0.7
-  animSpeed: 0.4
-  attackRange: 0.3
-  attackSpeed: 0.3
+  moveSpeed: 3
+  animSpeed: 1
+  attackRange: 1
+  attackSpeed: 2
+  hp: 10
 --- !u!61 &725331267582333674
 BoxCollider2D:
   m_ObjectHideFlags: 0

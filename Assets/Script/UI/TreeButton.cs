@@ -31,7 +31,7 @@ public class TreeButton : MonoBehaviour
 
 
 
-    private void Start()
+    private void Awake()
     {
         // Load components
         treeImage = transform.GetChild(0).GetComponent<RawImage>();
@@ -86,6 +86,7 @@ public class TreeButton : MonoBehaviour
 
     public void OnPressed()
     {
+        Debug.Log("TRYING TO PRESS");
         if (enoughEnergy && available)
         {
             GameObject.Find("MapManager").GetComponent<MapManager>().OnTreeButtonPressed(

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BulletEffect : MonoBehaviour
 {
-    protected PlayerTemp targetEnemy;
+    protected Behavior targetEnemy;
     [SerializeField]
     protected GameObject effectPrefab;
     protected GameObject bulletContainer;
@@ -18,7 +18,7 @@ public class BulletEffect : MonoBehaviour
 
 
 
-    public void SetTargetEnemy(PlayerTemp targetEnemy)
+    public void SetTargetEnemy(Behavior targetEnemy)
     {
         this.targetEnemy = targetEnemy;
     }

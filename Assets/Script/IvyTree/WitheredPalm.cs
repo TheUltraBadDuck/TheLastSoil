@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class WitheredPalmTree : AttackTreeInterface
 {
-    protected PlayerTemp playerTemp;  // One enemy
-
-
     public override void LaunchAttack()
     {
         // Summon the bullet

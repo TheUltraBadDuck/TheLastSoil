@@ -11,9 +11,9 @@ public class Willow : AttackTreeInterface
         // Summon the bullet
         if (bulletPrefab != null)
         {
-            nearbyEnemies.Sort(delegate (PlayerTemp x, PlayerTemp y)
+            nearbyEnemies.Sort(delegate (Behavior x, Behavior y)
             {
-                return (x.GetDistance() < y.GetDistance()) ? -1 : 1;
+                return (x.GetDistanceToHoffen() < y.GetDistanceToHoffen()) ? -1 : 1;
             });
 
             GameObject bullet = Instantiate(bulletPrefab);

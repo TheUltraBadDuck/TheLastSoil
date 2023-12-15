@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
+
+
 public class Bat : MonoBehaviour
 {
     public Transform target;
@@ -17,29 +19,6 @@ public class Bat : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
-
-    private void GetTarget()
-    {
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Ivy");
-
-        if (playerObject != null)
-        {
-            target = playerObject.transform;
-        }
-        else
-        {
-            Debug.Log("Target not found!");
-        }
-    }
-
-    //private void RotateTowardsTarget()
-    //{
-    //    Vector2 targetDirection = target.position - transform.position;
-    //    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
-    //    Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
-    //    transform.localRotation = Quaternion.Slerp(transform.localRotation, q, rotateSpeed);
-
-    //}
 
     private void Start()
     {
@@ -77,6 +56,30 @@ public class Bat : MonoBehaviour
         }
 
     }
+
+
+    private void GetTarget()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Ivy");
+
+        if (playerObject != null)
+        {
+            target = playerObject.transform;
+        }
+        else
+        {
+            Debug.Log("Target not found!");
+        }
+    }
+
+    //private void RotateTowardsTarget()
+    //{
+    //    Vector2 targetDirection = target.position - transform.position;
+    //    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
+    //    Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
+    //    transform.localRotation = Quaternion.Slerp(transform.localRotation, q, rotateSpeed);
+
+    //}
 
     private string AttackTarget()
     {
