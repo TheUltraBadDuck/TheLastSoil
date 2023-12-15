@@ -15,7 +15,7 @@ public class Behavior : MonoBehaviour
     //public float rotateSpeed = 0.0025f;
     private Rigidbody2D rb;
     private Animator animator;
-
+    private SpriteRenderer spriteRenderer;
     private void GetTarget()
     {
         GameObject[] ivies = GameObject.FindGameObjectsWithTag("Ivy");
@@ -68,6 +68,7 @@ public class Behavior : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
         if (animator == null)
@@ -79,20 +80,27 @@ public class Behavior : MonoBehaviour
 
     private void Update()
     {
-        GetTarget(); // Update the target to the nearest enemy
-
-        if (target != null)
+         // Update the target to the nearest enemy
+        if (hp <= 0)
         {
-            if (AttackTarget() != null)
+            MoveTowardsTarget(0);
+        }
+        else
+        {
+            GetTarget();
+            if (target != null)
             {
-                MoveTowardsTarget(0);
-                animator.SetTrigger(AttackTarget());
-            }
-            else
-            {
-                string animationDirection = GetAnimationDirection();
-                animator.SetTrigger(animationDirection);
-                MoveTowardsTarget(moveSpeed);
+                if (AttackTarget() != null)
+                {
+                    MoveTowardsTarget(0);
+                    animator.SetTrigger(AttackTarget());
+                }
+                else
+                {
+                    string animationDirection = GetAnimationDirection();
+                    animator.SetTrigger(animationDirection);
+                    MoveTowardsTarget(moveSpeed);
+                }
             }
         }
     }
@@ -110,8 +118,11 @@ public class Behavior : MonoBehaviour
 
     private void MoveTowardsTarget(float speed)
     {
-        Vector2 direction = (target.position - transform.position).normalized;
-        rb.velocity = direction * speed;
+        if (hp > 0) // Only move if not dead
+        {
+            Vector2 direction = (target.position - transform.position).normalized;
+            rb.velocity = direction * speed;
+        }
     }
 
     private string GetAnimationDirection()
@@ -162,10 +173,8 @@ public class Behavior : MonoBehaviour
             }
 
             // Handle damage or other actions as needed
-            HandleDamage(10);
+            HandleDamage(5);
 
-            // Destroy the bullet
-            Destroy(collision.gameObject);
         }
     }
 
@@ -173,11 +182,45 @@ public class Behavior : MonoBehaviour
     {
         // Implement actions to handle damage
         hp -= damage;
+
         if (hp <= 0)
         {
-            animator.SetTrigger("Dead");
-            Destroy(gameObject);
+            StartCoroutine(FlashAndDestroy());
+
+            // Disable the collider to prevent further interactions
+            Collider2D collider = GetComponent<Collider2D>();
+            if (collider != null)
+            {
+                collider.enabled = false;
+            }
+
+            // Stop any ongoing animation and play the dead animation
+            animator.speed = 0f;
+            animator.Play("Dead");
         }
         // For example, play hurt animations, reduce health, etc.
+    }
+
+    private IEnumerator FlashAndDestroy()
+    {
+        float flashDuration = 0.4f; // Adjust the duration of each flash
+        float flashInterval = 0.05f; // Adjust the interval between flashes
+
+        while (true)
+        {
+            yield return new WaitForSeconds(flashInterval);
+
+            // Toggle the visibility of the sprite
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+
+            flashDuration -= flashInterval;
+            if (flashDuration <= 0)
+            {
+                break; // Stop flashing after a certain duration
+            }
+        }
+
+        // Destroy the entire GameObject (including the prefab)
+        Destroy(gameObject);
     }
 }

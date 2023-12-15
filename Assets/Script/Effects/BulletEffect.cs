@@ -35,22 +35,26 @@ public class BulletEffect : MonoBehaviour
         if (launching)
         {
             // Moving the bullet
-            Vector3 direction = Vector3.Normalize(targetEnemy.transform.position - transform.position);
-            transform.localPosition += speed * Time.deltaTime * direction;
-
-            // Rotating the bullet
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180.0f;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-
-            // The bullet is near the enemy: explode
-            if (Vector3.Distance(transform.localPosition, targetEnemy.transform.position) < 0.2)
+            if (targetEnemy == null) Destroy(gameObject);
+            else
             {
-                GameObject effect = Instantiate(effectPrefab);
-                effect.GetComponent<BuffectExplosion>().targetEnemy = targetEnemy;
-                effect.GetComponent<BuffectExplosion>().damage = damage;
-                effect.transform.SetParent(bulletContainer.GetComponent<Transform>().transform);
-                effect.transform.localPosition = new Vector3(transform.position.x, transform.position.y, 0.0f);
-                Destroy(gameObject);
+                Vector3 direction = Vector3.Normalize(targetEnemy.transform.position - transform.position);
+                transform.localPosition += speed * Time.deltaTime * direction;
+
+                // Rotating the bullet
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180.0f;
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+
+                // The bullet is near the enemy: explode
+                if (Vector3.Distance(transform.localPosition, targetEnemy.transform.position) < 0.2)
+                {
+                    GameObject effect = Instantiate(effectPrefab);
+                    effect.GetComponent<BuffectExplosion>().targetEnemy = targetEnemy;
+                    effect.GetComponent<BuffectExplosion>().damage = damage;
+                    effect.transform.SetParent(bulletContainer.GetComponent<Transform>().transform);
+                    effect.transform.localPosition = new Vector3(transform.position.x, transform.position.y, 0.0f);
+                    Destroy(gameObject);
+                }
             }
         }
     }
