@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Behavior : MonoBehaviour
@@ -9,12 +10,11 @@ public class Behavior : MonoBehaviour
     public float animSpeed = 1f;
     public float attackRange = 1f;
     public float attackSpeed = 2f;
-    public float attackCooldown = 2f; // Add a cooldown between attacks
     public float hp = 10f;
     public GameObject[] bloodPrefab;
+    //public float rotateSpeed = 0.0025f;
     private Rigidbody2D rb;
     private Animator animator;
-    private bool canAttack = true; // Flag to check if the enemy can attack
 
     private void GetTarget()
     {
@@ -27,7 +27,14 @@ public class Behavior : MonoBehaviour
         }
         else
         {
-            Debug.Log("No Ivy found!");
+            // If no ivies found, target the "Hoffen" object
+            GameObject hoffen = GameObject.FindGameObjectWithTag("Hoffen");
+            target = hoffen != null ? hoffen.transform : null;
+
+            if (target == null)
+            {
+                Debug.Log("No Ivy or Hoffen found!");
+            }
         }
     }
 
@@ -49,6 +56,15 @@ public class Behavior : MonoBehaviour
         return nearestIvy;
     }
 
+    //private void RotateTowardsTarget()
+    //{
+    //    Vector2 targetDirection = target.position - transform.position;
+    //    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
+    //    Quaternion q = Quaternion.Euler(new Vector3(0, 0, angle));
+    //    transform.localRotation = Quaternion.Slerp(transform.localRotation, q, rotateSpeed);
+
+    //}
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -58,19 +74,19 @@ public class Behavior : MonoBehaviour
         {
             Debug.LogError("Animator component not found on the GameObject!");
         }
+
     }
 
     private void Update()
     {
-        if (!target)
+        GetTarget(); // Update the target to the nearest enemy
+
+        if (target != null)
         {
-            GetTarget();
-        }
-        else
-        {
-            if (canAttack && AttackTarget() != null)
+            if (AttackTarget() != null)
             {
-                StartCoroutine(AttackCooldown());
+                MoveTowardsTarget(0);
+                animator.SetTrigger(AttackTarget());
             }
             else
             {
@@ -95,6 +111,7 @@ public class Behavior : MonoBehaviour
     private void MoveTowardsTarget(float speed)
     {
         Vector2 direction = (target.position - transform.position).normalized;
+        Debug.Log(direction);
         rb.velocity = direction * speed;
     }
 
@@ -125,13 +142,6 @@ public class Behavior : MonoBehaviour
         {
             return "";
         }
-    }
-
-    private IEnumerator AttackCooldown()
-    {
-        canAttack = false;
-        yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -166,9 +176,6 @@ public class Behavior : MonoBehaviour
         if (hp <= 0)
         {
             animator.SetTrigger("Dead");
-
-            // Destroy the enemy gameObject after the "Dead" animation is played
-            Destroy(gameObject, 2f); // Assuming "Dead" animation duration is 2 seconds
         }
         // For example, play hurt animations, reduce health, etc.
     }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2536969860034824579}
   - component: {fileID: 5027259956808239121}
   - component: {fileID: 7975231226207646223}
-  - component: {fileID: -7505861839575675237}
+  - component: {fileID: -8202525919682470918}
   m_Layer: 8
   m_Name: Bat
   m_TagString: Monster
@@ -181,7 +181,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.12, y: 0.1}
   m_EdgeRadius: 0
---- !u!114 &-7505861839575675237
+--- !u!114 &-8202525919682470918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,12 +190,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7258890402012017323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ea255c2b5b82774892d5c7b14d0ba35, type: 3}
+  m_Script: {fileID: 11500000, guid: 081edf5d47eaff642856724903414e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  moveSpeed: 3
-  animSpeed: 1
-  attackRange: 1
-  attackSpeed: 2
-  tooCloseRange: 2
+  moveSpeed: 1
+  animSpeed: 0.5
+  attackRange: 0.1
+  attackSpeed: 0.5
+  hp: 10
+  bloodPrefab:
+  - {fileID: 3327611516365953335, guid: 6b392f6d97f6b234392f81a6ac8e11b4, type: 3}

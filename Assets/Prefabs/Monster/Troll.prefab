@@ -198,4 +198,7 @@ MonoBehaviour:
   animSpeed: 1
   attackRange: 1
   attackSpeed: 2
+  attackCooldown: 2
   hp: 10
+  bloodPrefab:
+  - {fileID: 3327611516365953335, guid: 6b392f6d97f6b234392f81a6ac8e11b4, type: 3}

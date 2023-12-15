@@ -9,7 +9,6 @@ public class BuffectExplosion : MonoBehaviour
 
     public void Explode()
     {
-        targetEnemy.BeAttacked(damage);
         Destroy(gameObject);
     }
 
@@ -18,7 +17,7 @@ public class BuffectExplosion : MonoBehaviour
         // If collider is an enemy
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy") && (targetEnemy != collision.gameObject.GetComponent<Behavior>()))
         {
-            collision.gameObject.GetComponent<Behavior>().BeAttacked(damage);
+            collision.gameObject.GetComponent<Behavior>();
         }
     }
 }
