@@ -111,7 +111,6 @@ public class Behavior : MonoBehaviour
     private void MoveTowardsTarget(float speed)
     {
         Vector2 direction = (target.position - transform.position).normalized;
-        Debug.Log(direction);
         rb.velocity = direction * speed;
     }
 
@@ -148,6 +147,7 @@ public class Behavior : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
+            Debug.Log("Hit");
             // Get a random index within the array bounds
             int randomIndex = Random.Range(0, bloodPrefab.Length);
 
@@ -176,6 +176,7 @@ public class Behavior : MonoBehaviour
         if (hp <= 0)
         {
             animator.SetTrigger("Dead");
+            Destroy(gameObject);
         }
         // For example, play hurt animations, reduce health, etc.
     }
