@@ -182,11 +182,10 @@ public class Behavior : MonoBehaviour
     {
         // Implement actions to handle damage
         hp -= damage;
-
         if (hp <= 0)
         {
             StartCoroutine(FlashAndDestroy());
-
+            StartCoroutine(FlashRed());
             // Disable the collider to prevent further interactions
             Collider2D collider = GetComponent<Collider2D>();
             if (collider != null)
@@ -198,7 +197,11 @@ public class Behavior : MonoBehaviour
             animator.speed = 0f;
             animator.Play("Dead");
         }
-        // For example, play hurt animations, reduce health, etc.
+        else
+        {
+            //turn the sprite to red for a moment
+            StartCoroutine(FlashRed());
+        }
     }
 
     private IEnumerator FlashAndDestroy()
@@ -222,5 +225,18 @@ public class Behavior : MonoBehaviour
 
         // Destroy the entire GameObject (including the prefab)
         Destroy(gameObject);
+    }
+    private IEnumerator FlashRed()
+    {
+        Color originalColor = spriteRenderer.color;
+
+        // Set the sprite color to red
+        spriteRenderer.color = Color.red;
+
+        // Wait for a short duration
+        yield return new WaitForSeconds(0.5f); // Adjust the duration as needed
+
+        // Restore the original color
+        spriteRenderer.color = originalColor;
     }
 }
