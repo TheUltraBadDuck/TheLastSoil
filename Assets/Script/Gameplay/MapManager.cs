@@ -31,6 +31,8 @@ public class MapManager : MonoBehaviour
     [SerializeField]
     private EnergyBar energyBar;
 
+    private List<IvyInterface> attackTreeObservers = new();
+
 
 
     private void Start()
@@ -88,7 +90,7 @@ public class MapManager : MonoBehaviour
         if (currTreeInstance != null)
         {
             Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
-            cursorShadow.transform.localPosition = new Vector3(pos.x, pos.y, 0f);
+            cursorShadow.transform.position = new Vector3(pos.x, pos.y, 0f);
         }
     }
 
@@ -107,9 +109,25 @@ public class MapManager : MonoBehaviour
 
 
 
+    // Remove enemy from a list of each tree
+    public void RemoveEnemyDetection(Behavior enemy)
+    {
+        for (int i = 0; i < attackTreeObservers.Count; i++)
+        {
+            IvyInterface component = attackTreeObservers[i].GetComponent<IvyInterface>();
+            if (component is AttackTreeInterface)
+            {
+                component.RemoveEnemy(enemy);
+            }
+        }
+    }
+
+
     // From TreeButton.cs
     public void OnTreeButtonPressed(GameObject treeInstance, Sprite newTreeSprite, int energyScore, TreeButton selectedButton)
     {
+        Debug.Log(newTreeSprite);
+
         // Same type => unselect the tree
         if ((cursorShadow.sprite != null) && (cursorShadow.sprite.name == newTreeSprite.name))
         {
@@ -185,5 +203,28 @@ public class MapManager : MonoBehaviour
         currTreeInstance = null;
 
         ShowAvaiableTiles(false);
+
+        // If the tree can attack
+        if (newObj.GetComponent<IvyInterface>() is AttackTreeInterface)
+        {
+            AddAttackObserver(newObj.GetComponent<IvyInterface>());
+        }
+    }
+
+
+    public void AddAttackObserver(IvyInterface tree)
+    {
+        attackTreeObservers.Add(tree);
+    }
+
+
+    public void RemoveAttackObserver(IvyInterface tree)
+    {
+        // Remove enemy that can be attacked by looking for the id
+        int index = attackTreeObservers.FindIndex(e => e.name == tree.name);
+        if (index == -1)
+            return;
+
+        attackTreeObservers.RemoveAt(index);
     }
 }

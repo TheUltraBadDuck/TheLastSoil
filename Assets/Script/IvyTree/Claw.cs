@@ -9,42 +9,25 @@ public class Claw : AttackTreeInterface
         // Summon the bullet
         if (bulletPrefab != null)
         {
-            Behavior nearestEnemy = GetNearestEnemy();
+            // Get 3 nearest enemies to that tree
+            nearbyEnemies.Sort(delegate (Behavior x, Behavior y)
+            {
+                // return (x.GetDistanceToHoffen() < y.GetDistanceToHoffen()) ? -1 : 1;
+                return (x.GetDistance(this) < y.GetDistance(this)) ? -1 : 1;
+            });
 
-            if (nearestEnemy != null)
+            for (int i = 0; i < Mathf.Min(3, nearbyEnemies.Count); i++)
             {
                 GameObject bullet = Instantiate(bulletPrefab);
                 bullet.transform.SetParent(bulletContainer.GetComponent<Transform>().transform);
                 bullet.transform.localPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, 0.0f);
 
                 BulletEffect effect = bullet.GetComponent<BulletEffect>();
-                effect.SetTargetEnemy(nearestEnemy);
-            }
-            else
-            {
-                Debug.LogWarning("No nearby enemies found.");
+                effect.SetTargetEnemy(nearbyEnemies[i]);
             }
         }
 
         // Play animation
         animator.Play("TreeAttack");
-    }
-
-    private Behavior GetNearestEnemy()
-    {
-        float nearestDistance = float.MaxValue;
-        Behavior nearestEnemy = null;
-
-        foreach (Behavior enemy in nearbyEnemies)
-        {
-            float distance = Vector2.Distance(transform.position, enemy.transform.position);
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestEnemy = enemy;
-            }
-        }
-
-        return nearestEnemy;
     }
 }

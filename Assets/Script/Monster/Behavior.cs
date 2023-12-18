@@ -6,7 +6,7 @@ using UnityEngine;
 public class Behavior : MonoBehaviour
 {
     public Transform target;
-    public float moveSpeed = 3f;
+    public float moveSpeed = 0.1f;
     public float animSpeed = 1f;
     public float attackRange = 1f;
     public float attackSpeed = 2f;
@@ -17,6 +17,8 @@ public class Behavior : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private MapManager mapManager;
+    private float distanceToHoffen = 0f;
     private void GetTarget()
     {
         GameObject[] ivies = GameObject.FindGameObjectsWithTag("Ivy");
@@ -68,6 +70,7 @@ public class Behavior : MonoBehaviour
 
     private void Start()
     {
+        mapManager = GameObject.Find("MapManager").GetComponent<MapManager>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
@@ -81,7 +84,12 @@ public class Behavior : MonoBehaviour
 
     private void Update()
     {
-         // Update the target to the nearest enemy
+        if (gameObject == null)
+            return;
+
+        // distanceToHoffen = mapManager.GetDistanceToHoffen(this);
+
+        // Update the target to the nearest enemy
         if (hp <= 0)
         {
             MoveTowardsTarget(0);
@@ -121,8 +129,8 @@ public class Behavior : MonoBehaviour
     {
         if (hp > 0) // Only move if not dead
         {
-            Vector2 direction = (target.position - transform.position).normalized;
-            rb.velocity = direction * speed;
+            Vector3 direction = (target.position - transform.position).normalized;
+            transform.position += speed * Time.deltaTime * direction;
         }
     }
 
@@ -155,28 +163,30 @@ public class Behavior : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            Debug.Log("Hit");
-            // Get a random index within the array bounds
-            int randomIndex = Random.Range(0, bloodPrefab.Length);
-
-            // Spawn blood splatter at the hit position using the randomly selected blood prefab
-            GameObject bloodInstance = Instantiate(bloodPrefab[randomIndex], collision.contacts[0].point, Quaternion.identity);
-
-            // Trigger the "Splatter" animation if the blood prefab has an Animator component
-            Animator bloodAnimator = bloodInstance.GetComponent<Animator>();
-            if (bloodAnimator != null)
+            if (bloodPrefab.Length > 0)
             {
-                bloodAnimator.SetTrigger("Splatter");
+                // Get a random index within the array bounds
+                int randomIndex = Random.Range(0, bloodPrefab.Length);
+
+                // Spawn blood splatter at the hit position using the randomly selected blood prefab
+                GameObject bloodInstance = Instantiate(bloodPrefab[randomIndex], collision.transform.position, Quaternion.identity);
+
+                // Trigger the "Splatter" animation if the blood prefab has an Animator component
+                Animator bloodAnimator = bloodInstance.GetComponent<Animator>();
+                if (bloodAnimator != null)
+                {
+                    bloodAnimator.SetTrigger("Splatter");
+                }
             }
 
             GameObject blood = bloodParticle;
             Instantiate(blood, collision.contacts[0].point, Quaternion.identity);
             // Handle damage or other actions as needed
-            HandleDamage(5);
+            HandleDamage(collision.gameObject.GetComponent<BuffectExplosion>().damage);
 
         }
     }
@@ -210,6 +220,8 @@ public class Behavior : MonoBehaviour
 
     private IEnumerator FlashAndDestroy()
     {
+        mapManager.RemoveEnemyDetection(this);
+
         float flashDuration = 0.4f; // Adjust the duration of each flash
         float flashInterval = 0.05f; // Adjust the interval between flashes
 
@@ -243,5 +255,17 @@ public class Behavior : MonoBehaviour
 
         // Restore the original color
         spriteRenderer.color = originalColor;
+    }
+
+
+    public float GetDistanceToHoffen()
+    {
+        return distanceToHoffen;
+    }
+
+
+    public float GetDistance(IvyInterface tree)
+    {
+        return Vector3.Distance(transform.position, tree.transform.position);
     }
 }

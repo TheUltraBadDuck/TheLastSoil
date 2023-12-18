@@ -9,6 +9,9 @@ TagManager:
   - Tree container
   - Enemy container
   - UI
+  - Monster
+  - Bullet
+  - Hoffen
   layers:
   - Default
   - TransparentFX
@@ -45,10 +48,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Tree
-    uniqueID: 3817212145
-    locked: 0
-  - name: Tree Slihouette
-    uniqueID: 1025610263
     locked: 0
