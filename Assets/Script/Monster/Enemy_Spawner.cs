@@ -27,7 +27,7 @@ public class Level
 
     public float difficulty;
     public int enemiesNumber;           // Number of enemies in a wave
-    public int enemiesEachWave;         // 
+    public int enemiesEachWave;          
     public float spawnTime;
     public bool bigWave = false;
 }
@@ -41,6 +41,7 @@ public class Enemy_Spawner : MonoBehaviour
     private int enemySpawned = 0;
     private int levelTraversal = 0;
 
+    
     public Level[] levels;
     public CanvasGroup waveTextCanvasGroup;
     public float X1, X2, Y1, Y2;
@@ -59,17 +60,16 @@ public class Enemy_Spawner : MonoBehaviour
             CalculateWeights(levels[levelTraversal]);
             Debug.Log("Level " + (levelTraversal + 1));
 
-            StartCoroutine(FadeText("Wave " + (levelTraversal + 1), 2f, 2f, 2f));
-
+            yield return StartCoroutine(FadeText("Wave " + (levelTraversal + 1), 2f, 2f, 2f));
 
             // Start the LevelSpawner coroutine and wait for it to finish
             yield return StartCoroutine(LevelSpawner(levels[levelTraversal]));
 
-            levelTraversal++;
             Debug.Log("Level finished!");
 
-            // You can introduce a delay between levels if needed
-            StartCoroutine(FadeText("Wave Clear", 2f, 2f, 2f)); // Adjust the delay time as necessary
+            // Increment levelTraversal here
+            levelTraversal++;
+            enemySpawned = 0;
         }
 
         // All levels completed
@@ -113,9 +113,9 @@ public class Enemy_Spawner : MonoBehaviour
             spawnedEnemies.RemoveAll(enemy => enemy == null); // Remove destroyed enemies
             yield return null;
         }
-
+        Debug.Log("get here");
         // All enemies defeated, show "Wave Clear"
-        StartCoroutine(FadeText("Wave Clear", 2f, 2f, 2f));
+        yield return StartCoroutine(FadeText("Wave Clear", 2f, 2f, 2f));
     }
 
     private GameObject RandomSpawn(Vector3 position, Level level)

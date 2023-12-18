@@ -156,6 +156,7 @@ MonoBehaviour:
   hp: 10
   bloodPrefab:
   - {fileID: 3327611516365953335, guid: 6b392f6d97f6b234392f81a6ac8e11b4, type: 3}
+  bloodParticle: {fileID: 7553010711492846650, guid: 8da371c4edc22f44b8c355c261443195, type: 3}
 --- !u!61 &5222136006754613852
 BoxCollider2D:
   m_ObjectHideFlags: 0
