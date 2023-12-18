@@ -175,26 +175,10 @@ public class Behavior : MonoBehaviour
 
             GameObject blood = bloodParticle;
             Instantiate(blood, collision.contacts[0].point, Quaternion.identity);
-            Destroy(blood, 1f);
             // Handle damage or other actions as needed
             HandleDamage(5);
 
         }
-    }
-
-    IEnumerator SpawnBloodAndDestroy(GameObject bloodParticle, Vector3 position)
-    {
-        GameObject blood = Instantiate(bloodParticle, position, Quaternion.identity);
-
-        ParticleSystem particleSystem = blood.GetComponent<ParticleSystem>();
-        if (particleSystem != null)
-        {
-            particleSystem.Stop();
-        }
-
-        yield return new WaitForSeconds(1f);
-
-        Destroy(blood);
     }
 
     private void HandleDamage(float damage)

@@ -911,7 +911,7 @@ MonoBehaviour:
   hoffenTree: {fileID: 858998149}
   availableTileInstance: {fileID: 2812157117347144677, guid: d27b4856ac14058419400d7016d430c0, type: 3}
   cursorShadow: {fileID: 94131795}
-  cam: {fileID: 0}
+  cam: {fileID: 516256235}
   energyBar: {fileID: 1499493782}
 --- !u!1 &801484718
 GameObject:
@@ -2609,6 +2609,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8877851868291644611, guid: b5d0336830dea094494ea84f8a435684, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 2aefe88acae62484fa1593c2ad137235, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
