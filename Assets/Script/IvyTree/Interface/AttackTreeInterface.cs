@@ -38,6 +38,8 @@ public class AttackTreeInterface : IvyInterface
 
     public override void Update()
     {
+        base.Start();
+
         if (!attacking)
             return;
 
@@ -80,6 +82,13 @@ public class AttackTreeInterface : IvyInterface
     }
 
 
+    public override void RemoveEnemy(Behavior enemy)
+    {
+        HandleExit2D(enemy.GetComponent<Collider2D>());
+        nearbyEnemies.RemoveAll(item => item == null);
+    }
+
+
     public void FinishAttackAnim()
     {
         animator.Play("TreeIdle");
@@ -101,5 +110,21 @@ public class AttackTreeInterface : IvyInterface
 
         // Play animation
         animator.Play("TreeAttack");
+    }
+
+
+    public override void BeAttacked(int damage)
+    {
+        hp -= damage;
+
+        if (hp <= 0)
+        {
+            GameObject.Find("MapManager").GetComponent<MapManager>().RemoveAttackObserver(this);
+            Destroy(gameObject);
+        }
+        else
+        {
+            attacked = true;
+        }
     }
 }

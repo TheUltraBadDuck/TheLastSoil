@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 1393538299, guid: a1dfbe380662f814d821170dd9162b1c, type: 3}
+  m_Sprite: {fileID: 1393538299, guid: ef2eaecb46b1d8e478cf9bca767d27ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 952491519418411738}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b68f2b3588b46984585fc62bcb76cfef, type: 2}
+  m_Controller: {fileID: 9100000, guid: af6fe678e2b2ad440bd8b48b25a64c5d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -117,10 +117,10 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952491519418411738}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
+  m_UseAutoMass: 1
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
@@ -156,6 +156,7 @@ MonoBehaviour:
   hp: 10
   bloodPrefab:
   - {fileID: 3327611516365953335, guid: 6b392f6d97f6b234392f81a6ac8e11b4, type: 3}
+  bloodParticle: {fileID: 7553010711492846650, guid: 8da371c4edc22f44b8c355c261443195, type: 3}
 --- !u!61 &725331267582333674
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -168,7 +169,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -185,7 +186,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

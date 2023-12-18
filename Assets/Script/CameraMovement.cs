@@ -75,7 +75,7 @@ public class CameraMovement : MonoBehaviour
         if (isDragMove)
         {
             Vector3 mouseMovementDelta = Input.mousePosition - lastMousePos;
-            transform.position-= mouseMovementDelta * Time.deltaTime* speed * zoomSize;
+            transform.position -= mouseMovementDelta * Time.deltaTime * speed * zoomSize;
             //LimitCameraMovement();
             lastMousePos = Input.mousePosition;
         }

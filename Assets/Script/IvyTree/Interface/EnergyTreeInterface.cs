@@ -32,6 +32,7 @@ public class EnergyTreeInterface : IvyInterface
 
     public override void Update()
     {
+        base.Start();
         generatingCD += Time.deltaTime;
         if (generatingCD > maxGeneratingCD)
         {
