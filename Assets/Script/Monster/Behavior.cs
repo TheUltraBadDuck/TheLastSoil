@@ -10,22 +10,50 @@ public class Behavior : MonoBehaviour
     public float animSpeed = 1f;
     public float attackRange = 1f;
     public float attackSpeed = 2f;
+    public float hp = 10f;
+    public GameObject[] bloodPrefab;
     //public float rotateSpeed = 0.0025f;
     private Rigidbody2D rb;
     private Animator animator;
-
+    private SpriteRenderer spriteRenderer;
     private void GetTarget()
     {
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Ivy");
+        GameObject[] ivies = GameObject.FindGameObjectsWithTag("Ivy");
 
-        if (playerObject != null)
+        if (ivies.Length > 0)
         {
-            target = playerObject.transform;
+            GameObject nearestIvy = FindNearestIvy(ivies);
+            target = nearestIvy.transform;
         }
         else
         {
-            Debug.Log("Target not found!");
+            // If no ivies found, target the "Hoffen" object
+            GameObject hoffen = GameObject.FindGameObjectWithTag("Hoffen");
+            target = hoffen != null ? hoffen.transform : null;
+
+            if (target == null)
+            {
+                Debug.Log("No Ivy or Hoffen found!");
+            }
         }
+    }
+
+    private GameObject FindNearestIvy(GameObject[] ivies)
+    {
+        GameObject nearestIvy = null;
+        float nearestDistance = Mathf.Infinity;
+
+        foreach (GameObject ivy in ivies)
+        {
+            float distance = Vector2.Distance(transform.position, ivy.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestIvy = ivy;
+            }
+        }
+
+        return nearestIvy;
     }
 
     //private void RotateTowardsTarget()
@@ -40,38 +68,41 @@ public class Behavior : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
         if (animator == null)
         {
             Debug.LogError("Animator component not found on the GameObject!");
         }
-        
+
     }
 
     private void Update()
     {
-        if (!target)
+         // Update the target to the nearest enemy
+        if (hp <= 0)
         {
-            GetTarget();
+            MoveTowardsTarget(0);
         }
         else
         {
-            if (AttackTarget() != null)
+            GetTarget();
+            if (target != null)
             {
-                MoveTowardsTarget(0);
-                animator.SetTrigger(AttackTarget());
+                if (AttackTarget() != null)
+                {
+                    MoveTowardsTarget(0);
+                    animator.SetTrigger(AttackTarget());
+                }
+                else
+                {
+                    string animationDirection = GetAnimationDirection();
+                    animator.SetTrigger(animationDirection);
+                    MoveTowardsTarget(moveSpeed);
+                }
             }
-            else
-            {
-                string animationDirection = GetAnimationDirection();
-                animator.SetTrigger(animationDirection);
-                MoveTowardsTarget(moveSpeed);
-            }
-
-
         }
-
     }
 
     private string AttackTarget()
@@ -87,9 +118,11 @@ public class Behavior : MonoBehaviour
 
     private void MoveTowardsTarget(float speed)
     {
-        Vector2 direction = (target.position - transform.position).normalized;
-
-        rb.velocity = direction * speed;
+        if (hp > 0) // Only move if not dead
+        {
+            Vector2 direction = (target.position - transform.position).normalized;
+            rb.velocity = direction * speed;
+        }
     }
 
     private string GetAnimationDirection()
@@ -119,5 +152,75 @@ public class Behavior : MonoBehaviour
         {
             return "";
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Debug.Log("Hit");
+            // Get a random index within the array bounds
+            int randomIndex = Random.Range(0, bloodPrefab.Length);
+
+            // Spawn blood splatter at the hit position using the randomly selected blood prefab
+            GameObject bloodInstance = Instantiate(bloodPrefab[randomIndex], collision.contacts[0].point, Quaternion.identity);
+
+            // Trigger the "Splatter" animation if the blood prefab has an Animator component
+            Animator bloodAnimator = bloodInstance.GetComponent<Animator>();
+            if (bloodAnimator != null)
+            {
+                bloodAnimator.SetTrigger("Splatter");
+            }
+
+            // Handle damage or other actions as needed
+            HandleDamage(5);
+
+        }
+    }
+
+    private void HandleDamage(float damage)
+    {
+        // Implement actions to handle damage
+        hp -= damage;
+
+        if (hp <= 0)
+        {
+            StartCoroutine(FlashAndDestroy());
+
+            // Disable the collider to prevent further interactions
+            Collider2D collider = GetComponent<Collider2D>();
+            if (collider != null)
+            {
+                collider.enabled = false;
+            }
+
+            // Stop any ongoing animation and play the dead animation
+            animator.speed = 0f;
+            animator.Play("Dead");
+        }
+        // For example, play hurt animations, reduce health, etc.
+    }
+
+    private IEnumerator FlashAndDestroy()
+    {
+        float flashDuration = 0.4f; // Adjust the duration of each flash
+        float flashInterval = 0.05f; // Adjust the interval between flashes
+
+        while (true)
+        {
+            yield return new WaitForSeconds(flashInterval);
+
+            // Toggle the visibility of the sprite
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+
+            flashDuration -= flashInterval;
+            if (flashDuration <= 0)
+            {
+                break; // Stop flashing after a certain duration
+            }
+        }
+
+        // Destroy the entire GameObject (including the prefab)
+        Destroy(gameObject);
     }
 }

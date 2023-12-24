@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+
+
 [System.Serializable]
 public class Enemy
 {
@@ -14,6 +16,8 @@ public class Enemy
 
 }
 
+
+
 [System.Serializable]
 public class Level
 {
@@ -21,11 +25,13 @@ public class Level
     public double accumulatedWeights;
 
     public float difficulty;
-    public int enemiesNumber;
-    public int enemiesEachWave;
+    public int enemiesNumber;           // Number of enemies in a wave
+    public int enemiesEachWave;         // 
     public float spawnTime;
     public bool bigWave = false;
 }
+
+
 public class Enemy_Spawner : MonoBehaviour
 {
     private System.Random rand = new System.Random();
@@ -41,10 +47,8 @@ public class Enemy_Spawner : MonoBehaviour
     {
         StartCoroutine(SpawnLevels());
     }
-    private void Update()
-    {
-        
-    }
+
+
     private IEnumerator SpawnLevels()
     {
         while (levelTraversal < levels.Length)

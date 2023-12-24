@@ -8,6 +8,9 @@ using UnityEngine;
 public class MapManager : MonoBehaviour
 {
     [SerializeField]
+    private GameObject hoffenTree;
+
+    [SerializeField]
     private GameObject availableTileInstance;   // Tree distribution
     private GameObject currTreeInstance;
     private int currEnergyScore = 0;
@@ -41,8 +44,6 @@ public class MapManager : MonoBehaviour
         row = int.Parse(bits[0]);
         col = int.Parse(bits[1]);
 
-        Debug.Log(row + ", " + col);
-
         tileBitmap = new bool[row, col];
         treeObjs = new Object[row, col];
         availableTiles = new GameObject[row, col];
@@ -51,7 +52,7 @@ public class MapManager : MonoBehaviour
         {
             text = stream.ReadLine();
             bits = text.Split(' ');
-                
+
             for (int j = 0; j < col; j++)
             {
                 var newObj = Instantiate(availableTileInstance, Vector3.zero, Quaternion.identity);
@@ -93,15 +94,15 @@ public class MapManager : MonoBehaviour
 
 
 
-    public static float GetDistanceToHoffen(PlayerTemp enemy)
+    public float GetDistanceToHoffen(Behavior enemy)
     {
-        return Vector3.Distance(enemy.transform.position, new Vector3(0, 0, 0));
+        return Vector3.Distance(enemy.transform.position, hoffenTree.transform.position);
     }
 
 
     public static Vector3 GetMapPosition(int i, int j)
     {
-        return new Vector3(i * 0.48f - 3.0f, j * 0.48f - 3.0f, 0.0f);
+        return new Vector3(j * 0.48f - 2.88f, i * 0.48f - 2.88f, 0.0f);
     }
 
 

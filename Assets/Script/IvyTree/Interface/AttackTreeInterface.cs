@@ -22,7 +22,7 @@ public class AttackTreeInterface : IvyInterface
     protected GameObject bulletContainer;
 
     protected bool attacking = false;
-    protected List<PlayerTemp> nearbyEnemies = new ();
+    protected List<Behavior> nearbyEnemies = new ();
 
 
 
@@ -57,7 +57,7 @@ public class AttackTreeInterface : IvyInterface
         {
             // Add the enemy to the attacking list
             attacking = true;
-            nearbyEnemies.Add(collision.gameObject.GetComponent<PlayerTemp>());
+            nearbyEnemies.Add(collision.gameObject.GetComponent<Behavior>());
         }
     }
 

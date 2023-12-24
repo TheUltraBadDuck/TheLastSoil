@@ -76,7 +76,7 @@ public class CameraMovement : MonoBehaviour
         {
             Vector3 mouseMovementDelta = Input.mousePosition - lastMousePos;
             transform.position-= mouseMovementDelta * Time.deltaTime* speed * zoomSize;
-            LimitCameraMovement();
+            //LimitCameraMovement();
             lastMousePos = Input.mousePosition;
         }
     }
@@ -107,7 +107,7 @@ public class CameraMovement : MonoBehaviour
 
         Vector3 scrollDirection = new Vector3(horizontalInput, verticalInput, 0f).normalized;
          transform.position += scrollDirection * Time.deltaTime * scrollSpeed;
-        LimitCameraMovement();
+        //LimitCameraMovement();
     }
 
     void LimitCameraMovement()
