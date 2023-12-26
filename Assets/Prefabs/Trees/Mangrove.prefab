@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4890332045126888983}
   - component: {fileID: 5056355172627219802}
   - component: {fileID: 318851804309481463}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mangrove
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7468494425182402876}
   - component: {fileID: 7687809379080062269}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 60b065874fc813c43a57d675280ee434, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -206,7 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7300757353797270152}
   - component: {fileID: 2831374855050429188}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 595109e1380aa8e47865bf9ef3fcea5d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

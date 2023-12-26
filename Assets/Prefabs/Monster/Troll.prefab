@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7957377820178423057}
   - component: {fileID: 2522946496436696537}
   - component: {fileID: 6705129305270898581}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Troll
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -190,11 +190,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7003977997434328582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3f25f7c072c1147aff2e678124e741, type: 3}
+  m_Script: {fileID: 11500000, guid: 081edf5d47eaff642856724903414e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   moveSpeed: 3
   animSpeed: 1
-  attackRange: 0.3
+  attackRange: 1
   attackSpeed: 2
+  attackCooldown: 2
+  hp: 10
+  bloodPrefab:
+  - {fileID: 3327611516365953335, guid: 6b392f6d97f6b234392f81a6ac8e11b4, type: 3}

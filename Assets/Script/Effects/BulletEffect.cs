@@ -6,19 +6,19 @@ using UnityEngine;
 
 public class BulletEffect : MonoBehaviour
 {
-    protected PlayerTemp targetEnemy;
+    protected Behavior targetEnemy;
     [SerializeField]
     protected GameObject effectPrefab;
     protected GameObject bulletContainer;
     [SerializeField]
-    protected int damage = 1;
+    protected float damage = 1;
 
     protected bool launching = false;
     protected float speed = 3.0f;
 
 
 
-    public void SetTargetEnemy(PlayerTemp targetEnemy)
+    public void SetTargetEnemy(Behavior targetEnemy)
     {
         this.targetEnemy = targetEnemy;
     }
@@ -35,6 +35,11 @@ public class BulletEffect : MonoBehaviour
         if (launching)
         {
             // Moving the bullet
+            if (targetEnemy == null) {
+                Destroy(gameObject);
+                return;
+            }
+
             Vector3 direction = Vector3.Normalize(targetEnemy.transform.position - transform.position);
             transform.localPosition += speed * Time.deltaTime * direction;
 
@@ -46,9 +51,10 @@ public class BulletEffect : MonoBehaviour
             if (Vector3.Distance(transform.localPosition, targetEnemy.transform.position) < 0.2)
             {
                 GameObject effect = Instantiate(effectPrefab);
+                effect.GetComponent<BuffectExplosion>().targetEnemy = targetEnemy;
+                //effect.GetComponent<BuffectExplosion>().damage = damage;
                 effect.transform.SetParent(bulletContainer.GetComponent<Transform>().transform);
                 effect.transform.localPosition = new Vector3(transform.position.x, transform.position.y, 0.0f);
-                targetEnemy.BeAttacked(1);
                 Destroy(gameObject);
             }
         }

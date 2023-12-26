@@ -3,12 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Ivy
-  - Coin container
-  - Tree container
-  - Enemy container
-  - UI
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -16,10 +11,10 @@ TagManager:
   - 
   - Water
   - UI
-  - Environment
-  - Tree
-  - Enemy
-  - Coin
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -45,10 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Tree
-    uniqueID: 3817212145
-    locked: 0
-  - name: Tree Slihouette
-    uniqueID: 1025610263
     locked: 0
