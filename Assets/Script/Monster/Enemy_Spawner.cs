@@ -41,38 +41,50 @@ public class Enemy_Spawner : MonoBehaviour
     private int enemySpawned = 0;
     private int levelTraversal = 0;
 
-    
+       
     public Level[] levels;
     public CanvasGroup waveTextCanvasGroup;
     public float X1, X2, Y1, Y2;
+    public static event System.Action WaveFinished;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnLevels());
+        StartNextWave();
     }
 
-
-    private IEnumerator SpawnLevels()
+    private void StartNextWave()
     {
-        while (levelTraversal < levels.Length)
+        if (levelTraversal < levels.Length)
         {
-            CalculateWeights(levels[levelTraversal]);
-            Debug.Log("Level " + (levelTraversal + 1));
-
-            yield return StartCoroutine(FadeText("Wave " + (levelTraversal + 1), 2f, 2f, 2f));
-
-            // Start the LevelSpawner coroutine and wait for it to finish
-            yield return StartCoroutine(LevelSpawner(levels[levelTraversal]));
-
-            Debug.Log("Level finished!");
-
-            // Increment levelTraversal here
+            StartCoroutine(StartWave(levels[levelTraversal]));
             levelTraversal++;
             enemySpawned = 0;
         }
+        else
+        {
+            // All levels completed, you might want to handle this case
+            Debug.Log("All levels completed!");
+        }
+    }
 
-        // All levels completed
+    private IEnumerator StartWave(Level level)
+    {
+        CalculateWeights(level);
+        Debug.Log("Level " + (levelTraversal + 1));
+
+        yield return StartCoroutine(FadeText("Wave " + (levelTraversal + 1), 2f, 2f, 2f));
+
+        yield return StartCoroutine(LevelSpawner(level));
+
+        Debug.Log("Level finished!");
+
+        // Invoke the WaveFinished event
+        WaveFinished?.Invoke();
+
+        // Wait for response from "UpgradePanel"
+        yield return StartCoroutine(WaitForUpgradePanelResponse());
+        levelTraversal++;
     }
 
     private IEnumerator LevelSpawner(Level level)
@@ -113,9 +125,21 @@ public class Enemy_Spawner : MonoBehaviour
             spawnedEnemies.RemoveAll(enemy => enemy == null); // Remove destroyed enemies
             yield return null;
         }
-        Debug.Log("get here");
-        // All enemies defeated, show "Wave Clear"
+
+        Debug.Log("All enemies defeated, show 'Wave Clear'");
         yield return StartCoroutine(FadeText("Wave Clear", 2f, 2f, 2f));
+    }
+
+    private IEnumerator WaitForUpgradePanelResponse()
+    {
+        UpgradePanel upgradePanel = FindObjectOfType<UpgradePanel>();
+        Debug.Log(upgradePanel);
+        while (!upgradePanel.IsReadyForNextWave())
+        {
+            yield return null;
+        }
+
+        StartNextWave();
     }
 
     private GameObject RandomSpawn(Vector3 position, Level level)
