@@ -1834,6 +1834,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2716477849400618664, guid: 8e7826521a159974bb9d9efff8c76582, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3375742013089313362, guid: 8e7826521a159974bb9d9efff8c76582, type: 3}
       propertyPath: m_Name
       value: UIGameplay
