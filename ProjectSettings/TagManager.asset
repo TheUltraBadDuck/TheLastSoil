@@ -11,18 +11,19 @@ TagManager:
   - UI
   - Monster
   - Bullet
+  - Hoffen
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProcessing
   - Water
   - UI
   - Environment
   - Tree
   - Enemy
   - Coin
-  - 
+  - Particle
   - 
   - 
   - 
@@ -51,11 +52,11 @@ TagManager:
   - name: Map
     uniqueID: 196303943
     locked: 0
-  - name: Particle
-    uniqueID: 842613103
-    locked: 0
   - name: Tree
     uniqueID: 3817212145
+    locked: 0
+  - name: Particle
+    uniqueID: 842613103
     locked: 0
   - name: Tree Slihouette
     uniqueID: 1025610263
