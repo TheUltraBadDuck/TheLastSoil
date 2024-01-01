@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2424432398210932867}
   - component: {fileID: 2429784810087494200}
   - component: {fileID: 5896868981844949132}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WillowBomb
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -96,9 +96,10 @@ Animation:
   m_GameObject: {fileID: 8092284424008285303}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 3b5cc71011b250846ac3d270dd32725a, type: 2}
+  m_Animation: {fileID: 7400000, guid: 01c35aaaeaeb54346a05e05cea40f5b8, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 3b5cc71011b250846ac3d270dd32725a, type: 2}
+  - {fileID: 7400000, guid: 01c35aaaeaeb54346a05e05cea40f5b8, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -116,8 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetEnemy: {fileID: 0}
-  damage: 5
-  pushForce: 0.1
+  damage: 3
 --- !u!58 &5896868981844949132
 CircleCollider2D:
   m_ObjectHideFlags: 0

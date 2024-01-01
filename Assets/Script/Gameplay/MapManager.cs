@@ -18,10 +18,12 @@ public class MapManager : MonoBehaviour
 
 
     private bool[,] tileBitmap;
-    private Object[,] treeObjs;
+    private GameObject[,] treeObjs;
     private GameObject[,] availableTiles;
+    private int[,] treeScore;
     private int row = 0;
     private int col = 0;
+    private bool showingTiles = false;
 
 
     [SerializeField]
@@ -31,13 +33,113 @@ public class MapManager : MonoBehaviour
     [SerializeField]
     private EnergyBar energyBar;
 
+    [SerializeField]
+    private Sprite shovelImage;
+    [SerializeField]
+    private GameObject coinPrefab;
+    private GameObject coinContainer;
+
+
     private List<IvyInterface> attackTreeObservers = new();
 
+    // -------------------------------------------------------------------------
 
+    public SpriteRenderer GetCursorShadow()
+    {
+        return cursorShadow;
+    }
+
+    public Sprite GetShovel()
+    {
+        return shovelImage;
+    }
+
+    public Object GetTree(int i, int j)
+    {
+        return treeObjs[i, j];
+    }
+
+
+    public void PutTree(int i, int j)
+    {
+        // Subtract energy
+        energyBar.SubtractScore(currEnergyScore);
+
+        // Add CD to a specific button
+        currTreeButton.AddCD();
+
+        var newObj = Instantiate(currTreeInstance, new Vector3(i, j), Quaternion.identity);
+        newObj.transform.SetParent(GameObject.Find("TreeContainer").transform);
+        newObj.transform.localPosition = GetMapPosition(i, j);
+        newObj.GetComponent<IvyInterface>().SetCoord(j, i);
+
+        treeObjs[i, j] = newObj;
+        treeScore[i, j] = currEnergyScore;
+        cursorShadow.sprite = null;
+        currTreeInstance = null;
+
+        ShowAvaiableTiles(false);
+
+        // If the tree can attack
+        if (newObj.GetComponent<IvyInterface>() is AttackTreeInterface)
+            AddAttackObserver(newObj.GetComponent<IvyInterface>());
+
+        else if (newObj.GetComponent<IvyInterface>() is Cactus)
+            AddAttackObserver(newObj.GetComponent<IvyInterface>());
+    }
+
+
+    // Remove with shovel
+    public void RemoveTree(int i, int j)
+    {
+        if (showingTiles)
+        {
+            Debug.Log("Trying to show/hide at (" + i + ", " + j + "): " + (cursorShadow.sprite.name != shovelImage.name).ToString());
+            availableTiles[i, j].GetComponent<AvailableTile>().SetPressable(cursorShadow.sprite.name != shovelImage.name);
+        }
+        Destroy(treeObjs[i, j]);
+        treeObjs[i, j] = null;
+
+        for (int coin = 0; coin < treeScore[i, j] / 2; coin += 25)
+        {
+            GameObject coinObj = Instantiate(coinPrefab, transform.position, Quaternion.identity);
+            coinObj.transform.parent = coinContainer.GetComponent<Transform>().transform;
+            coinObj.transform.localPosition = new Vector3(
+                transform.position.x + Random.Range(-0.10f, 0.10f),
+                transform.position.y - 0.15f + Random.Range(-0.05f, 0.05f),
+                0.0f);
+        }
+
+        treeScore[i, j] = 0;
+
+        // Clear the shovel
+        ShowAvaiableTiles(false);
+        cursorShadow.sprite = null;
+    }
+
+
+
+    public void RestoreCell(int i, int j)
+    {
+        treeObjs[i, j] = null;
+
+        if (showingTiles)
+        {
+            Debug.Log("[" + i + ", " + j + "] Before: " + availableTiles[i, j].GetComponent<AvailableTile>().pressable.ToString());
+            availableTiles[i, j].GetComponent<AvailableTile>().SetPressable(cursorShadow.sprite.name != shovelImage.name);
+            Debug.Log("[" + i + ", " + j + "] After: " + availableTiles[i, j].GetComponent<AvailableTile>().pressable.ToString());
+        }
+    }
+
+
+
+
+    // -------------------------------------------------------------------------
 
     private void Start()
     {
         // Load tiles
+        coinContainer = GameObject.Find("CoinContainer");
         StreamReader stream = new(Application.dataPath + "/Resources/PlaceableTiles.txt");
 
         string text = stream.ReadLine();
@@ -47,8 +149,9 @@ public class MapManager : MonoBehaviour
         col = int.Parse(bits[1]);
 
         tileBitmap = new bool[row, col];
-        treeObjs = new Object[row, col];
+        treeObjs = new GameObject[row, col];
         availableTiles = new GameObject[row, col];
+        treeScore = new int[row, col];
 
         for (int i = 0; i < row; i++)
         {
@@ -60,9 +163,8 @@ public class MapManager : MonoBehaviour
                 var newObj = Instantiate(availableTileInstance, Vector3.zero, Quaternion.identity);
                 newObj.transform.SetParent(transform);
                 newObj.transform.localPosition = GetMapPosition(i, j);
-                newObj.GetComponent<SpriteRenderer>().enabled = false;
                 AvailableTile newScript = newObj.GetComponent<AvailableTile>();
-                newScript.pressable = false;
+                newScript.SetPressable(false);
                 newScript.this_i = i;
                 newScript.this_j = j;
 
@@ -87,14 +189,14 @@ public class MapManager : MonoBehaviour
     private void Update()
     {
         // Get ghost tree image following the cursor
-        if (currTreeInstance != null)
+        if (cursorShadow.sprite != null)
         {
             Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
             cursorShadow.transform.position = new Vector3(pos.x, pos.y, 0f);
         }
     }
 
-
+    // -------------------------------------------------------------------------
 
     public float GetDistanceToHoffen(Behavior enemy)
     {
@@ -126,8 +228,6 @@ public class MapManager : MonoBehaviour
     // From TreeButton.cs
     public void OnTreeButtonPressed(GameObject treeInstance, Sprite newTreeSprite, int energyScore, TreeButton selectedButton)
     {
-        Debug.Log(newTreeSprite);
-
         // Same type => unselect the tree
         if ((cursorShadow.sprite != null) && (cursorShadow.sprite.name == newTreeSprite.name))
         {
@@ -140,7 +240,7 @@ public class MapManager : MonoBehaviour
         // Different type / not selecting => select the tree
         else
         {
-            if (cursorShadow.sprite == null)
+            if ((cursorShadow.sprite == null) || (cursorShadow.sprite.name == shovelImage.name))
                 ShowAvaiableTiles(true);
             cursorShadow.sprite = newTreeSprite;
             currTreeInstance = treeInstance;
@@ -151,9 +251,34 @@ public class MapManager : MonoBehaviour
 
 
 
-    // Show available tiles to put the tree
-    public void ShowAvaiableTiles(bool showing = true)
+    // From Shovel.cs
+    public void OnShovelPressed()
     {
+        // Like above
+        if ((cursorShadow.sprite != null) && (cursorShadow.sprite.name == shovelImage.name))
+        {
+            ShowAvaiableTiles(false);
+            cursorShadow.sprite = null;
+        }
+        else
+        {
+            if ((cursorShadow.sprite == null) || (cursorShadow.sprite.name != shovelImage.name))
+                ShowAvaiableTiles(true, false);
+            cursorShadow.sprite = shovelImage;
+        }
+
+        currTreeInstance = null;
+        currEnergyScore = 0;
+        currTreeButton = null;
+    }
+
+
+
+    // Show available tiles to put the tree
+    public void ShowAvaiableTiles(bool showing = true, bool showEmpty = true)
+    {
+        showingTiles = showing;
+
         if (showing)
         {
             for (int i = 0; i < row; i++)
@@ -161,10 +286,14 @@ public class MapManager : MonoBehaviour
                 for (int j = 0; j < col; j++)
                 {
                     // Legal tilemap and no tree was put there
-                    if (tileBitmap[i, j] && (treeObjs[i, j] == null))
+                    if (tileBitmap[i, j])
                     {
-                        availableTiles[i, j].GetComponent<AvailableTile>().pressable = true;
-                        availableTiles[i, j].GetComponent<SpriteRenderer>().enabled = true;
+                        if (showEmpty && (treeObjs[i, j] == null))
+                            availableTiles[i, j].GetComponent<AvailableTile>().SetPressable(true);
+                        else if (!showEmpty && (treeObjs[i, j] != null))
+                            availableTiles[i, j].GetComponent<AvailableTile>().SetPressable(true);
+                        else
+                            availableTiles[i, j].GetComponent<AvailableTile>().SetPressable(false);
                     }
                 }
             }
@@ -175,39 +304,9 @@ public class MapManager : MonoBehaviour
             {
                 for (int j = 0; j < col; j++)
                 {
-                    availableTiles[i, j].GetComponent<AvailableTile>().pressable = false;
-                    if (tileBitmap[i, j] && availableTiles[i, j].GetComponent<SpriteRenderer>().enabled)
-                    {
-                        availableTiles[i, j].GetComponent<SpriteRenderer>().enabled = false;
-                    }
+                    availableTiles[i, j].GetComponent<AvailableTile>().SetPressable(false);
                 }
             }
-        }
-    }
-
-
-    public void PutTree(int i, int j)
-    {
-        // Subtract energy
-        energyBar.SubtractScore(currEnergyScore);
-
-        // Add CD to a specific button
-        currTreeButton.AddCD();
-
-        var newObj = Instantiate(currTreeInstance, new Vector3(i, j), Quaternion.identity);
-        newObj.transform.SetParent(GameObject.Find("TreeContainer").transform);
-        newObj.transform.localPosition = GetMapPosition(i, j);
-
-        treeObjs[i, j] = newObj;
-        cursorShadow.sprite = null;
-        currTreeInstance = null;
-
-        ShowAvaiableTiles(false);
-
-        // If the tree can attack
-        if (newObj.GetComponent<IvyInterface>() is AttackTreeInterface)
-        {
-            AddAttackObserver(newObj.GetComponent<IvyInterface>());
         }
     }
 

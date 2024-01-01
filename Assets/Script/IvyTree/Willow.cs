@@ -6,7 +6,16 @@ using UnityEngine;
 
 public class Willow : AttackTreeInterface
 {
-    private void LaunchAttack(Behavior targetEnemy)
+    public Willow()
+    {
+        SetLevelDescription(new string[]
+        {
+            "Unlock Willow in the shop.",
+            "Willow' attacks get a bigger contact area.",
+            "Willow now have two projectiles each attack."
+        });
+    }
+    public override void LaunchAttack(Behavior targetEnemy)
     {
         if (bulletPrefab != null)
         {
@@ -16,6 +25,7 @@ public class Willow : AttackTreeInterface
             bullet.transform.localPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, 0.0f);
 
             BulletEffect effect = bullet.GetComponent<BulletEffect>();
+            effect.setDamage(damage * extraDamage);
             effect.SetTargetEnemy(targetEnemy);
         }
 

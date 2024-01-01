@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 // -------------------------------------------------------------------------
 
@@ -10,11 +10,11 @@ using UnityEngine;
 
 public class AttackTreeInterface : IvyInterface
 {
-
     [SerializeField]
     protected float damage = 0.0f;
+    private float startingDamage;
     [SerializeField]
-    protected float attackCD = 0.0f;
+    protected float attackCD;
     protected float maxAttackCD = 0.0f;
 
     [SerializeField]
@@ -24,21 +24,51 @@ public class AttackTreeInterface : IvyInterface
     protected bool attacking = false;
     protected Queue<Behavior> nearbyEnemies = new Queue<Behavior>();
 
-
-
+    protected float extraDamage = 1f;
+    private float extraSpeed = 0.0f;
+    private float buffNegCD = 2.0f;
     // -------------------------------------------------------------------------
+    public void SetLevelDescription(string[] description)
+    {
+        levelDescription = description;
+    }
+    public string getTreeName()
+    {
+        return treeName;
+    }
+
+    public void Initialize()
+    {
+        currentLevel = 0;
+        // Set other default values as needed
+    }
+   
 
     public override void Start()
     {
+        startingDamage = damage;
         base.Start();
         maxAttackCD = attackCD;
+        Debug.Log(maxAttackCD);
         bulletContainer = GameObject.Find("BulletContainer");
     }
-
+    public override void BeBuff(float extraDamage, float extraSpeed)
+    {
+        this.extraDamage += extraDamage;
+        this.extraSpeed += extraSpeed;
+    }
 
     public override void Update()
     {
         base.Update();
+        buffNegCD -= Time.deltaTime;
+        if (buffNegCD < 0f)
+        {
+            buffNegCD = 2f;
+            extraDamage = 1f;
+            damage = startingDamage;
+            extraSpeed = 0f;
+        }
 
         // Check if there are nearby enemies in the queue
         bool hasNearbyEnemies = nearbyEnemies.Count > 0;
@@ -120,30 +150,24 @@ public class AttackTreeInterface : IvyInterface
         // Summon the bullet
         if (bulletPrefab != null)
         {
+            Debug.Log(transform.position);
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             bullet.transform.parent = bulletContainer.GetComponent<Transform>().transform;
             bullet.transform.localPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, 0.0f);
 
             BulletEffect effect = bullet.GetComponent<BulletEffect>();
-            effect.SetTargetEnemy(targetEnemy);
+            effect.setDamage(damage*extraDamage);
+            if (targetEnemy != null)
+            {
+                effect.SetTargetEnemy(targetEnemy);
+            }
+            else
+            {
+                effect.SetTargetEnemy(null);
+            }
         }
 
         // Play animation
         animator.Play("TreeAttack");
-    }
-
-    public override void BeAttacked(int damage)
-    {
-        hp -= damage;
-
-        if (hp <= 0)
-        {
-            GameObject.Find("MapManager").GetComponent<MapManager>().RemoveAttackObserver(this);
-            Destroy(gameObject);
-        }
-        else
-        {
-            attacked = true;
-        }
     }
 }

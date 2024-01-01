@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 
@@ -26,7 +27,7 @@ public class TreeButton : MonoBehaviour
     private Image inactiveBlack;        // If enough score, disable the image to make the button pressable
 
     private bool enoughEnergy = false;  // Activates inactiveBlack
-    private bool available = true;     // Depends on waitingBlack
+    private bool available = false;     // Depends on waitingBlack
 
 
 
@@ -49,6 +50,9 @@ public class TreeButton : MonoBehaviour
         // Pressable
         UpdatePressableByTotalEnergy(enoughEnergy);
         waitingBlack.fillAmount = 0f;
+
+        // Pressable
+        available = pressableTimer >= pressableCD;
     }
 
 
@@ -86,15 +90,10 @@ public class TreeButton : MonoBehaviour
 
     public void OnPressed()
     {
-        Debug.Log("TRYING TO PRESS");
-        if (enoughEnergy && available)
+        if (enoughEnergy && available && EventSystem.current.IsPointerOverGameObject())
         {
             GameObject.Find("MapManager").GetComponent<MapManager>().OnTreeButtonPressed(
                 treeInstance, newTreeSprite, energyScore, this);
-        }
-        else
-        {
-            Debug.Log("Enough energy: " + enoughEnergy + ", available: " + available);
         }
     }
 }

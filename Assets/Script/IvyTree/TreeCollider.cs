@@ -9,13 +9,15 @@ public class TreeCollider : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        m_Interface.HandleEnter2D(collision);
+        if (collision != null)
+            m_Interface.HandleEnter2D(collision);
     }
 
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        m_Interface.HandleExit2D(collision);
+        if (collision != null)
+            m_Interface.HandleExit2D(collision);
     }
 
 }

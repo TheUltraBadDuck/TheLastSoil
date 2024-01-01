@@ -10,9 +10,9 @@ public class IvyInterface : MonoBehaviour
     [SerializeField]
     protected string treeName = "[None]";
     [SerializeField]
-    protected int hp = 0;
+    protected float hp = 0;
     [SerializeField]
-    protected int maxhp = 0;
+    protected float maxhp = 0;
     [SerializeField]
     protected Vector2 position = Vector2.zero;
 
@@ -24,17 +24,92 @@ public class IvyInterface : MonoBehaviour
     private float hurtCD = 0.25f;
     private float hurtTimer = 0f;
     protected bool attacked = false;
+    public GameObject blood;
 
 
+    public int currentLevel = 0;
+    public string[] treeLevel = { "Basic", "Evolution", "Legendary" };
+    public string[] levelDescription;
+    public Sprite sprite;
 
+    protected int coordX = 0;
+    protected int coordY = 0;
+
+    private SpriteRenderer spriteRenderer;
+    private Color startColor = Color.white;
+
+    public void UpdateSpriteColor()
+    {
+        if (spriteRenderer != null && sprite != null)
+        {
+            if (currentLevel == 2)
+            {
+                startColor = new Color(0.8f, 0.0f, 0.0f); // Red
+            }
+            else if (currentLevel == 3)
+            {
+                startColor = new Color(0.7f, 0.0f, 1.0f); // Purple
+            }
+
+            StartCoroutine(BreatheColor());
+        }
+    }
+
+    private IEnumerator BreatheColor()
+    {
+        Color targetColor = Color.white;
+
+        float duration = 2.0f; // Adjust the duration of the breathing
+        float t = 0.0f;
+
+        while (true && startColor != Color.white)
+        {
+            t += Time.deltaTime;
+
+            // Use Mathf.Sin to create a smooth breathing effect
+            float lerpFactor = Mathf.Sin(t / duration * Mathf.PI);
+
+            // Lerp between the original color and the target color based on the sine wave
+            Color lerpedColor = Color.Lerp(startColor, targetColor, lerpFactor);
+
+            spriteRenderer.color = lerpedColor;
+
+            // Check if the current level has changed
+            if (currentLevel == 2 && startColor != new Color(0.8f, 0.0f, 0.0f))
+            {
+                startColor = new Color(0.8f, 0.0f, 0.0f);
+            }
+            else if (currentLevel == 3 && startColor != new Color(0.7f, 0.0f, 1.0f))
+            {
+                startColor = new Color(0.7f, 0.0f, 1.0f);
+            }
+
+            yield return null;
+        }
+    }
     public virtual void Start()
     {
+
+        StartCoroutine(BreatheColor());
         animator = GetComponent<Animator>();
-        whiteTreeRenderer = transform.GetChild(3).GetComponent<SpriteRenderer>();
+        whiteTreeRenderer = transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            sprite = spriteRenderer.sprite;
+            Debug.Log(sprite);
+        }
+        else
+        {
+            Debug.LogWarning("SpriteRenderer component not found in children.");
+        }
+        animator = GetComponent<Animator>();
     }
+
 
     public virtual void Update()
     {
+        UpdateSpriteColor();
         // Blink
         if (attacked)
         {
@@ -73,18 +148,39 @@ public class IvyInterface : MonoBehaviour
     {
 
     }
-
-    public virtual void BeAttacked(int damage)
+    // If the tree is attacked
+    public virtual void BeAttacked(float damage)
     {
         hp -= damage;
-
+        Instantiate(blood, gameObject.transform.position, Quaternion.identity);
         if (hp <= 0)
         {
+            // Restore the button to the map
+            GameObject.Find("MapManager").GetComponent<MapManager>().RestoreCell(coordY, coordX);
             Destroy(gameObject);
         }
         else
         {
             attacked = true;
         }
+    }
+
+
+    public void BeHealed(int heal)
+    {
+        hp = Mathf.Min(hp + heal, maxhp);
+    }
+
+
+    public virtual void BeBuff(float extraDamage, float extraSpeed)
+    {
+        
+    }
+
+
+    public void SetCoord(int x, int y)
+    {
+        coordX = x;
+        coordY = y;
     }
 }

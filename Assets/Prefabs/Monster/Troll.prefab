@@ -194,11 +194,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081edf5d47eaff642856724903414e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevel: 0
+  treeLevel:
+  - Basic
+  - Evolution
+  - Legendary
   target: {fileID: 0}
+  damage: 10
   moveSpeed: 0.1
-  animSpeed: 0.1
-  attackRange: 0.3
-  attackSpeed: 0.2
+  attackRange: 0.5
+  attackSpeed: 0.5
   hp: 70
   hurtSound: {fileID: 6331609996143087082}
   deadSound: {fileID: 0}

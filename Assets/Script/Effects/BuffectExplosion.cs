@@ -16,6 +16,10 @@ public class BuffectExplosion : MonoBehaviour
     {
         return damage;
     }
+    public void setDamage(float dame)
+    {
+        damage = dame;
+    }
     public float getPushForce()
     {
         return pushForce;

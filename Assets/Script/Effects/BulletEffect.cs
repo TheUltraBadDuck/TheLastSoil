@@ -18,11 +18,15 @@ public class BulletEffect : MonoBehaviour
 
 
 
+
     public void SetTargetEnemy(Behavior targetEnemy)
     {
         this.targetEnemy = targetEnemy;
     }
-
+    public void setDamage(float dame)
+    {
+        damage = dame;
+    }
 
     protected virtual void Start()
     {
@@ -51,6 +55,7 @@ public class BulletEffect : MonoBehaviour
             if (Vector3.Distance(transform.localPosition, targetEnemy.transform.position) < 0.2)
             {
                 GameObject effect = Instantiate(effectPrefab);
+                effect.GetComponent<BuffectExplosion>().setDamage(damage);
                 effect.GetComponent<BuffectExplosion>().targetEnemy = targetEnemy;
                 //effect.GetComponent<BuffectExplosion>().damage = damage;
                 effect.transform.SetParent(bulletContainer.GetComponent<Transform>().transform);

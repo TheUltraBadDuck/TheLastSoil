@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4890332045126888983}
   - component: {fileID: 5742707059228496941}
   - component: {fileID: -4231901914971250523}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: WormRoot
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3892616455080374970}
   - component: {fileID: 1220314661690215300}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1954521281602611461}
   - component: {fileID: 297621823950358063}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

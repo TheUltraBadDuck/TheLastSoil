@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,31 +13,34 @@ public class CameraMovement : MonoBehaviour
     public float speed = 20f;
 
 
-    private float minZoom = 0.8f, maxZoom = 2f, zoomMultiplier = 4f, zoomTime= 0.25f, velocity = 0f;
+    private float minZoom = 0.8f, maxZoom = 3.5f, zoomMultiplier = 4f, zoomTime= 0.25f, velocity = 0f;
     private float zoomSize;
 
-    private float MapMinX, MapMinY, MapMaxX, MapMaxY, cameraWidth, cameraHeight;
+    private float MapMinX, MapMinY, MapMaxX, MapMaxY;
 
     private float edgeSize = 10f, scrollSpeed = 5f;
     private float scroll;
+    private Vector3 originCoord;
 
 
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private Camera post_proccessCamera;
     [SerializeField] private Tilemap tilemap;
     // Start is called before the first frame update
     void Start()
     {
+        tilemap.CompressBounds();
         isFreazeCamera = false;
         zoomSize = mainCamera.orthographicSize;
-    
-        Vector3 cellsize = tilemap.cellSize;
-        Vector3 topRight = tilemap.CellToWorld(new Vector3Int(5, 45, 0)) + new Vector3(cellsize.x,cellsize.y,0);
-        Vector3 bottomLeft = tilemap.CellToWorld(new Vector3Int(-46, -6, 0));
+
+        BoundsInt bounds = tilemap.cellBounds;
+
+        Vector3 bottomLeft = tilemap.GetCellCenterWorld(new Vector3Int(bounds.x, bounds.y, 0));
+        Vector3 topRight = tilemap.GetCellCenterWorld(new Vector3Int(bounds.x + bounds.size.x - 1, bounds.y + bounds.size.y - 1, 0));
         MapMinX =bottomLeft.x;
         MapMinY =bottomLeft.y;
         MapMaxX =topRight.x;
         MapMaxY =topRight.y;
-        
     }
 
     // Update is called once per frame
@@ -51,33 +54,19 @@ public class CameraMovement : MonoBehaviour
     {
         if (isFreazeCamera)
             return;
-
         ZoomCamera();
         if (isEdgeScroll)
             edgeScrolling();
-        
     }
     void panCamera()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            isDragMove = true;
-            isEdgeScroll = false;
-            lastMousePos = Input.mousePosition;
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            isDragMove = false;
-            isEdgeScroll = true;
+       if (Input.GetMouseButtonDown(1))
+            originCoord = post_proccessCamera.ScreenToWorldPoint(Input.mousePosition);
 
-        }
-
-        if (isDragMove)
+       if (Input.GetMouseButton(1))
         {
-            Vector3 mouseMovementDelta = Input.mousePosition - lastMousePos;
-            transform.position -= mouseMovementDelta * Time.deltaTime * speed * zoomSize;
-            //LimitCameraMovement();
-            lastMousePos = Input.mousePosition;
+            Vector3 diff_coord = originCoord - post_proccessCamera.ScreenToWorldPoint(Input.mousePosition);
+            post_proccessCamera.transform.position = ClampCamera(post_proccessCamera.transform.position + diff_coord);
         }
     }
 
@@ -86,7 +75,9 @@ public class CameraMovement : MonoBehaviour
         scroll = Input.GetAxis("Mouse ScrollWheel");
         zoomSize -= scroll * zoomMultiplier;
         zoomSize = Mathf.Clamp(zoomSize, minZoom, maxZoom);
-        mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, zoomSize, ref velocity, zoomTime);
+        post_proccessCamera.orthographicSize = Mathf.SmoothDamp(post_proccessCamera.orthographicSize, zoomSize, ref velocity, zoomTime);
+        mainCamera.orthographicSize = post_proccessCamera.orthographicSize;
+        post_proccessCamera.transform.position = ClampCamera(post_proccessCamera.transform.position);
     }
 
 
@@ -106,22 +97,24 @@ public class CameraMovement : MonoBehaviour
             verticalInput = 1f;
 
         Vector3 scrollDirection = new Vector3(horizontalInput, verticalInput, 0f).normalized;
-         transform.position += scrollDirection * Time.deltaTime * scrollSpeed;
-        //LimitCameraMovement();
+         post_proccessCamera.transform.position = ClampCamera(post_proccessCamera.transform.position + scrollDirection * Time.deltaTime * scrollSpeed);
     }
 
-    void LimitCameraMovement()
+    Vector3 ClampCamera(Vector3 target)
     {
-        cameraWidth = mainCamera.aspect * mainCamera.orthographicSize;
-        cameraHeight = mainCamera.orthographicSize;
-        float minX = MapMinX + cameraWidth;
-        float minY = MapMinY + cameraHeight;
-        float maxX = MapMaxX - cameraWidth;
-        float maxY = MapMaxY - cameraHeight;
+        float camHeight = post_proccessCamera.orthographicSize;
+        float camWidth = post_proccessCamera.orthographicSize * post_proccessCamera.aspect;
 
-        Vector3 pos=transform.position;
-        pos.x = Mathf.Clamp(pos.x, minX, maxX);
-        pos.y =Mathf.Clamp(pos.y, minY, maxY);
-        transform.position = pos;
+        float minX = MapMinX + camWidth;
+        float maxX = MapMaxX - camWidth;
+        float minY = MapMinY + camHeight;
+        float maxY = MapMaxY - camHeight;
+
+        float newX = Mathf.Clamp(target.x, minX, maxX);
+        float newY = Mathf.Clamp(target.y, minY, maxY);
+
+
+
+        return new Vector3(newX, newY,target.z);
     }
 }
