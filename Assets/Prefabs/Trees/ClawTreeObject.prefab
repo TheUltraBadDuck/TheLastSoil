@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1222731652973012839}
   - component: {fileID: 3421873669858768394}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4174094301544012722}
   - component: {fileID: 2944935109659762852}
   - component: {fileID: -4231901914971250523}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: ClawTreeObject
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -118,7 +118,6 @@ Transform:
   - {fileID: 1954521281602611461}
   - {fileID: 1222731652973012839}
   - {fileID: 7465925773900309930}
-  - {fileID: 813621302254200217}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2944935109659762852
@@ -138,18 +137,7 @@ MonoBehaviour:
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}
-  blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
-  currentLevel: 2
-  treeLevel:
-  - Basic
-  - Evolution
-  - Legendary
-  levelDescription:
-  - Unlock Claw in the shop.
-  - Claw' attacks get a bigger contact area.
-  - Claw now have two projectiles each attack.
-  sprite: {fileID: 0}
-  damage: 7
+  damage: 2
   attackCD: 0.75
   bulletPrefab: {fileID: 9149886431628420667, guid: ca53e5703296aae4496f7ce7aa33b982, type: 3}
 --- !u!95 &-4231901914971250523
@@ -162,7 +150,7 @@ Animator:
   m_GameObject: {fileID: 1909511680090647356}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 42c9982e4e2e3b94196d75ba7083b02f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 91c0548054ae908439cdca03b3e38974, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -264,8 +252,8 @@ GameObject:
   m_Component:
   - component: {fileID: 813621302254200217}
   - component: {fileID: 1886821116321902122}
-  m_Layer: 0
-  m_Name: WhiteTree
+  m_Layer: 11
+  m_Name: WhiteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,7 +272,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4174094301544012722}
+  m_Father: {fileID: 1954521281602611461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1886821116321902122
 SpriteRenderer:
@@ -327,7 +315,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 10654f261d0f5a14ea334ac4459c1d70, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a79f2fdcd14538046bfa12d49e793e23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -335,7 +323,7 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5341379083139524462
@@ -348,7 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1954521281602611461}
   - component: {fileID: 297621823950358063}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +355,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 813621302254200217}
   m_Father: {fileID: 4174094301544012722}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &297621823950358063

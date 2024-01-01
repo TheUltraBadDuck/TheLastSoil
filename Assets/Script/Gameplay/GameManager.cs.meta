@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Script/Gameplay/GameManager.cs.meta
 guid: ec59d613e416cbf4a8615b5b8f2d2769
+========
+guid: 215ad17a84794fa45a9af822ed425e4f
+>>>>>>>> trees:Assets/Script/CameraMovement.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

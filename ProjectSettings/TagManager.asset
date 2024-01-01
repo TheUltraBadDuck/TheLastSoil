@@ -4,10 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Monster
+  - Bullet
   - Ivy
-  - Coin container
   - Tree container
-  - Enemy container
+  - Coin container
+  - Hoffen
   - UI
   layers:
   - Default
@@ -17,11 +19,11 @@ TagManager:
   - Water
   - UI
   - Environment
-  - Tree
+  - Time
   - Enemy
   - Coin
-  - 
-  - 
+  - Particle
+  - Tree
   - 
   - 
   - 
@@ -45,10 +47,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Tree
-    uniqueID: 3817212145
-    locked: 0
-  - name: Tree Slihouette
-    uniqueID: 1025610263
     locked: 0

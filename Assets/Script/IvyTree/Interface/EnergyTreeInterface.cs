@@ -38,7 +38,7 @@ public class EnergyTreeInterface : IvyInterface
         {
             generatingCD = 0;
             maxGeneratingCD = Random.Range(10.0f, 15.0f);
-            SummonEnergy();
+            animator.Play("MakeEnergy");
         }
     }
 
@@ -50,15 +50,12 @@ public class EnergyTreeInterface : IvyInterface
         animator.Play("TreeIdle");
     }
 
-    public void SummonEnergy()
-    {
-        animator.Play("MakeEnergy");
-    }
 
-    public void CreateEnergyCoin(int amount = 1)
+    // Generate Coin
+    public void MakeEffect(int scale = 1)
     {
         //EnergyCoin coin = new EnergyCoin();
-        for (int i = 0; i < amount; i++)
+        for (int i = 0; i < scale; i++)
         {
             GameObject coinObj = Instantiate(coinPrefab, transform.position, Quaternion.identity);
             coinObj.transform.parent = coinContainer.GetComponent<Transform>().transform;

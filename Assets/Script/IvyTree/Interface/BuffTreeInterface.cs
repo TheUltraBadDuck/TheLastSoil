@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffTreeInterface : MonoBehaviour
+public class BuffTreeInterface : IvyInterface
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    protected float range = 0.6f;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    protected float buffCD = 0.0f;
+    protected float maxBuffCD = 0.0f;
+
+    [SerializeField]
+    protected GameObject treeEffect;
+    protected GameObject bulletContainer;
+
+    // -------------------------------------------------------------------------
+
+    public override void Start()
     {
-        
+        base.Start();
+        maxBuffCD = buffCD;
+        bulletContainer = GameObject.Find("BulletContainer");
     }
 }

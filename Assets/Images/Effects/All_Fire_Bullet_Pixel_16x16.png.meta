@@ -207,7 +207,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UnknownBullet
+      name: DollEyesBomb
       rect:
         serializedVersion: 2
         x: 224
@@ -236,7 +236,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -244,6 +244,27 @@ TextureImporter:
       bones: []
       spriteID: 50fc652acc32e2046be870453b21d014
       internalID: 1899062048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GingerBomb
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 80
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57c785db71f00d340b09d68ef43e7d9a
+      internalID: 430508617
       vertices: []
       indices: 
       edges: []
@@ -261,8 +282,9 @@ TextureImporter:
     nameFileIdTable:
       All_Fire_Bullet_Pixel_16x16_0: 1899062048
       ClawBullet: -1549660511
+      DollEyesBomb: 1125116876
+      GingerBomb: 430508617
       NormalExplosion: 1125614140
-      UnknownBullet: 1125116876
       WillowBullet: -71682974
       WitheredPalmBullet: -1169852482
   mipmapLimitGroupName: 

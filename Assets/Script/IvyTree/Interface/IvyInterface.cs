@@ -32,6 +32,9 @@ public class IvyInterface : MonoBehaviour
     public string[] levelDescription;
     public Sprite sprite;
 
+    protected int coordX = 0;
+    protected int coordY = 0;
+
     private SpriteRenderer spriteRenderer;
     private Color startColor = Color.white;
 
@@ -86,6 +89,8 @@ public class IvyInterface : MonoBehaviour
     }
     public virtual void Start()
     {
+         animator = GetComponent<Animator>();
+        whiteTreeRenderer = transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (spriteRenderer != null)
         {
@@ -97,7 +102,7 @@ public class IvyInterface : MonoBehaviour
         }
         animator = GetComponent<Animator>();
         whiteTreeRenderer = transform.GetChild(3).GetComponent<SpriteRenderer>();
-    }
+
 
     public virtual void Update()
     {
@@ -139,15 +144,39 @@ public class IvyInterface : MonoBehaviour
     {
 
     }
-
-    public virtual void BeAttacked(float damage)
+    // If the tree is attacked
+    public virtual void BeAttacked(int damage)
     {
         hp -= damage;
-        Debug.Log(damage);
         Instantiate(blood, gameObject.transform.position, Quaternion.identity);
         if (hp <= 0)
         {
+            // Restore the button to the map
+            GameObject.Find("MapManager").GetComponent<MapManager>().RestoreCell(coordY, coordX);
             Destroy(gameObject);
         }
+        else
+        {
+            attacked = true;
+        }
+    }
+
+
+    public void BeHealed(int heal)
+    {
+        hp = Mathf.Min(hp + heal, maxhp);
+    }
+
+
+    public virtual void BeBuff(float extraDamage, float extraSpeed)
+    {
+        
+    }
+
+
+    public void SetCoord(int x, int y)
+    {
+        coordX = x;
+        coordY = y;
     }
 }

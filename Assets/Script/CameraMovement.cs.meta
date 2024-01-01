@@ -1,11 +1,13 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Script/CameraMovement.cs.meta
 guid: 215ad17a84794fa45a9af822ed425e4f
 MonoImporter:
+========
+guid: 7d017e780a8b53d4c90c66b947393b04
+NativeFormatImporter:
+>>>>>>>> trees:Assets/Images/Map/GentleForest/map/GentleForest/DAY/gentle tree wall, canopy only_443.asset.meta
   externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
+  mainObjectFileID: 11400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

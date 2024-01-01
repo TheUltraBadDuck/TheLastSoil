@@ -75,6 +75,8 @@ public class EnergyCoin : MonoBehaviour
 
     private void OnMouseDown()
     {
+        durationTime = 0f;
+        animator.StopPlayback();
         oldPos = transform.position;
         jumpVector = _camera.ScreenToWorldPoint(energyBar.GetImage().transform.position) - oldPos;
         collecting = true;

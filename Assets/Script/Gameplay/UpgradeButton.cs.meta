@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Script/Gameplay/UpgradeButton.cs.meta
 guid: bcc84b354514e634b86be47142c89e0b
+========
+guid: 47133d936d71ca7438c338117fa0bc5a
+>>>>>>>> trees:Assets/Script/Gameplay/MapManager.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
