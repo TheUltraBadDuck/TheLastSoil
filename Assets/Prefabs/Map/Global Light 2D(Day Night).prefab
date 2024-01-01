@@ -100,6 +100,7 @@ MonoBehaviour:
   fireflies: {fileID: 0}
   EntitiesLight: {fileID: 0}
   isNight: 0
+  isTrigger: 0
   mapColor:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}

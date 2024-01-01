@@ -14,9 +14,8 @@ public class ToggleNight : MonoBehaviour
     [SerializeField] private GameObject fireflies;
     [SerializeField] private Light2D EntitiesLight;
     private ParticleSystem firefliesParticle;
-    public bool isNight = false;
+    public bool isNight = false, isTrigger =false;
     [SerializeField] private Gradient mapColor;
-
 
 
     private float changeTime = 6f;
@@ -37,8 +36,9 @@ public class ToggleNight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) // Replace this with your condition
+        if (isTrigger) // Replace this with your condition
         {
+            isTrigger = !isTrigger;
             isNight = !isNight;
             Gradient gradient = isNight ? mapColor : ReverseGradient(mapColor);
             StopAllCoroutines();
@@ -53,6 +53,11 @@ public class ToggleNight : MonoBehaviour
         Array.Reverse(colorKeys);
         reversedGradient.SetKeys(colorKeys, gradient.alphaKeys);
         return reversedGradient;
+    }
+
+    public void TriggerDayNight()
+    {
+        isTrigger = true;
     }
 
 
