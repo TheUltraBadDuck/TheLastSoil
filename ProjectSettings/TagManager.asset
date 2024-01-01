@@ -9,18 +9,20 @@ TagManager:
   - Tree container
   - Enemy container
   - UI
+  - Monster
+  - Bullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProccesing
   - Water
   - UI
   - Environment
   - Tree
   - Enemy
   - Coin
-  - 
+  - Particle
   - 
   - 
   - 
@@ -46,8 +48,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Map
+    uniqueID: 424856703
+    locked: 0
   - name: Tree
     uniqueID: 3817212145
+    locked: 0
+  - name: Particle
+    uniqueID: 3539998245
     locked: 0
   - name: Tree Slihouette
     uniqueID: 1025610263

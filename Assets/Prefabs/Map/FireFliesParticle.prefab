@@ -52,10 +52,10 @@ MonoBehaviour:
   m_Intensity: 400
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 6f413932
+  m_ApplyToSortingLayers: 251600d3
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
+  m_LightOrder: 2
   m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
@@ -4870,7 +4870,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 842613103
+  m_SortingLayerID: -754969051
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_RenderMode: 0
