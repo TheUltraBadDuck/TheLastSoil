@@ -37,7 +37,19 @@ public class IvyInterface : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private Color startColor = Color.white;
-
+    public void Initialize()
+    {
+        currentLevel = 0;
+        // Set other default values as needed
+    }
+    public void SetLevelDescription(string[] description)
+    {
+        levelDescription = description;
+    }
+    public string getTreeName()
+    {
+        return treeName;
+    }
     public void UpdateSpriteColor()
     {
         if (spriteRenderer != null && sprite != null)

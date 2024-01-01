@@ -8,7 +8,7 @@ public class UpgradeButton : MonoBehaviour
 {
     public Text buttonText;
     public Image buttonImage;
-    public AttackTreeInterface upgradedTree;
+    public IvyInterface upgradedTree;
 
     // Define an event to be triggered when the button is clicked
     public UnityEvent OnButtonClick = new UnityEvent();
@@ -48,9 +48,9 @@ public class UpgradeButton : MonoBehaviour
             string upgradedTreeName = upgradedTree.getTreeName(); // Assuming getTreeName is a method in AttackTreeInterface that returns the name
 
             // Find all objects with the AttackTreeInterface component
-            AttackTreeInterface[] allTreeInterfaces = GameObject.FindObjectsOfType<AttackTreeInterface>();
+            IvyInterface[] allTreeInterfaces = GameObject.FindObjectsOfType<IvyInterface>();
 
-            foreach (AttackTreeInterface treeInterface in allTreeInterfaces)
+            foreach (IvyInterface treeInterface in allTreeInterfaces)
             {
                 // Check if the treeInterface has the same TreeName as the upgradedTree
                 if (treeInterface.getTreeName() == upgradedTreeName)
@@ -95,7 +95,7 @@ public class UpgradeButton : MonoBehaviour
             Debug.LogWarning("Image component not assigned in the inspector.");
         }
     }
-    public void SetUpgradedTree(AttackTreeInterface tree)
+    public void SetUpgradedTree(IvyInterface tree)
     {
         if (tree != null)
         {

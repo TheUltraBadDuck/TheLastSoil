@@ -37,11 +37,7 @@ public class AttackTreeInterface : IvyInterface
         return treeName;
     }
 
-    public void Initialize()
-    {
-        currentLevel = 0;
-        // Set other default values as needed
-    }
+   
    
 
     public override void Start()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class UpgradePanel : MonoBehaviour
 {
     public GameObject panel;
-    public AttackTreeInterface[] attackTrees;
+    public IvyInterface[] trees;
 
     private GameManager gameManager;
     private bool upgradeButtonClicked = false;
@@ -17,24 +17,24 @@ public class UpgradePanel : MonoBehaviour
     public static void ResetAllLevels()
     {
         // Find all objects with the AttackTreeInterface component
-        AttackTreeInterface[] allTreeInterfaces = Resources.FindObjectsOfTypeAll<AttackTreeInterface>();
+        IvyInterface[] allTreeInterfaces = Resources.FindObjectsOfTypeAll<IvyInterface>();
 
-        foreach (AttackTreeInterface treeInterface in allTreeInterfaces)
+        foreach (IvyInterface treeInterface in allTreeInterfaces)
         {
             // Initialize each prefab
             treeInterface.Initialize();
         }
     }
-    private List<AttackTreeInterface> GetRandomUpgradeChoices()
+    private List<IvyInterface> GetRandomUpgradeChoices()
     {
-        List<AttackTreeInterface> upgradeChoices = new List<AttackTreeInterface>();
+        List<IvyInterface> upgradeChoices = new List<IvyInterface>();
         List<int> availableIndices = new List<int>();
 
         // Populate available indices based on conditions (e.g., level less than maximum)
-        for (int i = 0; i < attackTrees.Length; i++)
+        for (int i = 0; i < trees.Length; i++)
         {
             // Check if the tree has room for more upgrades (level less than 3)
-            if (attackTrees[i].currentLevel <= 2)
+            if (trees[i].currentLevel <= 2)
             {
                 availableIndices.Add(i);
             }
@@ -47,7 +47,7 @@ public class UpgradePanel : MonoBehaviour
             {
                 int randomIndex = Random.Range(0, availableIndices.Count);
                 int chosenIndex = availableIndices[randomIndex];
-                upgradeChoices.Add(attackTrees[chosenIndex]);
+                upgradeChoices.Add(trees[chosenIndex]);
                 availableIndices.RemoveAt(randomIndex);
             }
         }
@@ -57,7 +57,7 @@ public class UpgradePanel : MonoBehaviour
 
     private IEnumerator ShowUpgradeChoices()
     {
-        List<AttackTreeInterface> upgradeChoices = GetRandomUpgradeChoices();
+        List<IvyInterface> upgradeChoices = GetRandomUpgradeChoices();
         Debug.Log(upgradeChoices);
 
         // Find each UpgradeButton by name in the children of the UpgradePanel
