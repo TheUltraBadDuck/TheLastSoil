@@ -54,6 +54,17 @@ MonoBehaviour:
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}
+  blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
+  currentLevel: 0
+  treeLevel:
+  - Basic
+  - Evolution
+  - Legendary
+  levelDescription:
+  - Unlock Willow in the shop.
+  - Willow' attacks get a bigger contact area.
+  - Willow now have two projectiles each attack.
+  sprite: {fileID: 0}
   damage: 10
   attackCD: 1
   bulletPrefab: {fileID: 9149886431628420667, guid: 0aafdfee330ad87468715e2f8ff83ed1, type: 3}

@@ -167,9 +167,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081edf5d47eaff642856724903414e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevel: 0
+  treeLevel:
+  - Basic
+  - Evolution
+  - Legendary
   target: {fileID: 0}
+  damage: 1
   moveSpeed: 0.2
-  animSpeed: 0.1
   attackRange: 0.3
   attackSpeed: 0.2
   hp: 50

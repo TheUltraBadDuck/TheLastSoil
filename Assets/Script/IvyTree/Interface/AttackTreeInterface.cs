@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 // -------------------------------------------------------------------------
 
@@ -10,7 +10,6 @@ using UnityEngine;
 
 public class AttackTreeInterface : IvyInterface
 {
-
     [SerializeField]
     protected float damage = 0.0f;
     [SerializeField]
@@ -25,11 +24,26 @@ public class AttackTreeInterface : IvyInterface
     protected Queue<Behavior> nearbyEnemies = new Queue<Behavior>();
 
 
-
     // -------------------------------------------------------------------------
+    public void SetLevelDescription(string[] description)
+    {
+        levelDescription = description;
+    }
+    public string getTreeName()
+    {
+        return treeName;
+    }
+
+    public void Initialize()
+    {
+        currentLevel = 0;
+        // Set other default values as needed
+    }
+   
 
     public override void Start()
     {
+        
         base.Start();
         maxAttackCD = attackCD;
         bulletContainer = GameObject.Find("BulletContainer");
@@ -38,6 +52,7 @@ public class AttackTreeInterface : IvyInterface
 
     public override void Update()
     {
+        UpdateSpriteColor();
         base.Update();
 
         // Check if there are nearby enemies in the queue
@@ -125,25 +140,18 @@ public class AttackTreeInterface : IvyInterface
             bullet.transform.localPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, 0.0f);
 
             BulletEffect effect = bullet.GetComponent<BulletEffect>();
-            effect.SetTargetEnemy(targetEnemy);
+            effect.setDamage(damage);
+            if (!targetEnemy != null)
+            {
+                effect.SetTargetEnemy(targetEnemy);
+            }
+            else
+            {
+                effect.SetTargetEnemy(null);
+            }
         }
 
         // Play animation
         animator.Play("TreeAttack");
-    }
-
-    public override void BeAttacked(int damage)
-    {
-        hp -= damage;
-
-        if (hp <= 0)
-        {
-            GameObject.Find("MapManager").GetComponent<MapManager>().RemoveAttackObserver(this);
-            Destroy(gameObject);
-        }
-        else
-        {
-            attacked = true;
-        }
     }
 }

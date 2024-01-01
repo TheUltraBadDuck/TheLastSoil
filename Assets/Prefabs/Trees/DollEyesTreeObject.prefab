@@ -156,10 +156,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: DollEyes
-  hp: 5
+  hp: 10
   maxhp: 5
   position: {x: 0, y: 0}
-  damage: 15
+  blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
+  currentLevel: 0
+  treeLevel:
+  - Basic
+  - Evolution
+  - Legendary
+  levelDescription:
+  - Unlock DollEyes in the shop.
+  - DollEyes' attacks get a bigger contact area.
+  - DollEyes now have two projectiles each attack.
+  sprite: {fileID: 0}
+  damage: 5
   attackCD: 0.75
   bulletPrefab: {fileID: 7536179565203292792, guid: 834bd5723434afb44b19e192df5e1096, type: 3}
 --- !u!1 &4300408401989322850

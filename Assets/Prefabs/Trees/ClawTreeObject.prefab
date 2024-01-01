@@ -138,6 +138,17 @@ MonoBehaviour:
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}
+  blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
+  currentLevel: 2
+  treeLevel:
+  - Basic
+  - Evolution
+  - Legendary
+  levelDescription:
+  - Unlock Claw in the shop.
+  - Claw' attacks get a bigger contact area.
+  - Claw now have two projectiles each attack.
+  sprite: {fileID: 0}
   damage: 7
   attackCD: 0.75
   bulletPrefab: {fileID: 9149886431628420667, guid: ca53e5703296aae4496f7ce7aa33b982, type: 3}

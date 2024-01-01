@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,26 +39,31 @@ public class Enemy_Spawner : MonoBehaviour
     private float timer;
     private int enemySpawned = 0;
     private int levelTraversal = 0;
+    private UpgradePanel upgradePanel;
 
-       
+
     public Level[] levels;
     public CanvasGroup waveTextCanvasGroup;
     public float X1, X2, Y1, Y2;
-    public static event System.Action WaveFinished;
+    public bool waveCleared = false;
 
     // Start is called before the first frame update
     void Start()
     {
         StartNextWave();
+        upgradePanel = FindObjectOfType<UpgradePanel>();
     }
 
     private void StartNextWave()
     {
+        waveCleared = false;
+        
         if (levelTraversal < levels.Length)
         {
             StartCoroutine(StartWave(levels[levelTraversal]));
             levelTraversal++;
             enemySpawned = 0;
+
         }
         else
         {
@@ -79,12 +83,9 @@ public class Enemy_Spawner : MonoBehaviour
 
         Debug.Log("Level finished!");
 
-        // Invoke the WaveFinished event
-        WaveFinished?.Invoke();
-
         // Wait for response from "UpgradePanel"
         yield return StartCoroutine(WaitForUpgradePanelResponse());
-        levelTraversal++;
+        
     }
 
     private IEnumerator LevelSpawner(Level level)
@@ -128,16 +129,21 @@ public class Enemy_Spawner : MonoBehaviour
 
         Debug.Log("All enemies defeated, show 'Wave Clear'");
         yield return StartCoroutine(FadeText("Wave Clear", 2f, 2f, 2f));
+
+        waveCleared = true;
     }
 
     private IEnumerator WaitForUpgradePanelResponse()
     {
-        UpgradePanel upgradePanel = FindObjectOfType<UpgradePanel>();
-        Debug.Log(upgradePanel);
-        while (!upgradePanel.IsReadyForNextWave())
+        while (!upgradePanel.IsReadyForNextWave)
         {
             yield return null;
+
         }
+        
+        upgradePanel.upgradeChoicesCoroutineStarted = false;
+        upgradePanel.panel.SetActive(false);
+        upgradePanel.IsReadyForNextWave = false;
 
         StartNextWave();
     }

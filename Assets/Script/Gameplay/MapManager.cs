@@ -227,4 +227,6 @@ public class MapManager : MonoBehaviour
 
         attackTreeObservers.RemoveAt(index);
     }
+
+
 }

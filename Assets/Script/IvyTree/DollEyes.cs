@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class DollEyes : AttackTreeInterface
 {
+    public DollEyes()
+    {
+        SetLevelDescription(new string[]
+        {
+            "Unlock DollEyes in the shop.",
+            "DollEyes' attacks get a bigger contact area.",
+            "DollEyes now have two projectiles each attack."
+        });
+    }
     // New method to launch the next attack from the queue
     private void LaunchAttack(Behavior targetEnemy)
     {
@@ -16,6 +25,7 @@ public class DollEyes : AttackTreeInterface
             bullet.transform.localPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, 0.0f);
 
             BulletEffect effect = bullet.GetComponent<BulletEffect>();
+            effect.setDamage(damage);
             effect.SetTargetEnemy(targetEnemy);
         }
 
