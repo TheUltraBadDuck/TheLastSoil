@@ -144,9 +144,9 @@ MonoBehaviour:
   - Evolution
   - Legendary
   levelDescription:
-  - 1
-  - 2
-  - 3
+  - Unlock
+  - Unlock
+  - Unlock
   sprite: {fileID: 0}
   damage: 1
   attackCD: 0.75

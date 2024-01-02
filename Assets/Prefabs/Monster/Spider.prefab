@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3988196506972561402}
   - component: {fileID: 2413380575053778763}
+  - component: {fileID: -2803318827029452664}
   - component: {fileID: 6565348798409669412}
   - component: {fileID: 3207428687914583407}
-  - component: {fileID: -356857828093431673}
   - component: {fileID: -7266236107200453519}
   - component: {fileID: -2363367120764585101}
   m_Layer: 8
@@ -89,6 +89,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-2803318827029452664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6411053122571056055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f04bf24b88ac343a0d98eaf5450602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 0
+  treeLevel:
+  - Basic
+  - Evolution
+  - Legendary
+  target: {fileID: 0}
+  damage: 3
+  moveSpeed: 0.3
+  attackRange: 0.3
+  attackSpeed: 1
+  hp: 30
+  hurtSound: {fileID: -2363367120764585101}
+  deadSound: {fileID: 0}
+  bloodPrefab: []
+  bloodParticle: {fileID: 7553010711492846650, guid: 8da371c4edc22f44b8c355c261443195, type: 3}
 --- !u!95 &6565348798409669412
 Animator:
   serializedVersion: 5
@@ -155,34 +182,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.12106131, y: 0.13560823}
   m_EdgeRadius: 0
---- !u!114 &-356857828093431673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6411053122571056055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 081edf5d47eaff642856724903414e61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentLevel: 0
-  treeLevel:
-  - Basic
-  - Evolution
-  - Legendary
-  target: {fileID: 0}
-  damage: 1
-  moveSpeed: 0.2
-  attackRange: 0.3
-  attackSpeed: 0.2
-  hp: 50
-  hurtSound: {fileID: -2363367120764585101}
-  deadSound: {fileID: 0}
-  bloodPrefab:
-  - {fileID: 3327611516365953335, guid: 6b392f6d97f6b234392f81a6ac8e11b4, type: 3}
-  bloodParticle: {fileID: 7553010711492846650, guid: 8da371c4edc22f44b8c355c261443195, type: 3}
 --- !u!50 &-7266236107200453519
 Rigidbody2D:
   serializedVersion: 4
@@ -221,7 +220,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 913f6f7f7b4569749a484855dc506508, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
