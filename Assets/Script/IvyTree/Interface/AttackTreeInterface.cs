@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 // -------------------------------------------------------------------------
 
@@ -10,25 +10,24 @@ using UnityEngine;
 
 public class AttackTreeInterface : IvyInterface
 {
-
     [SerializeField]
     protected float damage = 0.0f;
     [SerializeField]
-    protected float attackCD = 0.0f;
+    protected float attackCD;
     protected float maxAttackCD = 0.0f;
+
+    protected float shorteningTimer = 0.0f;     // For upgrading
 
     [SerializeField]
     protected GameObject bulletPrefab;
     protected GameObject bulletContainer;
 
     protected bool attacking = false;
-    protected List<Behavior> nearbyEnemies = new ();
+    protected Queue<Behavior> nearbyEnemies = new ();
 
     protected float extraDamage = 1f;
     protected float extraSpeed = 0.0f;
-    protected float buffNegCD = 2.0f;       // Subtracting instead of adding
-
-
+    protected float buffNegCD = 2.0f;
 
     // -------------------------------------------------------------------------
 
@@ -38,12 +37,15 @@ public class AttackTreeInterface : IvyInterface
         maxAttackCD = attackCD;
         bulletContainer = GameObject.Find("BulletContainer");
     }
-
+    public override void BeBuff(float extraDamage, float extraSpeed)
+    {
+        this.extraDamage += extraDamage;
+        this.extraSpeed += extraSpeed;
+    }
 
     public override void Update()
     {
         base.Update();
-
         buffNegCD -= Time.deltaTime;
         if (buffNegCD < 0f)
         {
@@ -52,100 +54,101 @@ public class AttackTreeInterface : IvyInterface
             extraSpeed = 0f;
         }
 
-        if (!attacking)
-            return;
-
-        attackCD += Time.deltaTime;
-        if (attackCD > maxAttackCD - extraSpeed)
+        // Check if there are nearby enemies in the queue
+        if ((nearbyEnemies.Count > 0) && !attacking)
         {
-            attackCD = 0.0f;
-            LaunchAttack();
+            // If there are nearby enemies in the queue and not currently attacking, start attacking
+            attacking = true;
+            LaunchNextAttack();
+        }
+
+        // Continue with the existing logic if needed
+        if (attacking)
+        {
+            // Check if the current target is still valid
+            if (currentTarget != null)
+            {
+                attackCD += Time.deltaTime;
+                if (attackCD >= (maxAttackCD - extraSpeed - shorteningTimer))
+                {
+                    // If the cooldown is reached, launch an attack
+                    LaunchAttack(currentTarget);
+                    attackCD = 0.0f; // Reset the cooldown
+                }
+            }
+            else
+            {
+                // Current target is null (destroyed), stop attacking
+                attacking = false;
+                currentTarget = null;
+            }
+        }
+        else
+        {
+            // If there are no nearby enemies in the queue, reset the attack cooldown
+            attackCD = maxAttackCD;
         }
     }
 
     // -------------------------------------------------------------------------
 
+    private Behavior currentTarget;
+
     public override void HandleEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            // Add the enemy to the attacking list
-            attacking = true;
-            nearbyEnemies.Add(collision.gameObject.GetComponent<Behavior>());
+            // Enqueue the enemy
+            nearbyEnemies.Enqueue(collision.gameObject.GetComponent<Behavior>());
+
+            // If not attacking, start attacking the first enemy in the queue
+            if (!attacking)
+            {
+                attacking = true;
+                LaunchNextAttack();
+            }
         }
     }
 
-
-    public override void HandleExit2D(Collider2D collision)
+    private void LaunchNextAttack()
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (nearbyEnemies.Count > 0)
         {
-            // Remove enemy that can be attacked by looking for the id
-            int index = nearbyEnemies.FindIndex(e => e.name == collision.name);
-            if (index == -1)
-                return;
-
-            nearbyEnemies.RemoveAt(index);
-
-            // Disable attacking if there is no enemy
-            if (nearbyEnemies.Count == 0)
-                attacking = false;
-        }
-    }
-
-
-    public override void BeAttacked(int damage)
-    {
-        hp -= damage;
-
-        if (hp <= 0)
-        {
-            // Restore the button to the map
-            GameObject.Find("MapManager").GetComponent<MapManager>().RestoreCell(coordY, coordX);
-            GameObject.Find("MapManager").GetComponent<MapManager>().RemoveAttackObserver(this);
-            Destroy(gameObject);
+            // Dequeue the next enemy from the queue
+            currentTarget = nearbyEnemies.Dequeue();
+            LaunchAttack(currentTarget);
         }
         else
         {
-            attacked = true;
+            // No more enemies in the queue, stop attacking
+            attacking = false;
+            currentTarget = null;
         }
     }
 
-
-    public override void RemoveEnemy(Behavior enemy)
-    {
-        HandleExit2D(enemy.GetComponent<Collider2D>());
-        nearbyEnemies.RemoveAll(item => item == null);
-    }
-
-
-    public void FinishAttackAnim()
-    {
-        animator.Play("TreeIdle");
-    }
-
-
-    public virtual void LaunchAttack()
+    public virtual void LaunchAttack(Behavior targetEnemy)
     {
         // Summon the bullet
         if (bulletPrefab != null)
         {
+            Debug.Log(transform.position);
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             bullet.transform.parent = bulletContainer.GetComponent<Transform>().transform;
             bullet.transform.localPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, 0.0f);
 
             BulletEffect effect = bullet.GetComponent<BulletEffect>();
-            effect.SetTargetEnemy(nearbyEnemies[0]);
+            effect.setDamage(damage*extraDamage);
+            if (targetEnemy != null)
+            {
+                effect.SetTargetEnemy(targetEnemy);
+            }
+            else
+            {
+                effect.SetTargetEnemy(null);
+            }
         }
 
         // Play animation
         animator.Play("TreeAttack");
-    }
-
-
-    public override void BeBuff(float extraDamage, float extraSpeed)
-    {
-        this.extraDamage += extraDamage;
-        this.extraSpeed += extraSpeed;
     }
 }

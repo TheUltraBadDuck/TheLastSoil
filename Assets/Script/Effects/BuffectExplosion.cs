@@ -5,13 +5,9 @@ using UnityEngine;
 public class BuffectExplosion : MonoBehaviour
 {
     public Behavior targetEnemy;
-    private float damage = 0;
-
-    public void SetDamage(float damage)
-    {
-        this.damage = damage;
-    } 
-
+    public float damage = 0;
+    public float pushForce = 0;
+    protected bool slowDown = false;
     public void Explode()
     {
         Destroy(gameObject);
@@ -21,8 +17,23 @@ public class BuffectExplosion : MonoBehaviour
     {
         return damage;
     }
-
-    public virtual void OnTriggerEnter2D(Collider2D collision)
+    public void setDamage(float dame)
+    {
+        damage = dame;
+    }
+    public void SetSlowDown(bool value)
+    {
+        slowDown = value;
+    }
+    public bool GetSlowDown()
+    {
+        return slowDown;
+    }
+    public float getPushForce()
+    {
+        return pushForce;
+    }
+    public virtual void OnCollisionEnter2D(Collision2D collision)
     {
         // If collider is an enemy
        // if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy") && (targetEnemy != collision.gameObject.GetComponent<Behavior>()))

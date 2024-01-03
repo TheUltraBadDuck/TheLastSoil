@@ -73,6 +73,14 @@ MonoBehaviour:
   hp: 50
   maxhp: 50
   position: {x: 0, y: 0}
+  blood: {fileID: 0}
+  currentLevel: 0
+  treeLevel:
+  - Basic
+  - Evolution
+  - Legendary
+  levelDescription: []
+  sprite: {fileID: 0}
   bombPrefab: {fileID: 8092284424008285303, guid: 395ac24aa619fd64e9d06d7f16e04d92, type: 3}
   damage: 30
 --- !u!1 &5341379083139524462
@@ -212,7 +220,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4519360977ad244e9c98fd728257053, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -254,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4371690795897561004}
   - component: {fileID: 3368420331378582878}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WhiteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

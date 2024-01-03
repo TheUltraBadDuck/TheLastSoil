@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4693819784051078032}
   - component: {fileID: 4890246704860012243}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: WhiteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 4174094301544012722}
   - component: {fileID: 318851804309481463}
   - component: {fileID: 5490073270759504821}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Mangrove
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -242,6 +242,14 @@ MonoBehaviour:
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}
+  blood: {fileID: 0}
+  currentLevel: 0
+  treeLevel:
+  - Basic
+  - Evolution
+  - Legendary
+  levelDescription: []
+  sprite: {fileID: 0}
   range: 0.8
   buffCD: 2
   treeEffect: {fileID: 3103214263695780940, guid: 640c64f67b1955142a46faac7b62d8f2, type: 3}
@@ -257,7 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7468494425182402876}
   - component: {fileID: 7687809379080062269}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +307,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4519360977ad244e9c98fd728257053, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -341,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7300757353797270152}
   - component: {fileID: 2831374855050429188}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

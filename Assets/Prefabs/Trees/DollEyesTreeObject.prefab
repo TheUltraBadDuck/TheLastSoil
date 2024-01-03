@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8831221481483665182}
   - component: {fileID: 922811086571919410}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: WhiteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,9 +93,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4174094301544012722}
-  - component: {fileID: -4231901914971250523}
   - component: {fileID: 1500664882784979138}
-  m_Layer: 11
+  - component: {fileID: -4231901914971250523}
+  m_Layer: 7
   m_Name: DollEyesTreeObject
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -120,6 +120,36 @@ Transform:
   - {fileID: 8479457125433167146}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1500664882784979138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909511680090647356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc447043d9faa8d41878b910439c7583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treeId: -1
+  treeName: DollEyes
+  hp: 5
+  maxhp: 5
+  position: {x: 0, y: 0}
+  blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
+  treeLevelList:
+  - Basic
+  - Mutant
+  - Legendary
+  levelDescription:
+  - Unlock Doll Eyes
+  - The bullet has a greater damage
+  - The Ivy will shoot more frequently
+  sprite: {fileID: 0}
+  damage: 1
+  attackCD: 0.75
+  bulletPrefab: {fileID: 7536179565203292792, guid: 834bd5723434afb44b19e192df5e1096, type: 3}
 --- !u!95 &-4231901914971250523
 Animator:
   serializedVersion: 5
@@ -141,26 +171,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1500664882784979138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1909511680090647356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc447043d9faa8d41878b910439c7583, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  treeId: -1
-  treeName: DollEyes
-  hp: 5
-  maxhp: 5
-  position: {x: 0, y: 0}
-  damage: 1
-  attackCD: 0.75
-  bulletPrefab: {fileID: 7536179565203292792, guid: 834bd5723434afb44b19e192df5e1096, type: 3}
 --- !u!1 &4300408401989322850
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3081527785487999124}
   - component: {fileID: 8111600934609951418}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +223,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4519360977ad244e9c98fd728257053, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,7 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1954521281602611461}
   - component: {fileID: 297621823950358063}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +407,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.5
 --- !u!114 &93130524962922662
 MonoBehaviour:
   m_ObjectHideFlags: 0

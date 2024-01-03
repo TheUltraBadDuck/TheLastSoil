@@ -10,7 +10,7 @@ public class BloodBehavior : MonoBehaviour
         Animator animator = GetComponent<Animator>();
         if (animator != null)
         {
-            AnimationEvent animationEvent = new AnimationEvent();
+            AnimationEvent animationEvent = new ();
             animationEvent.functionName = "OnSplatterAnimationEnd";
             animationEvent.time = animator.GetCurrentAnimatorStateInfo(0).length;
             animator.runtimeAnimatorController.animationClips[0].AddEvent(animationEvent);

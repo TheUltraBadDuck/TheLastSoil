@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4315817689978096202}
   - component: {fileID: 5459743193808908846}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: WhiteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4174094301544012722}
   - component: {fileID: -4231901914971250523}
   - component: {fileID: 1029289230386564360}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: GhostMushroom
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -158,6 +158,16 @@ MonoBehaviour:
   hp: 20
   maxhp: 20
   position: {x: 0, y: 0}
+  blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
+  treeLevelList:
+  - Basic
+  - Mutant
+  - Legendary
+  levelDescription:
+  - Unlock Ghost Mushroom
+  - Heal More Effectively
+  - Massively Heal All Trees Around When Dying
+  sprite: {fileID: 0}
   range: 0.8
   buffCD: 12
   treeEffect: {fileID: 3103214263695780940, guid: e57170df881f3e645930a2ddaf91a723, type: 3}
@@ -171,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3892616455080374970}
   - component: {fileID: 1220314661690215300}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +223,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4519360977ad244e9c98fd728257053, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,7 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1954521281602611461}
   - component: {fileID: 297621823950358063}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

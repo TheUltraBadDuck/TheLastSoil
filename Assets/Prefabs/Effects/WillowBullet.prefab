@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4531533642265597133}
   m_Layer: 10
   m_Name: WillowBullet
-  m_TagString: Bullet
+  m_TagString: Ivy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

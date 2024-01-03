@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
-
 public class CameraControl : MonoBehaviour
 {
     private Vector3 _origin;

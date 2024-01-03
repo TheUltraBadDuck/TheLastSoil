@@ -5,32 +5,43 @@ using UnityEngine;
 
 public class Behavior : MonoBehaviour
 {
+    public int currentLevel = 0;
+    public string[] treeLevel = { "Basic", "Evolution", "Legendary" };
+
     public Transform target;
+    public float damage = 1f;
     public float moveSpeed = 0.1f;
-    public float animSpeed = 1f;
+    private float animSpeed = 1f;
     public float attackRange = 1f;
     public float attackSpeed = 2f;
-    public float attackSpeedCD = 0f;
-    public int attackScale = 1;
     public float hp = 10f;
+    public AudioSource hurtSound;
+    public AudioSource deadSound;
     public GameObject[] bloodPrefab;
     public GameObject bloodParticle;
-
     //public float rotateSpeed = 0.0025f;
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private MapManager mapManager;
     private float distanceToHoffen = 0f;
+    private IvyInterface targetTree; // Change the type to IvyInterface
+    private bool canAttack = true;
+    private float attackCooldown = 0f;
+
+    private float slowCD = 0f;
+    private float slowTimer = 0.3f;
+    private bool slowing = false;
 
     private void GetTarget()
     {
-        GameObject[] ivies = GameObject.FindGameObjectsWithTag("Ivy");
+        IvyInterface[] ivies = GameObject.FindObjectsOfType<IvyInterface>();
 
         if (ivies.Length > 0)
         {
-            GameObject nearestIvy = FindNearestIvy(ivies);
-            target = nearestIvy.transform;
+            IvyInterface nearestIvy = FindNearestIvy(ivies);
+            targetTree = nearestIvy;
+            target = targetTree.transform;
         }
         else
         {
@@ -38,19 +49,19 @@ public class Behavior : MonoBehaviour
             GameObject hoffen = GameObject.FindGameObjectWithTag("Hoffen");
             target = hoffen != null ? hoffen.transform : null;
 
-            if (target == null)
+            if (targetTree == null)
             {
                 Debug.Log("No Ivy or Hoffen found!");
             }
         }
     }
 
-    private GameObject FindNearestIvy(GameObject[] ivies)
+    private IvyInterface FindNearestIvy(IvyInterface[] ivies)
     {
-        GameObject nearestIvy = null;
+        IvyInterface nearestIvy = null;
         float nearestDistance = Mathf.Infinity;
 
-        foreach (GameObject ivy in ivies)
+        foreach (IvyInterface ivy in ivies)
         {
             float distance = Vector2.Distance(transform.position, ivy.transform.position);
             if (distance < nearestDistance)
@@ -91,55 +102,126 @@ public class Behavior : MonoBehaviour
         if (gameObject == null)
             return;
 
-        // distanceToHoffen = mapManager.GetDistanceToHoffen(this);
+        if (slowing)
+        {
+            slowCD += Time.deltaTime;
+            if (slowCD > slowTimer)
+            {
+                slowCD = 0;
+                slowing = false;
+            }
+            else
+            {
+                return;
+            }
+        }
 
-        // Update the target to the nearest enemy
         if (hp <= 0)
         {
             MoveTowardsTarget(0);
-            attackSpeedCD = 0f;
         }
         else
         {
             GetTarget();
+
             if (target != null)
             {
-                if (Vector2.Distance(transform.position, target.position) <= attackRange)
+                if (canAttack && AttackTarget() != null)
                 {
-                    animator.speed = attackSpeed;
-                    MoveTowardsTarget(0);
-
-                    // Attack to the tree and trigger attack animation
-                    attackSpeedCD += Time.deltaTime;
-                    if (attackSpeedCD > attackSpeed)
+                    // Only initiate attack if the cooldown is over
+                    if (attackCooldown <= 0f)
                     {
-                        attackSpeedCD = 0f;
-                        animator.SetTrigger("Attack");
-                        if (target.gameObject.GetComponent<IvyInterface>() != null)
-                            target.gameObject.GetComponent<IvyInterface>().BeAttacked(attackScale);
+                        MoveTowardsTarget(0);
+                        animator.SetTrigger(AttackTarget());
+                        targetTree.BeAttacked(damage);
+
+                        // Apply cooldown
+                        canAttack = false;
+                        attackCooldown = 1f / attackSpeed; // Set cooldown duration based on attack speed
                     }
                 }
                 else
                 {
-                    string animationDirection = GetAnimationDirection();
-                    animator.SetTrigger(animationDirection);
-                    MoveTowardsTarget(moveSpeed);
-                    attackSpeedCD = 0f;
+                    // Check if not already in attack range before moving
+                    if (Vector2.Distance(transform.position, target.position) > attackRange)
+                    {
+                        string animationDirection = GetAnimationDirection();
+                        animator.SetTrigger(animationDirection);
+                        MoveTowardsTarget(moveSpeed);
+                    }
+                }
+
+                // Update cooldown timer
+                if (!canAttack)
+                {
+                    attackCooldown -= Time.deltaTime;
+                    if (attackCooldown <= 0f)
+                    {
+                        canAttack = true;
+                    }
                 }
             }
         }
     }
 
 
+    private string AttackTarget()
+    {
+        if (Vector2.Distance(transform.position, target.position) <= attackRange)
+        {
+            return "Attack";
+        }
+        else return null;
+    }
+
+    public void GetDamageRaw(float damage)
+    {
+        GameObject blood = bloodParticle;
+        Instantiate(blood, transform.position, Quaternion.identity);
+        HandleDamage(damage);
+    }
+
+    private IEnumerator DealDamageAfterAnimation()
+    {
+        float animationLength = GetAttackAnimationLength();
+        // Wait for the duration of the attack animation
+        yield return new WaitForSeconds(animationLength);
+
+        // Deal damage to the target after the animation is played
+        if (targetTree != null && Vector2.Distance(transform.position, targetTree.transform.position) <= attackRange)
+        {
+            targetTree.BeAttacked(damage);
+        }
+
+        // Reset the canAttack flag for the next attack
+        canAttack = true;
+    }
+
+    private float GetAttackAnimationLength()
+    {
+        // Replace "Attack" with the actual name of your attack animation state
+        int attackAnimationHash = Animator.StringToHash("Attack");
+
+        // Get the length of the current attack animation
+        float animationLength = 0f;
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.shortNameHash == attackAnimationHash)
+        {
+            animationLength = stateInfo.length;
+        }
+
+        return animationLength;
+    }
+
     private void MoveTowardsTarget(float speed)
     {
         if (hp > 0) // Only move if not dead
         {
             Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += speed * Time.deltaTime * direction;
+            transform.position += speed * direction *Time.deltaTime;
         }
     }
-
 
     private string GetAnimationDirection()
     {
@@ -169,6 +251,7 @@ public class Behavior : MonoBehaviour
             return "";
         }
     }
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -186,40 +269,42 @@ public class Behavior : MonoBehaviour
                 Animator bloodAnimator = bloodInstance.GetComponent<Animator>();
                 if (bloodAnimator != null)
                 {
-                    bloodAnimator.SetTrigger("blood_splatter");
+                    bloodAnimator.SetTrigger("Splatter");
                 }
             }
 
             GameObject blood = bloodParticle;
             Instantiate(blood, collision.transform.position, Quaternion.identity);
+
             // Handle damage or other actions as needed
             HandleDamage(collision.gameObject.GetComponent<BuffectExplosion>().getDamage());
+
+            // Slow down enemy
+            slowing = collision.gameObject.GetComponent<BuffectExplosion>().GetSlowDown();
         }
     }
 
 
-    public void GetDamageRaw(float damage)
+    // Direct damage
+    public void MakeDamage(float damage)
     {
         GameObject blood = bloodParticle;
         Instantiate(blood, transform.position, Quaternion.identity);
+        // Handle damage or other actions as needed
         HandleDamage(damage);
     }
 
 
-
     private void HandleDamage(float damage)
     {
-        if (gameObject == null)
-            return;
-
         // Implement actions to handle damage
         hp -= damage;
-        Debug.Log("Damage: " + hp);
-        ParticleSystem bloodParticleSystem = bloodParticle.GetComponent<ParticleSystem>();
+
+        //turn the sprite to red for a moment
+        StartCoroutine(FlashRed());
         if (hp <= 0)
         {
             StartCoroutine(FlashAndDestroy());
-            StartCoroutine(FlashRed());
             // Disable the collider to prevent further interactions
             Collider2D collider = GetComponent<Collider2D>();
             if (collider != null)
@@ -233,19 +318,22 @@ public class Behavior : MonoBehaviour
         }
         else
         {
-            //turn the sprite to red for a moment
-            StartCoroutine(FlashRed());
+            hurtSound.Play();
         }
     }
 
 
+    public void SlowDown()
+    {
+        slowing = true;
+    }
 
 
     private IEnumerator FlashAndDestroy()
     {
-        mapManager.RemoveEnemyDetection(this);
+        //mapManager.RemoveEnemyDetection(this);
 
-        float flashDuration = 0.4f; // Adjust the duration of each flash
+        float flashDuration = 0.25f; // Adjust the duration of each flash
         float flashInterval = 0.05f; // Adjust the interval between flashes
 
         while (true)
@@ -264,6 +352,7 @@ public class Behavior : MonoBehaviour
 
         // Destroy the entire GameObject (including the prefab)
         Destroy(gameObject);
+        yield return null;
 
     }
     private IEnumerator FlashRed()
@@ -274,10 +363,12 @@ public class Behavior : MonoBehaviour
         spriteRenderer.color = Color.red;
 
         // Wait for a short duration
-        yield return new WaitForSeconds(0.5f); // Adjust the duration as needed
+        yield return new WaitForSeconds(0.25f); // Adjust the duration as needed
 
         // Restore the original color
         spriteRenderer.color = originalColor;
+
+        yield return null;
     }
 
 
@@ -289,15 +380,6 @@ public class Behavior : MonoBehaviour
 
     public float GetDistance(IvyInterface tree)
     {
-        if (gameObject == null)
-            return 100f;
-
         return Vector3.Distance(transform.position, tree.transform.position);
-    }
-
-
-    public void BeFallen()
-    {
-        Destroy(gameObject);
     }
 }

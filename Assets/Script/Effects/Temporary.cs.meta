@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Script/Gameplay/MapManager.cs.meta
+guid: 4c20fbafbf1fdb641a09f8ab6c58b84a
+========
 guid: 9fd62d5a986ddbb4e887def41e95c528
+>>>>>>>> trees:Assets/Script/Effects/Temporary.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

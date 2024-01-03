@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2132991602602337728}
   - component: {fileID: 628940277361700484}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 234874669758429711}
   - component: {fileID: 6842001071416246826}
   - component: {fileID: 1760510222286738905}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: LightBulbTree
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -138,6 +138,16 @@ MonoBehaviour:
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}
+  blood: {fileID: 0}
+  treeLevel:
+  - Basic
+  - Mutant
+  - Legendary
+  levelDescription:
+  - Unlock Lightbulb
+  - There is 25% chance to make double coins
+  - There is 50% chance to make double coins
+  sprite: {fileID: 0}
   coinPrefab: {fileID: 2678906145539331238, guid: 787ec6a4d494856479be87f2f7902094, type: 3}
 --- !u!95 &1760510222286738905
 Animator:
@@ -170,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7413636145120961345}
   - component: {fileID: 490930398676732967}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +222,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4519360977ad244e9c98fd728257053, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -254,7 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7411605639079763865}
   - component: {fileID: 1749027170352601981}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: WhiteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

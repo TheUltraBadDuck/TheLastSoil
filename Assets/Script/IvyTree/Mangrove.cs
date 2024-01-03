@@ -39,7 +39,6 @@ public class Mangrove : BuffTreeInterface
     public void MakeEffect(int scale = 1)
     {
         GameObject[] treeList = GameObject.FindGameObjectsWithTag("Ivy");
-
         foreach (var tree in treeList)
         {
             if (tree.name == gameObject.name)

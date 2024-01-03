@@ -11,6 +11,8 @@ public class TreeButton : MonoBehaviour
     [SerializeField]
     private GameObject treeInstance;    // Load a certain tree
     [SerializeField]
+    private int treeLevel = 0;
+    [SerializeField]
     private Texture2D newTreeImage;
     [SerializeField]
     private Sprite newTreeSprite;
@@ -32,6 +34,14 @@ public class TreeButton : MonoBehaviour
 
 
 
+    public void SetLevel(int level)
+    {
+        treeLevel = level;
+    }
+
+
+
+    // Always run before Start
     private void Awake()
     {
         // Load components
@@ -93,7 +103,7 @@ public class TreeButton : MonoBehaviour
         if (enoughEnergy && available && EventSystem.current.IsPointerOverGameObject())
         {
             GameObject.Find("MapManager").GetComponent<MapManager>().OnTreeButtonPressed(
-                treeInstance, newTreeSprite, energyScore, this);
+                treeInstance, newTreeSprite, energyScore, this, treeLevel);
         }
     }
 }

@@ -10,9 +10,9 @@ public class IvyInterface : MonoBehaviour
     [SerializeField]
     protected string treeName = "[None]";
     [SerializeField]
-    protected int hp = 0;
+    protected float hp = 0;
     [SerializeField]
-    protected int maxhp = 0;
+    protected float maxhp = 0;
     [SerializeField]
     protected Vector2 position = Vector2.zero;
 
@@ -24,20 +24,132 @@ public class IvyInterface : MonoBehaviour
     private float hurtCD = 0.25f;
     private float hurtTimer = 0f;
     protected bool attacked = false;
+    public GameObject blood;
+
+    // If 0: the tree does not appear on the tree bar, thus unplantable
+    // If 1: the tree appear on the tree bar, which can plant the tree on the map
+    // If 3: the tree is unable to be upgraded due to its maximum level
+    protected int currentLevel = 0;
+    [SerializeField]
+    protected string[] treeLevelList = { "Basic", "Mutant", "Legendary" };
+    [SerializeField]
+    protected string[] levelDescription = { "Unlock the tree", "Evolve the tree", "Greatly evolve the tree" };
+    public Sprite sprite;
 
     protected int coordX = 0;
     protected int coordY = 0;
 
+    private SpriteRenderer spriteRenderer;
+    private Color startColor = Color.white;
+
+    public void Initialize()
+    {
+        currentLevel = 0;
+    }
+
+    public virtual void SetTreeLevel(int currentLevel = 1)
+    {
+        this.currentLevel = currentLevel;
+    }
+
+    public int GetTreeLevel()
+    {
+        return currentLevel;
+    }
+
+    public int GetMaxLevel()
+    {
+        return levelDescription.Length;
+    }
+
+    public virtual void UpgradeLevel()
+    {
+        currentLevel = Mathf.Min(currentLevel + 1, 3);
+    }
+
+    public string GetLevelDescription()
+    {
+        return (currentLevel >= levelDescription.Length) ? "[None]" : levelDescription[currentLevel];
+    }
 
 
+    public string GetTreeName()
+    {
+        return treeName;
+    }
+
+    public void UpdateSpriteColor()
+    {
+        if (spriteRenderer != null && sprite != null)
+        {
+            if (currentLevel == 2)
+            {
+                startColor = new Color(0.8f, 0.0f, 0.0f); // Red
+            }
+            else if (currentLevel == 3)
+            {
+                startColor = new Color(0.7f, 0.0f, 1.0f); // Purple
+            }
+
+            StartCoroutine(BreatheColor());
+        }
+    }
+
+    private IEnumerator BreatheColor()
+    {
+        Color targetColor = Color.white;
+
+        float duration = 2.0f; // Adjust the duration of the breathing
+        float t = 0.0f;
+
+        while (true && startColor != Color.white)
+        {
+            t += Time.deltaTime;
+
+            // Use Mathf.Sin to create a smooth breathing effect
+            float lerpFactor = Mathf.Sin(t / duration * Mathf.PI);
+
+            // Lerp between the original color and the target color based on the sine wave
+            Color lerpedColor = Color.Lerp(startColor, targetColor, lerpFactor);
+
+            spriteRenderer.color = lerpedColor;
+
+            // Check if the current level has changed
+            if (currentLevel == 2 && startColor != new Color(0.8f, 0.0f, 0.0f))
+            {
+                startColor = new Color(0.8f, 0.0f, 0.0f);
+            }
+            else if (currentLevel == 3 && startColor != new Color(0.7f, 0.0f, 1.0f))
+            {
+                startColor = new Color(0.7f, 0.0f, 1.0f);
+            }
+
+            yield return null;
+        }
+    }
     public virtual void Start()
     {
+
+        StartCoroutine(BreatheColor());
         animator = GetComponent<Animator>();
         whiteTreeRenderer = transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            sprite = spriteRenderer.sprite;
+            // Debug.Log(sprite);
+        }
+        else
+        {
+            Debug.LogWarning("SpriteRenderer component not found in children.");
+        }
+        animator = GetComponent<Animator>();
     }
+
 
     public virtual void Update()
     {
+        UpdateSpriteColor();
         // Blink
         if (attacked)
         {
@@ -55,6 +167,10 @@ public class IvyInterface : MonoBehaviour
                 hurtTimer = 0f;
                 attacked = false;
             }
+        }
+        else
+        {
+            whiteTreeRenderer.color = new Color(1, 1, 1, 0);
         }
     }
 
@@ -76,11 +192,16 @@ public class IvyInterface : MonoBehaviour
     {
 
     }
-
     // If the tree is attacked
-    public virtual void BeAttacked(int damage)
+    public virtual void BeAttacked(float damage)
     {
+        if (gameObject == null)
+            return;
+
         hp -= damage;
+
+        if (blood != null)
+            Instantiate(blood, gameObject.transform.position, Quaternion.identity);
 
         if (hp <= 0)
         {

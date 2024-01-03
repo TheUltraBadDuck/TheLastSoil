@@ -10,10 +10,14 @@ public class BulletEffect : MonoBehaviour
     [SerializeField]
     protected GameObject effectPrefab;
     protected GameObject bulletContainer;
+    [SerializeField]
     protected float damage = 1;
+
+    protected bool slowDown = false;
 
     protected bool launching = false;
     protected float speed = 3.0f;
+
 
 
 
@@ -21,13 +25,14 @@ public class BulletEffect : MonoBehaviour
     {
         this.targetEnemy = targetEnemy;
     }
-
-
-    public void SetDamage(float damage)
-    { 
-        this.damage = damage;
+    public void setDamage(float dame)
+    {
+        damage = dame;
     }
-
+    public void SetSlowDown(bool value)
+    {
+        slowDown = value;
+    }
 
     protected virtual void Start()
     {
@@ -56,8 +61,9 @@ public class BulletEffect : MonoBehaviour
             if (Vector3.Distance(transform.localPosition, targetEnemy.transform.position) < 0.2)
             {
                 GameObject effect = Instantiate(effectPrefab);
+                effect.GetComponent<BuffectExplosion>().setDamage(damage);
                 effect.GetComponent<BuffectExplosion>().targetEnemy = targetEnemy;
-                effect.GetComponent<BuffectExplosion>().SetDamage(damage);
+                effect.GetComponent<BuffectExplosion>().SetSlowDown(slowDown);
                 effect.transform.SetParent(bulletContainer.GetComponent<Transform>().transform);
                 effect.transform.localPosition = new Vector3(transform.position.x, transform.position.y, 0.0f);
                 Destroy(gameObject);

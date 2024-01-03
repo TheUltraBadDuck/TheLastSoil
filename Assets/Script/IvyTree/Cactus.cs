@@ -9,13 +9,15 @@ public class Cactus : DefenseTreeInterface
     [SerializeField]
     protected float attackCD = 0.0f;
     protected float maxAttackCD = 0.0f;
-
-    bool attacking = false;
-    protected List<Behavior> nearbyEnemies = new();
+    [SerializeField]
+    protected float attackRange = 0.25f;
 
     private float extraDamage = 1f;
     private float extraSpeed = 0.0f;
     private float buffNegCD = 2.0f;
+
+    private float extraDamageLvl2 = 0f;
+    private float extraRangeLvl3 = 0f;
 
 
     public override void Start()
@@ -23,8 +25,6 @@ public class Cactus : DefenseTreeInterface
         base.Start();
         maxAttackCD = attackCD;
     }
-
-
 
     public override void Update()
     {
@@ -38,9 +38,6 @@ public class Cactus : DefenseTreeInterface
             extraSpeed = 0f;
         }
 
-        if (!attacking)
-            return;
-
         attackCD += Time.deltaTime;
         if (attackCD > maxAttackCD - extraSpeed)
         {
@@ -51,45 +48,7 @@ public class Cactus : DefenseTreeInterface
 
 
 
-    public override void HandleEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            // Add the enemy to the attacking list
-            attacking = true;
-            nearbyEnemies.Add(collision.gameObject.GetComponent<Behavior>());
-        }
-    }
-
-
-    public override void HandleExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            // Remove enemy that can be attacked by looking for the id
-            int index = nearbyEnemies.FindIndex(e => e.name == collision.name);
-            if (index == -1)
-                return;
-
-            nearbyEnemies.RemoveAt(index);
-
-            // Disable attacking if there is no enemy
-            if (nearbyEnemies.Count == 0)
-                attacking = false;
-        }
-    }
-
-
-
-    public override void RemoveEnemy(Behavior enemy)
-    {
-        HandleExit2D(enemy.GetComponent<Collider2D>());
-        nearbyEnemies.RemoveAll(item => item == null);
-    }
-
-
-
-    public override void BeAttacked(int damage)
+    public override void BeAttacked(float damage)
     {
         hp -= damage;
 
@@ -116,13 +75,21 @@ public class Cactus : DefenseTreeInterface
 
     public virtual void LaunchAttack()
     {
-        foreach (var enemy in nearbyEnemies)
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Monster");
+        bool haveEnemy = false;
+
+        foreach (var enemy in enemies)
         {
-            enemy.gameObject.GetComponent<Behavior>().GetDamageRaw(damage * extraDamage);
+            if (Vector2.Distance(enemy.transform.position, transform.position) < attackRange)
+            {
+                enemy.GetComponent<Behavior>().MakeDamage(damage * extraDamage);
+                haveEnemy = true;
+            }
         }
 
         // Play animation
-        animator.Play("TreeObstruct");
+        if (haveEnemy)
+           animator.Play("TreeObstruct");
     }
 
 
@@ -130,5 +97,33 @@ public class Cactus : DefenseTreeInterface
     {
         this.extraDamage += extraDamage;
         this.extraSpeed += extraSpeed;
+    }
+
+
+    public override void SetTreeLevel(int currentLevel = 1)
+    {
+        this.currentLevel = currentLevel;
+        if (currentLevel == 2)
+        {
+            extraDamageLvl2 = 0.2f;
+        }
+        else if (currentLevel == 3)
+        {
+            extraRangeLvl3 = 0.15f;
+        }
+    }
+
+
+    public override void UpgradeLevel()
+    {
+        currentLevel = Mathf.Min(currentLevel + 1, 3);
+        if (currentLevel == 2)
+        {
+            extraDamageLvl2 = 0.2f;
+        }
+        else if (currentLevel == 3)
+        {
+            extraRangeLvl3 = 0.15f;
+        }
     }
 }

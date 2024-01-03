@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5108309146269162930}
   - component: {fileID: 1438513805856267896}
   - component: {fileID: 6645010610068976313}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: EnergyCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}

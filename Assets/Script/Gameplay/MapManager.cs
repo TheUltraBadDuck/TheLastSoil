@@ -14,6 +14,7 @@ public class MapManager : MonoBehaviour
     private GameObject availableTileInstance;   // Tree distribution
     private GameObject currTreeInstance;
     private int currEnergyScore = 0;
+    private int currTreeLevel = 0;
     private TreeButton currTreeButton;
 
 
@@ -72,6 +73,7 @@ public class MapManager : MonoBehaviour
         newObj.transform.SetParent(GameObject.Find("TreeContainer").transform);
         newObj.transform.localPosition = GetMapPosition(i, j);
         newObj.GetComponent<IvyInterface>().SetCoord(j, i);
+        newObj.GetComponent<IvyInterface>().SetTreeLevel(currTreeLevel);
 
         treeObjs[i, j] = newObj;
         treeScore[i, j] = currEnergyScore;
@@ -105,8 +107,8 @@ public class MapManager : MonoBehaviour
             GameObject coinObj = Instantiate(coinPrefab, transform.position, Quaternion.identity);
             coinObj.transform.parent = coinContainer.GetComponent<Transform>().transform;
             coinObj.transform.localPosition = new Vector3(
-                transform.position.x + Random.Range(-0.10f, 0.10f),
-                transform.position.y - 0.15f + Random.Range(-0.05f, 0.05f),
+                availableTiles[i, j].transform.position.x + Random.Range(-0.10f, 0.10f),
+                availableTiles[i, j].transform.position.y - 0.15f + Random.Range(-0.05f, 0.05f),
                 0.0f);
         }
 
@@ -125,9 +127,7 @@ public class MapManager : MonoBehaviour
 
         if (showingTiles)
         {
-            Debug.Log("[" + i + ", " + j + "] Before: " + availableTiles[i, j].GetComponent<AvailableTile>().pressable.ToString());
             availableTiles[i, j].GetComponent<AvailableTile>().SetPressable(cursorShadow.sprite.name != shovelImage.name);
-            Debug.Log("[" + i + ", " + j + "] After: " + availableTiles[i, j].GetComponent<AvailableTile>().pressable.ToString());
         }
     }
 
@@ -226,7 +226,8 @@ public class MapManager : MonoBehaviour
 
 
     // From TreeButton.cs
-    public void OnTreeButtonPressed(GameObject treeInstance, Sprite newTreeSprite, int energyScore, TreeButton selectedButton)
+    public void OnTreeButtonPressed(GameObject treeInstance,
+        Sprite newTreeSprite, int energyScore, TreeButton selectedButton, int level)
     {
         // Same type => unselect the tree
         if ((cursorShadow.sprite != null) && (cursorShadow.sprite.name == newTreeSprite.name))
@@ -235,6 +236,7 @@ public class MapManager : MonoBehaviour
             cursorShadow.sprite = null;
             currTreeInstance = null;
             currEnergyScore = 0;
+            currTreeLevel = 0;
             currTreeButton = null;
         }
         // Different type / not selecting => select the tree
@@ -245,6 +247,7 @@ public class MapManager : MonoBehaviour
             cursorShadow.sprite = newTreeSprite;
             currTreeInstance = treeInstance;
             currEnergyScore = energyScore;
+            currTreeLevel = level;
             currTreeButton = selectedButton;
         }
     }

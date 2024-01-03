@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1222731652973012839}
   - component: {fileID: 3421873669858768394}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4519360977ad244e9c98fd728257053, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4174094301544012722}
   - component: {fileID: 2944935109659762852}
   - component: {fileID: -4231901914971250523}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: ClawTreeObject
   m_TagString: Ivy
   m_Icon: {fileID: 0}
@@ -137,6 +137,16 @@ MonoBehaviour:
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}
+  blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
+  treeLevelList:
+  - Basic
+  - Mutant
+  - Legendary
+  levelDescription:
+  - Unlock Claw
+  - Launch 3 bullets at once
+  - Launch 5 bullets at once
+  sprite: {fileID: 0}
   damage: 2
   attackCD: 0.75
   bulletPrefab: {fileID: 9149886431628420667, guid: ca53e5703296aae4496f7ce7aa33b982, type: 3}
@@ -228,7 +238,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.5
 --- !u!114 &29504909199579292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 813621302254200217}
   - component: {fileID: 1886821116321902122}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: WhiteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1954521281602611461}
   - component: {fileID: 297621823950358063}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

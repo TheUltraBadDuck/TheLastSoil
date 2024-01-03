@@ -13,11 +13,11 @@ using UnityEngine;
 public class EnergyTreeInterface : IvyInterface
 {
 
-    private float maxGeneratingCD = 12.0f;
+    private float maxGeneratingCD = 15.0f;
     private float generatingCD = 7.0f;
 
     public GameObject coinPrefab; // Load EnergyCoin prefab
-    private GameObject coinContainer;
+    protected GameObject coinContainer;
 
 
     // -------------------------------------------------------------------------
@@ -26,7 +26,7 @@ public class EnergyTreeInterface : IvyInterface
     public override void Start()
     {
         base.Start();
-        maxGeneratingCD = Random.Range(10.0f, 15.0f);
+        maxGeneratingCD = Random.Range(10.0f, 20.0f);
         coinContainer = GameObject.Find("CoinContainer");
     }
 
@@ -37,7 +37,7 @@ public class EnergyTreeInterface : IvyInterface
         if (generatingCD > maxGeneratingCD)
         {
             generatingCD = 0;
-            maxGeneratingCD = Random.Range(10.0f, 15.0f);
+            maxGeneratingCD = Random.Range(10.0f, 20.0f);
             animator.Play("MakeEnergy");
         }
     }
@@ -52,7 +52,7 @@ public class EnergyTreeInterface : IvyInterface
 
 
     // Generate Coin
-    public void MakeEffect(int scale = 1)
+    public virtual void MakeEffect(int scale = 1)
     {
         //EnergyCoin coin = new EnergyCoin();
         for (int i = 0; i < scale; i++)

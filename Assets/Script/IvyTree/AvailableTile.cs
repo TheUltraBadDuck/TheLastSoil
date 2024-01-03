@@ -18,9 +18,6 @@ public class AvailableTile : MonoBehaviour
         pressable = value;
         GetComponent<SpriteRenderer>().color =
             pressable ? new Color(0.33f, 0.5f, 0.33f, 0.5f) : new Color(0.33f, 0.5f, 0.33f, 0f);
-
-        if (this_i == 1 && this_j == 10)
-            Debug.Log("At [1, 10]: " + pressable.ToString());
     }
 
 
