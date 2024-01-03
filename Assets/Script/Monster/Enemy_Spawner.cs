@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,8 @@ public class Enemy
 [System.Serializable]
 public class Level
 {
+    public int level;
+
     public Enemy[] enemies;
     public double accumulatedWeights;
 
@@ -40,45 +43,78 @@ public class Enemy_Spawner : MonoBehaviour
     private int enemySpawned = 0;
     private int levelTraversal = 0;
     private UpgradePanel upgradePanel;
-
+    private ToggleNight toggleNight;
 
     public Level[] levels;
     public CanvasGroup waveTextCanvasGroup;
+    public SceneLoader sceneLoader;
     public float X1, X2, Y1, Y2;
+    public float Lx1, Lx2, Ly1, Ly2;
+    public float Rx1, Rx2, Ry1, Ry2;
     public bool waveCleared = false;
+
+    public bool gameOver = false;
+
+    public float enemyNumberIncrease = 1;
+
+    public float enemyDamageIncrease = 1;
+    public float enemySpeedIncrease = 1;
+    public float enemyHpIncrease = 1;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        StartNextWave();
         upgradePanel = FindObjectOfType<UpgradePanel>();
+        toggleNight = FindObjectOfType<ToggleNight>();
+        toggleNight.isTrigger = true;
+        StartCoroutine(TriggerTime(80f));
+    }
+    private IEnumerator DelayBeforeWave(float time)
+    {
+        while (true)
+        {
+            // Wait for the specified time interval
+            yield return new WaitForSeconds(time);
+        }
     }
 
-    private void StartNextWave()
+    private void Update()
+    {
+        
+        if (gameOver)
+        {
+            // StopAllCoroutines();  // BUG!!!
+            Debug.Log("Game Over!");
+        }
+    }
+
+
+    public void StartNextWave()
     {
         waveCleared = false;
-        
-        if (levelTraversal < levels.Length)
+        if (levelTraversal < levels.Length && !gameOver)
         {
             StartCoroutine(StartWave(levels[levelTraversal]));
             levelTraversal++;
             enemySpawned = 0;
 
         }
-        else
+        else if (!gameOver)
         {
             // All levels completed, you might want to handle this case
-            Debug.Log("All levels completed!");
+            // Debug.Log("All levels completed!");
+            StartCoroutine(FadeText("All levels complete. You may leave now.", 2f, 2f, 2f));
         }
     }
 
     private IEnumerator StartWave(Level level)
     {
         CalculateWeights(level);
+
         Debug.Log("Level " + (levelTraversal + 1));
 
         yield return StartCoroutine(FadeText("Wave " + (levelTraversal + 1), 2f, 2f, 2f));
-
         yield return StartCoroutine(LevelSpawner(level));
 
         Debug.Log("Level finished!");
@@ -88,15 +124,25 @@ public class Enemy_Spawner : MonoBehaviour
         
     }
 
+    private IEnumerator TriggerTime(float time)
+    {
+        while (true)
+        {   
+            // Wait for the specified time interval
+            yield return new WaitForSeconds(time);
+            toggleNight.isTrigger = true;
+        }
+    }
     private IEnumerator LevelSpawner(Level level)
     {
-        while (enemySpawned < level.enemiesNumber)
+        Debug.Log(Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease));
+        while (enemySpawned < Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease))
         {
             timer -= Time.deltaTime;
 
             if (timer <= 0f)
             {
-                int enemiesToSpawn = Mathf.Min(level.enemiesEachWave, level.enemiesNumber - enemySpawned);
+                int enemiesToSpawn = Mathf.Min(level.enemiesEachWave, Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease) - enemySpawned);
 
                 for (int i = 0; i < enemiesToSpawn; i++)
                 {
@@ -108,12 +154,28 @@ public class Enemy_Spawner : MonoBehaviour
                     GameObject spawnedEnemy = RandomSpawn(position, level);
                     spawnedEnemies.Add(spawnedEnemy);
 
+                    position = new(
+                        UnityEngine.Random.Range(Lx1, Lx2),
+                        UnityEngine.Random.Range(Ly1, Ly2),
+                        0f);
+
+                    spawnedEnemy = RandomSpawn(position, level);
+                    spawnedEnemies.Add(spawnedEnemy);
+
+                    position = new(
+                        UnityEngine.Random.Range(Rx1, Rx2),
+                        UnityEngine.Random.Range(Ry1, Ry2),
+                        0f);
+
+                    spawnedEnemy = RandomSpawn(position, level);
+                    spawnedEnemies.Add(spawnedEnemy);
+
                     enemySpawned++;
                 }
 
                 timer = level.spawnTime;
 
-                if (enemySpawned >= level.enemiesNumber)
+                if (enemySpawned >= Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease))
                     break;
             }
 
@@ -130,6 +192,7 @@ public class Enemy_Spawner : MonoBehaviour
         Debug.Log("All enemies defeated, show 'Wave Clear'");
         yield return StartCoroutine(FadeText("Wave Clear", 2f, 2f, 2f));
 
+        sceneLoader.StopObjectMovings(true);
         waveCleared = true;
     }
 
@@ -140,7 +203,7 @@ public class Enemy_Spawner : MonoBehaviour
             yield return null;
 
         }
-        
+
         upgradePanel.upgradeChoicesCoroutineStarted = false;
         upgradePanel.panel.SetActive(false);
         upgradePanel.IsReadyForNextWave = false;
@@ -152,6 +215,14 @@ public class Enemy_Spawner : MonoBehaviour
     {
         Enemy randomEnemy = level.enemies[GetRandomEnemyIndex(level)];
         GameObject spawnedEnemy = Instantiate(randomEnemy.Prefab, position, Quaternion.identity, transform);
+
+        Behavior enemy = spawnedEnemy.GetComponent<Behavior>();
+        if (enemy != null)
+        {
+            enemy.damage *= enemyDamageIncrease;
+            enemy.moveSpeed *= enemySpeedIncrease;
+            enemy.hp *= enemyHpIncrease;
+        }
         return spawnedEnemy;
     }
 
@@ -209,6 +280,7 @@ public class Enemy_Spawner : MonoBehaviour
         // Hide the text after fading out
         HideWaveText();
     }
+
 
     private void ShowWaveText()
     {

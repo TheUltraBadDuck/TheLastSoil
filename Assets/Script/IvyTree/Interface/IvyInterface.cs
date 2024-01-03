@@ -10,6 +10,8 @@ public class IvyInterface : MonoBehaviour
     [SerializeField]
     protected string treeName = "[None]";
     [SerializeField]
+    protected string treeDescription = "[None]";
+    [SerializeField]
     protected float hp = 0;
     [SerializeField]
     protected float maxhp = 0;
@@ -18,7 +20,7 @@ public class IvyInterface : MonoBehaviour
 
     // Tree's support
     protected Animator animator;
-    private SpriteRenderer whiteTreeRenderer;
+    protected SpriteRenderer whiteTreeRenderer;
 
     // When attacked
     private float hurtCD = 0.25f;
@@ -52,6 +54,16 @@ public class IvyInterface : MonoBehaviour
         this.currentLevel = currentLevel;
     }
 
+    public string GetTreeName()
+    {
+        return treeName;
+    }
+
+    public string GetTreeDescription()
+    {
+        return treeDescription;
+    }
+
     public int GetTreeLevel()
     {
         return currentLevel;
@@ -70,12 +82,6 @@ public class IvyInterface : MonoBehaviour
     public string GetLevelDescription()
     {
         return (currentLevel >= levelDescription.Length) ? "[None]" : levelDescription[currentLevel];
-    }
-
-
-    public string GetTreeName()
-    {
-        return treeName;
     }
 
     public void UpdateSpriteColor()

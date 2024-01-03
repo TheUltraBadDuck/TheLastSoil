@@ -150,10 +150,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treeInstance: {fileID: 1909511680090647356, guid: 077f8a7c3ead7d7438142be4196cd63d, type: 3}
+  treeLevel: 0
   newTreeImage: {fileID: 2800000, guid: 595109e1380aa8e47865bf9ef3fcea5d, type: 3}
   newTreeSprite: {fileID: 21300000, guid: 595109e1380aa8e47865bf9ef3fcea5d, type: 3}
   energyScore: 200
   pressableCD: 15
+  treeImage: {fileID: 1052524511060131616}
+  eneryScoreText: {fileID: 7731801245913445357}
+  waitingBlack: {fileID: 7017662213717148431}
+  inactiveBlack: {fileID: 6719006649402765215}
 --- !u!1 &3352737874894078514
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,6 @@ public class Behavior : MonoBehaviour
     public float hp = 10f;
     public AudioSource hurtSound;
     public AudioSource deadSound;
-    public GameObject[] bloodPrefab;
     public GameObject bloodParticle;
     //public float rotateSpeed = 0.0025f;
     private Rigidbody2D rb;
@@ -45,14 +44,9 @@ public class Behavior : MonoBehaviour
         }
         else
         {
-            // If no ivies found, target the "Hoffen" object
+            // If no ivies found, target to the "Hoffen" object
             GameObject hoffen = GameObject.FindGameObjectWithTag("Hoffen");
             target = hoffen != null ? hoffen.transform : null;
-
-            if (targetTree == null)
-            {
-                Debug.Log("No Ivy or Hoffen found!");
-            }
         }
     }
 
@@ -257,25 +251,10 @@ public class Behavior : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            if (bloodPrefab.Length > 0)
-            {
-                // Get a random index within the array bounds
-                int randomIndex = Random.Range(0, bloodPrefab.Length);
-
-                // Spawn blood splatter at the hit position using the randomly selected blood prefab
-                GameObject bloodInstance = Instantiate(bloodPrefab[randomIndex], collision.transform.position, Quaternion.identity);
-
-                // Trigger the "Splatter" animation if the blood prefab has an Animator component
-                Animator bloodAnimator = bloodInstance.GetComponent<Animator>();
-                if (bloodAnimator != null)
-                {
-                    bloodAnimator.SetTrigger("Splatter");
-                }
-            }
 
             GameObject blood = bloodParticle;
             Instantiate(blood, collision.transform.position, Quaternion.identity);
-
+            hurtSound.Play();
             // Handle damage or other actions as needed
             HandleDamage(collision.gameObject.GetComponent<BuffectExplosion>().getDamage());
 
@@ -299,7 +278,7 @@ public class Behavior : MonoBehaviour
     {
         // Implement actions to handle damage
         hp -= damage;
-
+        
         //turn the sprite to red for a moment
         StartCoroutine(FlashRed());
         if (hp <= 0)
@@ -318,7 +297,7 @@ public class Behavior : MonoBehaviour
         }
         else
         {
-            hurtSound.Play();
+            
         }
     }
 
@@ -333,8 +312,8 @@ public class Behavior : MonoBehaviour
     {
         //mapManager.RemoveEnemyDetection(this);
 
-        float flashDuration = 0.25f; // Adjust the duration of each flash
-        float flashInterval = 0.05f; // Adjust the interval between flashes
+        float flashDuration = 0.1f; // Adjust the duration of each flash
+        float flashInterval = 0.025f; // Adjust the interval between flashes
 
         while (true)
         {
@@ -351,7 +330,7 @@ public class Behavior : MonoBehaviour
         }
 
         // Destroy the entire GameObject (including the prefab)
-        Destroy(gameObject);
+        Destroy(gameObject, hurtSound.clip.length);
         yield return null;
 
     }
@@ -363,7 +342,7 @@ public class Behavior : MonoBehaviour
         spriteRenderer.color = Color.red;
 
         // Wait for a short duration
-        yield return new WaitForSeconds(0.25f); // Adjust the duration as needed
+        yield return new WaitForSeconds(0.1f); // Adjust the duration as needed
 
         // Restore the original color
         spriteRenderer.color = originalColor;

@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class EnemyUpgrade
+{
+    public Sprite sprite;
+    public string parameter;
+    public int currentLevel;
+    public string[] levelDescription = { };
+}
 public class UpgradePanel : MonoBehaviour
 {
     public GameObject panel;
     public IvyInterface[] trees;
     public GameObject[] respectiveTreeButtons;
-
+    public EnemyUpgrade[] enemyUpgrades;
+    public SceneLoader sceneLoader;
     private GameManager gameManager;
     private Enemy_Spawner spawner;
 
@@ -17,12 +26,9 @@ public class UpgradePanel : MonoBehaviour
 
     public void ResetAllLevels()
     {
-        // Find all objects with the AttackTreeInterface component
-        IvyInterface[] allTreeInterfaces = Resources.FindObjectsOfTypeAll<IvyInterface>();
-
         for (int i = 0; i < trees.Length; i++)
         {
-            IvyInterface tree = allTreeInterfaces[i];
+            IvyInterface tree = trees[i];
             GameObject button = respectiveTreeButtons[i];
 
             tree.SetTreeLevel(1);
@@ -30,7 +36,8 @@ public class UpgradePanel : MonoBehaviour
             button.GetComponent<TreeButton>().SetLevel(1);
 
             //// Except for some trees
-            //if ((tree is Willow) || (tree is LightBulb) || (tree is WoodenGrave) || (tree is Claw) || (tree is DollEyes))
+            ////if ((tree is Willow) || (tree is LightBulb) || (tree is WoodenGrave) || (tree is Claw) || (tree is DollEyes))
+            //if ((i < 6) || (i == 9))  // Also including Cactus and Worm Root
             //{
             //    tree.SetTreeLevel(1);
             //    button.SetActive(true);
@@ -81,7 +88,7 @@ public class UpgradePanel : MonoBehaviour
         UpgradeButton[] upgradeButtons = panel.GetComponentsInChildren<UpgradeButton>();
 
         // Set the content of each upgrade button
-        for (int i = 0; i < upgradeChoices.Count && i < upgradeButtons.Length; i++)
+        for (int i = 0; i < upgradeChoices.Count && i < upgradeButtons.Length-1; i++)
         {
             IvyInterface tree = upgradeChoices[i];
             string buttonText = tree.GetLevelDescription();
@@ -96,6 +103,15 @@ public class UpgradePanel : MonoBehaviour
             }
         }
 
+            if (enemyUpgrades.Length > 0)
+            {
+                int randomIndex = Random.Range(0, enemyUpgrades.Length);
+                upgradeButtons[upgradeButtons.Length-1].SetButtonContent(enemyUpgrades[randomIndex].levelDescription[enemyUpgrades[randomIndex].currentLevel]
+                                                                      ,enemyUpgrades[randomIndex].sprite);
+                upgradeButtons[upgradeButtons.Length-1].SetUpgradeMonsterFeature(enemyUpgrades[randomIndex].parameter, randomIndex, enemyUpgrades[randomIndex].currentLevel);
+
+            }
+  
         yield return 1;
     }
 

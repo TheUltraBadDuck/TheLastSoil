@@ -17,7 +17,6 @@ public class Cactus : DefenseTreeInterface
     private float buffNegCD = 2.0f;
 
     private float extraDamageLvl2 = 0f;
-    private float extraRangeLvl3 = 0f;
 
 
     public override void Start()
@@ -56,7 +55,6 @@ public class Cactus : DefenseTreeInterface
         {
             // Restore the button to the map
             GameObject.Find("MapManager").GetComponent<MapManager>().RestoreCell(coordY, coordX);
-            GameObject.Find("MapManager").GetComponent<MapManager>().RemoveAttackObserver(this);
             Destroy(gameObject);
         }
         else
@@ -82,7 +80,7 @@ public class Cactus : DefenseTreeInterface
         {
             if (Vector2.Distance(enemy.transform.position, transform.position) < attackRange)
             {
-                enemy.GetComponent<Behavior>().MakeDamage(damage * extraDamage);
+                enemy.GetComponent<Behavior>().MakeDamage((damage + extraDamageLvl2) * extraDamage);
                 haveEnemy = true;
             }
         }
@@ -109,7 +107,7 @@ public class Cactus : DefenseTreeInterface
         }
         else if (currentLevel == 3)
         {
-            extraRangeLvl3 = 0.15f;
+            attackRange += 0.15f;
         }
     }
 
@@ -123,7 +121,7 @@ public class Cactus : DefenseTreeInterface
         }
         else if (currentLevel == 3)
         {
-            extraRangeLvl3 = 0.15f;
+            attackRange += 0.15f;
         }
     }
 }

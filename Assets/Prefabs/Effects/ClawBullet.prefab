@@ -116,5 +116,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c0c1181868008a42b1ecd76107dd425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefab: {fileID: 8092284424008285303, guid: 5b5744fbc084e364b99c3ec9d90d93fc, type: 3}
+  effectPrefab: {fileID: 8092284424008285303, guid: 552cee4fe3e4e6742b3827c8df3c35a3, type: 3}
   damage: 2

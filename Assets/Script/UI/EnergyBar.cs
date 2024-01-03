@@ -32,7 +32,7 @@ public class EnergyBar : MonoBehaviour
 
 
     // Load Trees
-    public void Start()
+    public void Awake()
     {
         foreach (Transform button in GameObject.Find("UIGameplay/Scroll/TreePanel").transform)
         {

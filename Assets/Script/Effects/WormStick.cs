@@ -6,9 +6,8 @@ public class WormStick : MonoBehaviour
 {
     private void Start()
     {
-        
+        GetComponent<AudioSource>().Play();
     }
-
 
     public void MakeDestroy()
     {

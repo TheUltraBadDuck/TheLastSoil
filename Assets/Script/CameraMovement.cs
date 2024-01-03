@@ -46,7 +46,6 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         panCamera();
     }
 

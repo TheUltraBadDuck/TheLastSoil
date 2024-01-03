@@ -33,6 +33,12 @@ public class BuffectExplosion : MonoBehaviour
     {
         return pushForce;
     }
+
+    private void Start()
+    {
+        GetComponent<AudioSource>().Play();
+    }
+
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
         // If collider is an enemy

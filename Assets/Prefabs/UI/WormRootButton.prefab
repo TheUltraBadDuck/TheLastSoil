@@ -153,8 +153,12 @@ MonoBehaviour:
   treeLevel: 0
   newTreeImage: {fileID: 2800000, guid: 733c66960396783488a4ce1d708b721b, type: 3}
   newTreeSprite: {fileID: 21300000, guid: 733c66960396783488a4ce1d708b721b, type: 3}
-  energyScore: 100
-  pressableCD: 5
+  energyScore: 150
+  pressableCD: 15
+  treeImage: {fileID: 1052524511060131616}
+  eneryScoreText: {fileID: 7731801245913445357}
+  waitingBlack: {fileID: 7017662213717148431}
+  inactiveBlack: {fileID: 6719006649402765215}
 --- !u!1 &3352737874894078514
 GameObject:
   m_ObjectHideFlags: 0

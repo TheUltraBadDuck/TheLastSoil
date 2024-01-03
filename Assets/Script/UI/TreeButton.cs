@@ -23,15 +23,19 @@ public class TreeButton : MonoBehaviour
     private float pressableTimer = 5.0f;
 
 
+    [SerializeField]
     private RawImage treeImage;
+    [SerializeField]
     private Text eneryScoreText;
+    [SerializeField]
     private Image waitingBlack;         // If pressableCD is done, disable the image to make the button pressable
+    [SerializeField]
     private Image inactiveBlack;        // If enough score, disable the image to make the button pressable
+    private Text treeDescriptionTitle;
+    private Text treeDescriptionText;
 
     private bool enoughEnergy = false;  // Activates inactiveBlack
     private bool available = false;     // Depends on waitingBlack
-
-
 
 
     public void SetLevel(int level)
@@ -45,10 +49,8 @@ public class TreeButton : MonoBehaviour
     private void Awake()
     {
         // Load components
-        treeImage = transform.GetChild(0).GetComponent<RawImage>();
-        eneryScoreText = transform.GetChild(1).GetComponent<Text>();
-        waitingBlack = transform.GetChild(2).GetComponent<Image>();
-        inactiveBlack = transform.GetChild(3).GetComponent<Image>();
+        treeDescriptionTitle = GameObject.Find("TreeDescription/Title").GetComponent<Text>();
+        treeDescriptionText = GameObject.Find("TreeDescription/Text").GetComponent<Text>();
 
         // Update button
         // Image
@@ -104,6 +106,9 @@ public class TreeButton : MonoBehaviour
         {
             GameObject.Find("MapManager").GetComponent<MapManager>().OnTreeButtonPressed(
                 treeInstance, newTreeSprite, energyScore, this, treeLevel);
+
+            treeDescriptionTitle.text = treeInstance.GetComponent<IvyInterface>().GetTreeName();
+            treeDescriptionText.text = treeInstance.GetComponent<IvyInterface>().GetTreeDescription();
         }
     }
 }

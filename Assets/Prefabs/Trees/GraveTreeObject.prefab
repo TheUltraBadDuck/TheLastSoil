@@ -155,8 +155,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: Grave Tree
-  hp: 120
-  maxhp: 120
+  treeDescription: Defend with great health.
+  hp: 300
+  maxhp: 300
   position: {x: 0, y: 0}
   blood: {fileID: 0}
   treeLevelList:
@@ -168,6 +169,7 @@ MonoBehaviour:
   - Increase max HP
   - Heal itself
   sprite: {fileID: 0}
+  healingEffect: {fileID: 0}
 --- !u!1 &5341379083139524462
 GameObject:
   m_ObjectHideFlags: 0

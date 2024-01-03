@@ -135,11 +135,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: Light Bulb Tree
-  hp: 10
-  maxhp: 10
+  treeDescription: Generate energy coin.
+  hp: 30
+  maxhp: 30
   position: {x: 0, y: 0}
   blood: {fileID: 0}
-  treeLevel:
+  treeLevelList:
   - Basic
   - Mutant
   - Legendary

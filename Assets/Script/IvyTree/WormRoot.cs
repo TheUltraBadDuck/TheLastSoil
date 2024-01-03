@@ -55,7 +55,6 @@ public class WormRoot : DefenseTreeInterface
         {
             // Restore the button to the map
             GameObject.Find("MapManager").GetComponent<MapManager>().RestoreCell(coordY, coordX);
-            GameObject.Find("MapManager").GetComponent<MapManager>().RemoveAttackObserver(this);
             Destroy(gameObject);
         }
         else

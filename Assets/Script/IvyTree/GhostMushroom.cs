@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GhostMushroom : BuffTreeInterface
 {
+    private AudioSource effectSound;
+
     private int extraHealthL2 = 0;
     private float extraTimeL2 = 0f;
 
@@ -12,6 +14,7 @@ public class GhostMushroom : BuffTreeInterface
     public override void Start()
     {
         base.Start();
+        effectSound = GetComponent<AudioSource>();
     }
 
 
@@ -50,6 +53,8 @@ public class GhostMushroom : BuffTreeInterface
                 effect.transform.localPosition = new Vector3(tree.transform.position.x, tree.transform.position.y, 0.0f);
             }
         }
+
+        effectSound.Play();
     }
 
 

@@ -14,11 +14,12 @@ public class ToggleNight : MonoBehaviour
     [SerializeField] private GameObject fireflies;
     [SerializeField] private Light2D EntitiesLight;
     private ParticleSystem firefliesParticle;
-    public bool isNight = false, isTrigger =false;
+    public bool isNight = false;            // Night mode
+    public bool isTrigger = false;          // Trigger night mode
     [SerializeField] private Gradient mapColor;
 
 
-    private float changeTime = 6f;
+    public float changeTime = 60f;
     private ColorAdjustments colorFilter;
 
     void Start()
@@ -61,7 +62,7 @@ public class ToggleNight : MonoBehaviour
     }
 
 
-    IEnumerator TransitionGradient(Gradient gradient, float duration)
+    public IEnumerator TransitionGradient(Gradient gradient, float duration)
     {
         float elapsedTime = 0;
         while (elapsedTime < duration)

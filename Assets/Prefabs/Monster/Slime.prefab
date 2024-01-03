@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -477755151
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: 994387080, guid: c34b50bb1c287104fb5d0d84648c20a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -207,8 +207,6 @@ MonoBehaviour:
   hp: 10
   hurtSound: {fileID: -8500149592076356098}
   deadSound: {fileID: 0}
-  bloodPrefab:
-  - {fileID: 3327611516365953335, guid: 6b392f6d97f6b234392f81a6ac8e11b4, type: 3}
   bloodParticle: {fileID: 7553010711492846650, guid: 8da371c4edc22f44b8c355c261443195, type: 3}
 --- !u!82 &-8500149592076356098
 AudioSource:

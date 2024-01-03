@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Mangrove : BuffTreeInterface
 {
+    private AudioSource effectSound;
+
     [SerializeField]
     private float extraDamage = 0.5f;
     [SerializeField]
@@ -15,8 +17,7 @@ public class Mangrove : BuffTreeInterface
     public override void Start()
     {
         base.Start();
-        maxBuffCD = buffCD;
-        bulletContainer = GameObject.Find("BulletContainer");
+        effectSound = GetComponent<AudioSource>();
     }
 
 
@@ -38,6 +39,9 @@ public class Mangrove : BuffTreeInterface
     // Heal all trees around
     public void MakeEffect(int scale = 1)
     {
+        if (gameObject == null)
+            return;
+
         GameObject[] treeList = GameObject.FindGameObjectsWithTag("Ivy");
         foreach (var tree in treeList)
         {
@@ -54,6 +58,7 @@ public class Mangrove : BuffTreeInterface
                 effect.transform.localPosition = new Vector3(tree.transform.position.x, tree.transform.position.y, 0.0f);
             }
         }
+        effectSound.Play();
     }
 
 
