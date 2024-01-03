@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class EnemyUpgrade
+{
+    string parameter;
+    int currentLevel;
+    string[] levelDescription = { };
+}
 public class UpgradePanel : MonoBehaviour
 {
     public GameObject panel;
     public IvyInterface[] trees;
     public GameObject[] respectiveTreeButtons;
-
+    public EnemyUpgrade[] enemyUpgrades;
     private GameManager gameManager;
     private Enemy_Spawner spawner;
 

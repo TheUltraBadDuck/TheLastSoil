@@ -270,7 +270,7 @@ public class Behavior : MonoBehaviour
 
             GameObject blood = bloodParticle;
             Instantiate(blood, collision.transform.position, Quaternion.identity);
-
+            hurtSound.Play();
             // Handle damage or other actions as needed
             HandleDamage(collision.gameObject.GetComponent<BuffectExplosion>().getDamage());
 
@@ -294,7 +294,7 @@ public class Behavior : MonoBehaviour
     {
         // Implement actions to handle damage
         hp -= damage;
-
+        
         //turn the sprite to red for a moment
         StartCoroutine(FlashRed());
         if (hp <= 0)
@@ -313,7 +313,7 @@ public class Behavior : MonoBehaviour
         }
         else
         {
-            hurtSound.Play();
+            
         }
     }
 
@@ -346,7 +346,7 @@ public class Behavior : MonoBehaviour
         }
 
         // Destroy the entire GameObject (including the prefab)
-        Destroy(gameObject);
+        Destroy(gameObject, hurtSound.clip.length);
         yield return null;
 
     }
