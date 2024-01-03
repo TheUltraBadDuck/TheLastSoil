@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
 public class EnemyUpgrade
 {
-    string parameter;
-    int currentLevel;
-    string[] levelDescription = { };
+    public Sprite sprite;
+    public string parameter;
+    public int currentLevel;
+    public string[] levelDescription = { };
 }
 public class UpgradePanel : MonoBehaviour
 {
@@ -86,7 +87,7 @@ public class UpgradePanel : MonoBehaviour
         UpgradeButton[] upgradeButtons = panel.GetComponentsInChildren<UpgradeButton>();
 
         // Set the content of each upgrade button
-        for (int i = 0; i < upgradeChoices.Count && i < upgradeButtons.Length; i++)
+        for (int i = 0; i < upgradeChoices.Count && i < upgradeButtons.Length-1; i++)
         {
             IvyInterface tree = upgradeChoices[i];
             string buttonText = tree.GetLevelDescription();
@@ -101,6 +102,15 @@ public class UpgradePanel : MonoBehaviour
             }
         }
 
+            if (enemyUpgrades.Length > 0)
+            {
+                int randomIndex = Random.Range(0, enemyUpgrades.Length);
+                upgradeButtons[upgradeButtons.Length-1].SetButtonContent(enemyUpgrades[randomIndex].levelDescription[enemyUpgrades[randomIndex].currentLevel]
+                                                                      ,enemyUpgrades[randomIndex].sprite);
+                upgradeButtons[upgradeButtons.Length-1].SetUpgradeMonsterFeature(enemyUpgrades[randomIndex].parameter, randomIndex, enemyUpgrades[randomIndex].currentLevel);
+
+            }
+  
         yield return 1;
     }
 

@@ -16,6 +16,9 @@ public class UpgradeButton : MonoBehaviour
     private Enemy_Spawner spawner;
     private UpgradePanel upgradePanel;
 
+    public string monsterFeature;
+    public bool isMonster;
+    public int monsterFeatureLevel;
 
     // Start is called before the first frame update
     private void Start()
@@ -31,17 +34,34 @@ public class UpgradeButton : MonoBehaviour
     // Method to invoke the OnButtonClick event
     private void InvokeButtonClick()
     {
-        upgradedTree.UpgradeLevel();
-        UpdateLevelForAllTrees();
+        if (monsterFeature != "")
+        {
+            isMonster = true;
 
-        // Upgrade one of the trees
-        if (upgradedTree.GetTreeLevel() == 1)
-            respectiveButton.SetActive(true);
-        respectiveButton.GetComponent<TreeButton>().SetLevel(upgradedTree.GetTreeLevel());
 
-        upgradePanel.upgradeChoicesCoroutineStarted = false;
-        Debug.Log("buttonclicked");
-        upgradePanel.IsReadyForNextWave = true;
+        }
+        if (!isMonster)
+        {
+            upgradedTree.UpgradeLevel();
+            UpdateLevelForAllTrees();
+
+            // Upgrade one of the trees
+            if (upgradedTree.GetTreeLevel() == 1)
+                respectiveButton.SetActive(true);
+            respectiveButton.GetComponent<TreeButton>().SetLevel(upgradedTree.GetTreeLevel());
+
+            upgradePanel.upgradeChoicesCoroutineStarted = false;
+            Debug.Log("buttonclicked");
+            upgradePanel.IsReadyForNextWave = true;
+        }
+        else
+        {
+            Debug.Log("Monster! + " + monsterFeature);
+
+            upgradePanel.upgradeChoicesCoroutineStarted = false;
+            Debug.Log("buttonclicked");
+            upgradePanel.IsReadyForNextWave = true;
+        }
 
     }
 
@@ -87,5 +107,12 @@ public class UpgradeButton : MonoBehaviour
             upgradedTree = tree;
         else
             Debug.LogWarning("Null Tree.");
+    }
+
+    public void SetUpgradeMonsterFeature(string feature, int index, int level)
+    {
+        monsterFeature = feature;
+        monsterFeatureLevel = level;
+        upgradePanel.enemyUpgrades[index].currentLevel++;
     }
 }
