@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,10 +45,11 @@ public class Enemy_Spawner : MonoBehaviour
     private UpgradePanel upgradePanel;
     private ToggleNight toggleNight;
 
-
     public Level[] levels;
     public CanvasGroup waveTextCanvasGroup;
     public float X1, X2, Y1, Y2;
+    public float Lx1, Lx2, Ly1, Ly2;
+    public float Rx1, Rx2, Ry1, Ry2;
     public bool waveCleared = false;
 
     public bool gameOver = false;
@@ -64,11 +66,21 @@ public class Enemy_Spawner : MonoBehaviour
     {
         upgradePanel = FindObjectOfType<UpgradePanel>();
         toggleNight = FindObjectOfType<ToggleNight>();
+        toggleNight.isTrigger = true;
+        StartCoroutine(TriggerTime(80f));
     }
-
+    private IEnumerator DelayBeforeWave(float time)
+    {
+        while (true)
+        {
+            // Wait for the specified time interval
+            yield return new WaitForSeconds(time);
+        }
+    }
 
     private void Update()
     {
+        
         if (gameOver)
         {
             // StopAllCoroutines();  // BUG!!!
@@ -80,7 +92,6 @@ public class Enemy_Spawner : MonoBehaviour
     public void StartNextWave()
     {
         waveCleared = false;
-        
         if (levelTraversal < levels.Length && !gameOver)
         {
             StartCoroutine(StartWave(levels[levelTraversal]));
@@ -88,7 +99,7 @@ public class Enemy_Spawner : MonoBehaviour
             enemySpawned = 0;
 
         }
-        else
+        else if (!gameOver)
         {
             // All levels completed, you might want to handle this case
             // Debug.Log("All levels completed!");
@@ -99,8 +110,6 @@ public class Enemy_Spawner : MonoBehaviour
     private IEnumerator StartWave(Level level)
     {
         CalculateWeights(level);
-        if (level.level == 3)
-            toggleNight.TriggerDayNight();
 
         Debug.Log("Level " + (levelTraversal + 1));
 
@@ -114,6 +123,15 @@ public class Enemy_Spawner : MonoBehaviour
         
     }
 
+    private IEnumerator TriggerTime(float time)
+    {
+        while (true)
+        {   
+            // Wait for the specified time interval
+            yield return new WaitForSeconds(time);
+            toggleNight.isTrigger = true;
+        }
+    }
     private IEnumerator LevelSpawner(Level level)
     {
         Debug.Log(Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease));
@@ -133,6 +151,22 @@ public class Enemy_Spawner : MonoBehaviour
                         0f);
 
                     GameObject spawnedEnemy = RandomSpawn(position, level);
+                    spawnedEnemies.Add(spawnedEnemy);
+
+                    position = new(
+                        UnityEngine.Random.Range(Lx1, Lx2),
+                        UnityEngine.Random.Range(Ly1, Ly2),
+                        0f);
+
+                    spawnedEnemy = RandomSpawn(position, level);
+                    spawnedEnemies.Add(spawnedEnemy);
+
+                    position = new(
+                        UnityEngine.Random.Range(Rx1, Rx2),
+                        UnityEngine.Random.Range(Ry1, Ry2),
+                        0f);
+
+                    spawnedEnemy = RandomSpawn(position, level);
                     spawnedEnemies.Add(spawnedEnemy);
 
                     enemySpawned++;

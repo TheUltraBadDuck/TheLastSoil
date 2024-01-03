@@ -81,7 +81,6 @@ public class SceneLoader : MonoBehaviour
                 {
                     fadeCD = 0;
                     finishUIGameFadeOut = true;
-
                     // Start Game
                     enemySpawner.StartNextWave();
                 }

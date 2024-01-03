@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class UpgradeButton : MonoBehaviour
@@ -15,7 +16,7 @@ public class UpgradeButton : MonoBehaviour
     public UnityEvent OnButtonClick = new ();
     private Enemy_Spawner spawner;
     private UpgradePanel upgradePanel;
-
+    private EnergyBar energy;
     public string monsterFeature;
     public bool isMonster;
     public int monsterFeatureLevel;
@@ -24,7 +25,8 @@ public class UpgradeButton : MonoBehaviour
     private void Start()
     {
         upgradePanel = FindObjectOfType<UpgradePanel>();
-
+        spawner = FindObjectOfType<Enemy_Spawner>();
+        energy = FindObjectOfType<EnergyBar>();
         // Attach a listener to the button's onClick event
         GetComponent<Button>().onClick.AddListener(InvokeButtonClick);
         
@@ -58,6 +60,67 @@ public class UpgradeButton : MonoBehaviour
         {
             Debug.Log("Monster! + " + monsterFeature);
 
+            if(monsterFeature == "hp")
+            {
+                if(monsterFeatureLevel == 0)
+                {
+                    spawner.enemyHpIncrease = 1.25f;
+                }
+                if (monsterFeatureLevel == 1)
+                {
+                    spawner.enemyHpIncrease = 1.50f;
+                }
+                if (monsterFeatureLevel == 2)
+                {
+                    spawner.enemyHpIncrease = 2f;
+                }
+            }
+            if (monsterFeature == "damage")
+            {
+                if (monsterFeatureLevel == 0)
+                {
+                    spawner.enemyDamageIncrease = 1.25f;
+                }
+                if (monsterFeatureLevel == 1)
+                {
+                    spawner.enemyDamageIncrease = 1.50f;
+                }
+                if (monsterFeatureLevel == 2)
+                {
+                    spawner.enemyDamageIncrease = 2f;
+                }
+            }
+            if (monsterFeature == "speed")
+            {
+                if (monsterFeatureLevel == 0)
+                {
+                    spawner.enemySpeedIncrease = 1.25f;
+                }
+                if (monsterFeatureLevel == 1)
+                {
+                    spawner.enemySpeedIncrease = 1.50f;
+                }
+                if (monsterFeatureLevel == 2)
+                {
+                    spawner.enemySpeedIncrease = 2f;
+                }
+            }
+            if (monsterFeature == "number")
+            {
+                if (monsterFeatureLevel == 0)
+                {
+                    spawner.enemyNumberIncrease = 1.25f;
+                }
+                if (monsterFeatureLevel == 1)
+                {
+                    spawner.enemyNumberIncrease = 1.50f;
+                }
+                if (monsterFeatureLevel == 2)
+                {
+                    spawner.enemyNumberIncrease = 2f;
+                }
+            }
+            energy.AddScore(500);
             upgradePanel.upgradeChoicesCoroutineStarted = false;
             Debug.Log("buttonclicked");
             upgradePanel.IsReadyForNextWave = true;
