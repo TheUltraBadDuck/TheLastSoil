@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: Cactus
+  treeDescription: Defend and hurt enemies around.
   hp: 100
   maxhp: 75
   position: {x: 0, y: 0}

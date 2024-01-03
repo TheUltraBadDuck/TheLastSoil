@@ -25,13 +25,26 @@ public class TreeButton : MonoBehaviour
     private Text eneryScoreText;
     private Image waitingBlack;         // If pressableCD is done, disable the image to make the button pressable
     private Image inactiveBlack;        // If enough score, disable the image to make the button pressable
+    private Text treeDescriptionTitle;
+    private Text treeDescriptionText;
 
     private bool enoughEnergy = false;  // Activates inactiveBlack
     private bool available = false;     // Depends on waitingBlack
 
 
+<<<<<<< Updated upstream
 
 
+=======
+    public void SetLevel(int level)
+    {
+        treeLevel = level;
+    }
+
+
+
+    // Always run before Start
+>>>>>>> Stashed changes
     private void Awake()
     {
         // Load components
@@ -39,6 +52,8 @@ public class TreeButton : MonoBehaviour
         eneryScoreText = transform.GetChild(1).GetComponent<Text>();
         waitingBlack = transform.GetChild(2).GetComponent<Image>();
         inactiveBlack = transform.GetChild(3).GetComponent<Image>();
+        treeDescriptionTitle = GameObject.Find("TreeDescription/Title").GetComponent<Text>();
+        treeDescriptionText = GameObject.Find("TreeDescription/Text").GetComponent<Text>();
 
         // Update button
         // Image
@@ -93,7 +108,14 @@ public class TreeButton : MonoBehaviour
         if (enoughEnergy && available && EventSystem.current.IsPointerOverGameObject())
         {
             GameObject.Find("MapManager").GetComponent<MapManager>().OnTreeButtonPressed(
+<<<<<<< Updated upstream
                 treeInstance, newTreeSprite, energyScore, this);
+=======
+                treeInstance, newTreeSprite, energyScore, this, treeLevel);
+
+            treeDescriptionTitle.text = treeInstance.GetComponent<IvyInterface>().GetTreeName();
+            treeDescriptionText.text = treeInstance.GetComponent<IvyInterface>().GetTreeDescription();
+>>>>>>> Stashed changes
         }
     }
 }

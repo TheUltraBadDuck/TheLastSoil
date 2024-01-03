@@ -83,9 +83,6 @@ public class MapManager : MonoBehaviour
         // If the tree can attack
         if (newObj.GetComponent<IvyInterface>() is AttackTreeInterface)
             AddAttackObserver(newObj.GetComponent<IvyInterface>());
-
-        else if (newObj.GetComponent<IvyInterface>() is Cactus)
-            AddAttackObserver(newObj.GetComponent<IvyInterface>());
     }
 
 
@@ -314,16 +311,5 @@ public class MapManager : MonoBehaviour
     public void AddAttackObserver(IvyInterface tree)
     {
         attackTreeObservers.Add(tree);
-    }
-
-
-    public void RemoveAttackObserver(IvyInterface tree)
-    {
-        // Remove enemy that can be attacked by looking for the id
-        int index = attackTreeObservers.FindIndex(e => e.name == tree.name);
-        if (index == -1)
-            return;
-
-        attackTreeObservers.RemoveAt(index);
     }
 }

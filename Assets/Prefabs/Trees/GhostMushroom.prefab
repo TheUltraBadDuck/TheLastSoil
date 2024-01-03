@@ -154,7 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treeId: -1
-  treeName: '[None]'
+  treeName: Ghost Mushroom
+  treeDescription: Heal all trees around.
   hp: 20
   maxhp: 20
   position: {x: 0, y: 0}

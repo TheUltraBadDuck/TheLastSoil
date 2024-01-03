@@ -40,14 +40,9 @@ public class Behavior : MonoBehaviour
         }
         else
         {
-            // If no ivies found, target the "Hoffen" object
+            // If no ivies found, target to the "Hoffen" object
             GameObject hoffen = GameObject.FindGameObjectWithTag("Hoffen");
             target = hoffen != null ? hoffen.transform : null;
-
-            if (targetTree == null)
-            {
-                Debug.Log("No Ivy or Hoffen found!");
-            }
         }
     }
 

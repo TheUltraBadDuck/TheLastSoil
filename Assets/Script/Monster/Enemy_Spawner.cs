@@ -21,6 +21,8 @@ public class Enemy
 [System.Serializable]
 public class Level
 {
+    public int level;
+
     public Enemy[] enemies;
     public double accumulatedWeights;
 
@@ -40,6 +42,7 @@ public class Enemy_Spawner : MonoBehaviour
     private int enemySpawned = 0;
     private int levelTraversal = 0;
     private UpgradePanel upgradePanel;
+    private ToggleNight toggleNight;
 
 
     public Level[] levels;
@@ -47,14 +50,30 @@ public class Enemy_Spawner : MonoBehaviour
     public float X1, X2, Y1, Y2;
     public bool waveCleared = false;
 
+    public bool gameOver = false;
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        StartNextWave();
         upgradePanel = FindObjectOfType<UpgradePanel>();
+        toggleNight = FindObjectOfType<ToggleNight>();
     }
 
-    private void StartNextWave()
+
+    private void Update()
+    {
+        if (gameOver)
+        {
+            // StopAllCoroutines();  // BUG!!!
+            gameOver = false;
+        }
+    }
+
+
+    public void StartNextWave()
     {
         waveCleared = false;
         
@@ -68,17 +87,20 @@ public class Enemy_Spawner : MonoBehaviour
         else
         {
             // All levels completed, you might want to handle this case
-            Debug.Log("All levels completed!");
+            // Debug.Log("All levels completed!");
+            StartCoroutine(FadeText("All levels complete. You may leave now.", 2f, 2f, 2f));
         }
     }
 
     private IEnumerator StartWave(Level level)
     {
         CalculateWeights(level);
+        if (level.level == 3)
+            toggleNight.TriggerDayNight();
+
         Debug.Log("Level " + (levelTraversal + 1));
 
         yield return StartCoroutine(FadeText("Wave " + (levelTraversal + 1), 2f, 2f, 2f));
-
         yield return StartCoroutine(LevelSpawner(level));
 
         Debug.Log("Level finished!");
@@ -209,6 +231,7 @@ public class Enemy_Spawner : MonoBehaviour
         // Hide the text after fading out
         HideWaveText();
     }
+
 
     private void ShowWaveText()
     {

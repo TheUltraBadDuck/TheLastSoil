@@ -135,9 +135,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: Light Bulb Tree
+  treeDescription: Generate energy coin.
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}
+<<<<<<< Updated upstream
+=======
+  blood: {fileID: 0}
+  treeLevelList:
+  - Basic
+  - Mutant
+  - Legendary
+  levelDescription:
+  - Unlock Lightbulb
+  - There is 25% chance to make double coins
+  - There is 50% chance to make double coins
+  sprite: {fileID: 0}
+>>>>>>> Stashed changes
   coinPrefab: {fileID: 2678906145539331238, guid: 787ec6a4d494856479be87f2f7902094, type: 3}
 --- !u!95 &1760510222286738905
 Animator:

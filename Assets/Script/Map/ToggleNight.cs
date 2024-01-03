@@ -14,7 +14,8 @@ public class ToggleNight : MonoBehaviour
     [SerializeField] private GameObject fireflies;
     [SerializeField] private Light2D EntitiesLight;
     private ParticleSystem firefliesParticle;
-    public bool isNight = false, isTrigger =false;
+    public bool isNight = false;            // Night mode
+    public bool isTrigger = false;          // Trigger night mode
     [SerializeField] private Gradient mapColor;
 
 

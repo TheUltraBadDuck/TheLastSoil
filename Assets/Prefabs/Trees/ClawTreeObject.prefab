@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: ClawTree
+  treeDescription: Launch a sharp bullet frequently.
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}

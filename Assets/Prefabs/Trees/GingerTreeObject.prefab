@@ -69,12 +69,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treeId: -1
-  treeName: '[None]'
+  treeName: Ginger
+  treeDescription: Explode after being destroyed.
   hp: 50
   maxhp: 50
   position: {x: 0, y: 0}
+<<<<<<< Updated upstream
+=======
+  blood: {fileID: 0}
+  treeLevelList:
+  - Basic
+  - Mutant
+  - Legendary
+  levelDescription:
+  - Unlock Ginger
+  - Increase Its HP
+  - Explode With Greater Damage
+  sprite: {fileID: 0}
+>>>>>>> Stashed changes
   bombPrefab: {fileID: 8092284424008285303, guid: 395ac24aa619fd64e9d06d7f16e04d92, type: 3}
-  damage: 30
+  damage: 45
 --- !u!1 &5341379083139524462
 GameObject:
   m_ObjectHideFlags: 0

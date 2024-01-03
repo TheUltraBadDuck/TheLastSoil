@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: Willow
+  treeDescription: Deal a basic damage to enemy.
   hp: 10
   maxhp: 10
   position: {x: 0, y: 0}

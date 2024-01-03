@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: DollEyes
+  treeDescription: Launch an eye bomb to damage many emenies.
   hp: 5
   maxhp: 5
   position: {x: 0, y: 0}

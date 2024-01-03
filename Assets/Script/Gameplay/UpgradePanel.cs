@@ -16,6 +16,7 @@ public class UpgradePanel : MonoBehaviour
 
     public static void ResetAllLevels()
     {
+<<<<<<< Updated upstream
         // Find all objects with the AttackTreeInterface component
         IvyInterface[] allTreeInterfaces = Resources.FindObjectsOfTypeAll<IvyInterface>();
 
@@ -23,6 +24,31 @@ public class UpgradePanel : MonoBehaviour
         {
             // Initialize each prefab
             treeInterface.Initialize();
+=======
+        for (int i = 0; i < trees.Length; i++)
+        {
+            IvyInterface tree = trees[i];
+            GameObject button = respectiveTreeButtons[i];
+
+            tree.SetTreeLevel(1);
+            button.SetActive(true);
+            button.GetComponent<TreeButton>().SetLevel(1);
+
+            //// Except for some trees
+            ////if ((tree is Willow) || (tree is LightBulb) || (tree is WoodenGrave) || (tree is Claw) || (tree is DollEyes))
+            //if ((i < 6) || (i == 9))  // Also including Cactus and Worm Root
+            //{
+            //    tree.SetTreeLevel(1);
+            //    button.SetActive(true);
+            //    button.GetComponent<TreeButton>().SetLevel(1);
+            //}
+            //// Initialize each prefab by disabling them
+            //else
+            //{
+            //    tree.Initialize();
+            //    button.SetActive(false);
+            //}
+>>>>>>> Stashed changes
         }
     }
     private List<IvyInterface> GetRandomUpgradeChoices()

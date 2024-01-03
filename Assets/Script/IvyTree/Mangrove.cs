@@ -38,6 +38,9 @@ public class Mangrove : BuffTreeInterface
     // Heal all trees around
     public void MakeEffect(int scale = 1)
     {
+        if (gameObject == null)
+            return;
+
         GameObject[] treeList = GameObject.FindGameObjectsWithTag("Ivy");
 
         foreach (var tree in treeList)

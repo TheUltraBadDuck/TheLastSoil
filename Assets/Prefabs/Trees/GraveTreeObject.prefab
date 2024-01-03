@@ -155,9 +155,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeId: -1
   treeName: Grave Tree
+  treeDescription: Defend with great health.
   hp: 120
   maxhp: 120
   position: {x: 0, y: 0}
+<<<<<<< Updated upstream
+=======
+  blood: {fileID: 0}
+  treeLevelList:
+  - Basic
+  - Mutant
+  - Legendary
+  levelDescription:
+  - Unlock Wooden Grave
+  - Increase max HP
+  - Heal itself
+  sprite: {fileID: 0}
+  healingEffect: {fileID: 0}
+>>>>>>> Stashed changes
 --- !u!1 &5341379083139524462
 GameObject:
   m_ObjectHideFlags: 0

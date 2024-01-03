@@ -17,6 +17,11 @@ public class Cactus : DefenseTreeInterface
     private float extraSpeed = 0.0f;
     private float buffNegCD = 2.0f;
 
+<<<<<<< Updated upstream
+=======
+    private float extraDamageLvl2 = 0f;
+
+>>>>>>> Stashed changes
 
     public override void Start()
     {
@@ -100,7 +105,6 @@ public class Cactus : DefenseTreeInterface
         {
             // Restore the button to the map
             GameObject.Find("MapManager").GetComponent<MapManager>().RestoreCell(coordY, coordX);
-            GameObject.Find("MapManager").GetComponent<MapManager>().RemoveAttackObserver(this);
             Destroy(gameObject);
         }
         else
@@ -122,7 +126,15 @@ public class Cactus : DefenseTreeInterface
         Debug.Log(nearbyEnemies.Count);
         foreach (var enemy in nearbyEnemies)
         {
+<<<<<<< Updated upstream
             enemy.gameObject.GetComponent<Behavior>().GetDamageRaw(damage * extraDamage);
+=======
+            if (Vector2.Distance(enemy.transform.position, transform.position) < attackRange)
+            {
+                enemy.GetComponent<Behavior>().MakeDamage((damage + extraDamageLvl2) * extraDamage);
+                haveEnemy = true;
+            }
+>>>>>>> Stashed changes
         }
 
         // Play animation
@@ -135,4 +147,35 @@ public class Cactus : DefenseTreeInterface
         this.extraDamage += extraDamage;
         this.extraSpeed += extraSpeed;
     }
+<<<<<<< Updated upstream
+=======
+
+
+    public override void SetTreeLevel(int currentLevel = 1)
+    {
+        this.currentLevel = currentLevel;
+        if (currentLevel == 2)
+        {
+            extraDamageLvl2 = 0.2f;
+        }
+        else if (currentLevel == 3)
+        {
+            attackRange += 0.15f;
+        }
+    }
+
+
+    public override void UpgradeLevel()
+    {
+        currentLevel = Mathf.Min(currentLevel + 1, 3);
+        if (currentLevel == 2)
+        {
+            extraDamageLvl2 = 0.2f;
+        }
+        else if (currentLevel == 3)
+        {
+            attackRange += 0.15f;
+        }
+    }
+>>>>>>> Stashed changes
 }
