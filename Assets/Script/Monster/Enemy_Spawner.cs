@@ -52,7 +52,11 @@ public class Enemy_Spawner : MonoBehaviour
 
     public bool gameOver = false;
 
+    public float enemyNumberIncrease = 1;
 
+    public float enemyDamageIncrease = 1;
+    public float enemySpeedIncrease = 1;
+    public float enemyHpIncrease = 1;
 
 
     // Start is called before the first frame update
@@ -68,7 +72,7 @@ public class Enemy_Spawner : MonoBehaviour
         if (gameOver)
         {
             // StopAllCoroutines();  // BUG!!!
-            gameOver = false;
+            Debug.Log("Game Over!");
         }
     }
 
@@ -77,7 +81,7 @@ public class Enemy_Spawner : MonoBehaviour
     {
         waveCleared = false;
         
-        if (levelTraversal < levels.Length)
+        if (levelTraversal < levels.Length && !gameOver)
         {
             StartCoroutine(StartWave(levels[levelTraversal]));
             levelTraversal++;
@@ -112,13 +116,14 @@ public class Enemy_Spawner : MonoBehaviour
 
     private IEnumerator LevelSpawner(Level level)
     {
-        while (enemySpawned < level.enemiesNumber)
+        Debug.Log(Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease));
+        while (enemySpawned < Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease))
         {
             timer -= Time.deltaTime;
 
             if (timer <= 0f)
             {
-                int enemiesToSpawn = Mathf.Min(level.enemiesEachWave, level.enemiesNumber - enemySpawned);
+                int enemiesToSpawn = Mathf.Min(level.enemiesEachWave, Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease) - enemySpawned);
 
                 for (int i = 0; i < enemiesToSpawn; i++)
                 {
@@ -135,7 +140,7 @@ public class Enemy_Spawner : MonoBehaviour
 
                 timer = level.spawnTime;
 
-                if (enemySpawned >= level.enemiesNumber)
+                if (enemySpawned >= Mathf.FloorToInt(level.enemiesNumber * enemyNumberIncrease))
                     break;
             }
 
@@ -174,6 +179,14 @@ public class Enemy_Spawner : MonoBehaviour
     {
         Enemy randomEnemy = level.enemies[GetRandomEnemyIndex(level)];
         GameObject spawnedEnemy = Instantiate(randomEnemy.Prefab, position, Quaternion.identity, transform);
+
+        Behavior enemy = spawnedEnemy.GetComponent<Behavior>();
+        if (enemy != null)
+        {
+            enemy.damage *= enemyDamageIncrease;
+            enemy.moveSpeed *= enemySpeedIncrease;
+            enemy.hp *= enemyHpIncrease;
+        }
         return spawnedEnemy;
     }
 
