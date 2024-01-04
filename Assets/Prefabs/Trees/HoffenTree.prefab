@@ -149,8 +149,8 @@ MonoBehaviour:
   treeId: -1
   treeName: '[None]'
   treeDescription: '[None]'
-  hp: 100
-  maxhp: 0
+  hp: 1000
+  maxhp: 1000
   position: {x: 0, y: 0}
   blood: {fileID: 0}
   treeLevelList:

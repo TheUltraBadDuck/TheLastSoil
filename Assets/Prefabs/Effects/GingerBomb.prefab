@@ -96,10 +96,11 @@ Animation:
   m_GameObject: {fileID: 8092284424008285303}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 01c35aaaeaeb54346a05e05cea40f5b8, type: 2}
+  m_Animation: {fileID: 7400000, guid: 5b3deb452e201e94fb47c7cd6063ec90, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 3b5cc71011b250846ac3d270dd32725a, type: 2}
   - {fileID: 7400000, guid: 01c35aaaeaeb54346a05e05cea40f5b8, type: 2}
+  - {fileID: 7400000, guid: 5b3deb452e201e94fb47c7cd6063ec90, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -118,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetEnemy: {fileID: 0}
   damage: 30
+  pushForce: 0
 --- !u!58 &8250787413082898062
 CircleCollider2D:
   m_ObjectHideFlags: 0

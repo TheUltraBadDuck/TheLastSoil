@@ -254,6 +254,7 @@ public class Behavior : MonoBehaviour
 
             GameObject blood = bloodParticle;
             Instantiate(blood, collision.transform.position, Quaternion.identity);
+            hurtSound.volume = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioObject>().GetSoundOffset();
             hurtSound.Play();
             // Handle damage or other actions as needed
             HandleDamage(collision.gameObject.GetComponent<BuffectExplosion>().getDamage());

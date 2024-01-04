@@ -177,8 +177,8 @@ MonoBehaviour:
   treeId: -1
   treeName: Worm root
   treeDescription: Slow enemies down.
-  hp: 20
-  maxhp: 20
+  hp: 60
+  maxhp: 60
   position: {x: 0, y: 0}
   blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
   treeLevelList:

@@ -80,6 +80,9 @@ public class EnergyCoin : MonoBehaviour
         oldPos = transform.position;
         jumpVector = _camera.ScreenToWorldPoint(energyBar.GetImage().transform.position) - oldPos;
         collecting = true;
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.volume = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioObject>().GetSoundOffset();
+        audioSource.Play();
     }
 
     public void Disappear()

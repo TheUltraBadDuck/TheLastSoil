@@ -71,8 +71,8 @@ MonoBehaviour:
   treeId: -1
   treeName: Ginger
   treeDescription: Explode after being destroyed.
-  hp: 50
-  maxhp: 50
+  hp: 120
+  maxhp: 120
   position: {x: 0, y: 0}
   blood: {fileID: 0}
   treeLevelList:

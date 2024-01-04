@@ -156,8 +156,8 @@ MonoBehaviour:
   treeId: -1
   treeName: Grave Tree
   treeDescription: Defend with great health.
-  hp: 120
-  maxhp: 120
+  hp: 300
+  maxhp: 300
   position: {x: 0, y: 0}
   blood: {fileID: 0}
   treeLevelList:

@@ -24,25 +24,38 @@ public class SceneLoader : MonoBehaviour
     private GameObject blackScreen;
     [SerializeField]
     private GameObject gameOverButton;
+    [SerializeField]
+    private GameObject pauseButton;
+    [SerializeField]
+    private GameObject pauseScreen;
+    [SerializeField]
+    private CameraMovement cameraMovement;
 
 
     private float fadeCD = 0f;
     private float fadeTimer = 1.5f;
+    private float startGameTimer = 15f;
 
     private bool startGame = false;
     private bool finishmainMenuFadeOut = false;
     private bool finishUIGameFadeOut = false;
+    private bool finishStartGame = false;
     private bool gameOver = false;
+
+    private bool isPause = false;
 
 
 
     private void Start()
     {
+        cameraMovement.isFreazeCamera = true;
+
         coinUI.SetActive(false);
         treeScroll.SetActive(false);
         shovelBackground.SetActive(false);
         waveTextCanvasGr.SetActive(false);
         treeDescription.SetActive(false);
+        pauseButton.SetActive(false);
 
         mainMenu.SetActive(true);
     }
@@ -68,7 +81,9 @@ public class SceneLoader : MonoBehaviour
                     treeScroll.SetActive(true);
                     shovelBackground.SetActive(true);
                     waveTextCanvasGr.SetActive(true);
+                    waveTextCanvasGr.GetComponent<CanvasGroup>().alpha = 0;
                     treeDescription.SetActive(true);
+                    pauseButton.SetActive(true);
 
                     SetAlpha(0f);
                 }
@@ -81,7 +96,14 @@ public class SceneLoader : MonoBehaviour
                 {
                     fadeCD = 0;
                     finishUIGameFadeOut = true;
-                    // Start Game
+                }
+            }
+            else if (!finishStartGame)
+            {
+                fadeCD += Time.deltaTime;
+                if (fadeCD > startGameTimer)
+                {
+                    finishStartGame = true;
                     enemySpawner.StartNextWave();
                 }
             }
@@ -108,6 +130,7 @@ public class SceneLoader : MonoBehaviour
     public void StartGame()
     {
         startGame = true;
+        cameraMovement.isFreazeCamera = false;
     }
 
 
@@ -131,7 +154,33 @@ public class SceneLoader : MonoBehaviour
         gameOverButton.SetActive(true);
         waveTextCanvasGr.SetActive(true);
         waveTextCanvasGr.GetComponent<Text>().text = "GAME OVER";
+        StopObjectMovings(true);
     }
+
+
+    public void HandlePauseGame()
+    {
+        isPause = !isPause;
+
+        if (isPause)
+        {
+            Time.timeScale = 0f;
+            pauseScreen.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            pauseScreen.SetActive(false);
+        }
+    }
+
+
+    public void StopObjectMovings(bool value)
+    {
+        isPause = value;
+        Time.timeScale = isPause ? 0f : 1f;
+    }
+
 
 
     private void SetAlpha(float value)
@@ -139,8 +188,8 @@ public class SceneLoader : MonoBehaviour
         coinUI.GetComponent<CanvasGroup>().alpha = value;
         treeScroll.GetComponent<CanvasGroup>().alpha = value;
         shovelBackground.GetComponent<CanvasGroup>().alpha = value;
-        waveTextCanvasGr.GetComponent<CanvasGroup>().alpha = value;
         treeDescription.GetComponent<CanvasGroup>().alpha = value;
+        pauseButton.GetComponent<CanvasGroup>().alpha = value;
     }
 
 

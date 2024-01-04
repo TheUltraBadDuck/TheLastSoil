@@ -12,6 +12,7 @@ TagManager:
   - Monster
   - Hoffen
   - Bullet
+  - Sound
   layers:
   - Default
   - TransparentFX

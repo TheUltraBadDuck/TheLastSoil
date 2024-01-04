@@ -136,8 +136,8 @@ MonoBehaviour:
   treeId: -1
   treeName: Light Bulb Tree
   treeDescription: Generate energy coin.
-  hp: 10
-  maxhp: 10
+  hp: 30
+  maxhp: 30
   position: {x: 0, y: 0}
   blood: {fileID: 0}
   treeLevelList:

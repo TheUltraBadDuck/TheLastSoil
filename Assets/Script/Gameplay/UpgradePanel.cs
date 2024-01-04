@@ -16,6 +16,7 @@ public class UpgradePanel : MonoBehaviour
     public IvyInterface[] trees;
     public GameObject[] respectiveTreeButtons;
     public EnemyUpgrade[] enemyUpgrades;
+    public SceneLoader sceneLoader;
     private GameManager gameManager;
     private Enemy_Spawner spawner;
 

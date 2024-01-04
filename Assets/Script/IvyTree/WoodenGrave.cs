@@ -47,8 +47,8 @@ public class WoodenGrave : DefenseTreeInterface
         this.currentLevel = currentLevel;
         if (currentLevel == 2)
         {
-            hp += 45;
-            maxhp += 45;
+            hp += 90;
+            maxhp += 90;
         }
         else if (currentLevel == 3)
         {
@@ -62,8 +62,8 @@ public class WoodenGrave : DefenseTreeInterface
         currentLevel = Mathf.Min(currentLevel + 1, 3);
         if (currentLevel == 2)
         {
-            hp += 45;
-            maxhp += 45;
+            hp += 90;
+            maxhp += 90;
         }
         else if (currentLevel == 3)
         {

@@ -16,6 +16,9 @@ public class MapManager : MonoBehaviour
     private int currEnergyScore = 0;
     private int currTreeLevel = 0;
     private TreeButton currTreeButton;
+	
+	[SerializeField]
+	private TextAsset txtFile;
 
 
     private bool[,] tileBitmap;
@@ -137,13 +140,12 @@ public class MapManager : MonoBehaviour
     {
         // Load tiles
         coinContainer = GameObject.Find("CoinContainer");
-        StreamReader stream = new(Application.dataPath + "/Resources/PlaceableTiles.txt");
 
-        string text = stream.ReadLine();
-        string[] bits = text.Split(' ');
-
-        row = int.Parse(bits[0]);
-        col = int.Parse(bits[1]);
+        string[] lines = txtFile.text.Split('\n');
+		string[] rowCol = lines[0].Split(' ');
+        
+        row = int.Parse(rowCol[0]);
+        col = int.Parse(rowCol[1]);
 
         tileBitmap = new bool[row, col];
         treeObjs = new GameObject[row, col];
@@ -152,8 +154,7 @@ public class MapManager : MonoBehaviour
 
         for (int i = 0; i < row; i++)
         {
-            text = stream.ReadLine();
-            bits = text.Split(' ');
+			string[] bits = lines[i + 1].Split(' ');
 
             for (int j = 0; j < col; j++)
             {
@@ -178,7 +179,6 @@ public class MapManager : MonoBehaviour
                 }
             }
         }
-        stream.Close();
     }
 
 

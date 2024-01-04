@@ -29,7 +29,6 @@ public class UpgradeButton : MonoBehaviour
         energy = FindObjectOfType<EnergyBar>();
         // Attach a listener to the button's onClick event
         GetComponent<Button>().onClick.AddListener(InvokeButtonClick);
-        
     }
 
 

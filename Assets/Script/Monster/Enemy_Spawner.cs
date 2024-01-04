@@ -47,6 +47,7 @@ public class Enemy_Spawner : MonoBehaviour
 
     public Level[] levels;
     public CanvasGroup waveTextCanvasGroup;
+    public SceneLoader sceneLoader;
     public float X1, X2, Y1, Y2;
     public float Lx1, Lx2, Ly1, Ly2;
     public float Rx1, Rx2, Ry1, Ry2;
@@ -191,6 +192,7 @@ public class Enemy_Spawner : MonoBehaviour
         Debug.Log("All enemies defeated, show 'Wave Clear'");
         yield return StartCoroutine(FadeText("Wave Clear", 2f, 2f, 2f));
 
+        sceneLoader.StopObjectMovings(true);
         waveCleared = true;
     }
 
@@ -201,7 +203,7 @@ public class Enemy_Spawner : MonoBehaviour
             yield return null;
 
         }
-        
+
         upgradePanel.upgradeChoicesCoroutineStarted = false;
         upgradePanel.panel.SetActive(false);
         upgradePanel.IsReadyForNextWave = false;

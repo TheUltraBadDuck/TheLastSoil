@@ -135,8 +135,8 @@ MonoBehaviour:
   treeId: -1
   treeName: ClawTree
   treeDescription: Launch a sharp bullet frequently.
-  hp: 10
-  maxhp: 10
+  hp: 30
+  maxhp: 30
   position: {x: 0, y: 0}
   blood: {fileID: 6316415164085288282, guid: 78e4d4060e6dd834e8b8a2d444ea0b53, type: 3}
   treeLevelList:
